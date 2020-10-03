@@ -3,7 +3,7 @@ import json
 
 file_path_real= "./jong.json"
 
-conn = http.client.HTTPSConnection("apidojo-yahoo-finance-v1.p.rapidapi.com")
+conn = http.client.HTTPConnection("apidojo-yahoo-finance-v1.p.rapidapi.com")
 
 headers = {
     'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com",
