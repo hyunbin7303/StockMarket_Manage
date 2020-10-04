@@ -7,9 +7,7 @@ from time import sleep
 ## from gw_utility.logging import Logging
 
 def test():
-
     try:
-        file_path_real= "./jong.json"
         conn = http.client.HTTPConnection("apidojo-yahoo-finance-v1.p.rapidapi.com")
         headers = {
             'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com",
@@ -27,11 +25,22 @@ def test():
         A3=A.replace("\"","\'")
         B=json.loads(A)
         print (B)
-        with open(file_path_real, 'w') as outfile1:
-            json.dump(B,outfile1,indent=4)
+        CreateJsonFile(B)
 
     except AttributeError as error:
         print(error)
+
+
+def CreateJsonFile(data):
+    try:
+        file_path_real= "./jong.json"
+        with open(file_path_real, 'w') as outfile1:
+            json.dump(data,outfile1,indent=4)
+
+    except FileNotFoundError as fnf_error:## currently not using FIleNotFound, but later maybe.
+        print(fnf_error)
+    except AssertionError as assert_error:
+        print(assert_error)
 
 
 def Process_Data(data):
