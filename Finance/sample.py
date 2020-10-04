@@ -6,6 +6,14 @@ from time import sleep
 ## from gw_utility.book import Book
 ## from gw_utility.logging import Logging
 
+
+
+
+def main():
+    data = 
+
+
+
 def test():
     try:
         conn = http.client.HTTPConnection("apidojo-yahoo-finance-v1.p.rapidapi.com")
@@ -30,7 +38,6 @@ def test():
     except AttributeError as error:
         print(error)
 
-
 def CreateJsonFile(data):
     try:
         file_path_real= "./jong.json"
@@ -42,7 +49,6 @@ def CreateJsonFile(data):
     except AssertionError as assert_error:
         print(assert_error)
 
-
 def Process_Data(data):
     print("Beginning data processing..")
     modified_data = data + "that has been modified."
@@ -50,8 +56,16 @@ def Process_Data(data):
     print("Data processing finished.")
     return modified_data
 
+def GetData_from_web():
+    print("Retrieving data from the Web.")
+    data = "Data from the web"
+    return data
 
+def StoreData_to_database(data):
+    print("Writing data to a database")
+    print(data)
 
+## Main start from here.
 if __name__ =="__main__":
     data = "My data read from the Web"
     print(data)
