@@ -1,6 +1,5 @@
 import datetime
 
-
 class Quote:
 
     something: str

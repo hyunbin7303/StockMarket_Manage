@@ -1,0 +1,7 @@
+{
+    "python.autoComplete.extraPaths": ["./Finance"],
+    "python.jediEnabled": true,
+    "python.languageServer": "Jedi",
+
+
+}

@@ -3,31 +3,45 @@ import json
 import logging
 import sys
 from time import sleep
+
+
 ## from gw_utility.book import Book
 ## from gw_utility.logging import Logging
-def read_api_data():
+
+URL = "apidojo-yahoo-finance-v1.p.rapidapi.com"
+RapidAPI_KEY = "7c660e7db2msh6dba68fb0305bc6p1d982cjsn55312d329620"
+
+def read_api_data(param = None):
     try:
-        conn = http.client.HTTPConnection("apidojo-yahoo-finance-v1.p.rapidapi.com")
+        #Use Api call method in here.
+        conn = http.client.HTTPConnection(URL)
         headers = {
-            'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com",
-            'x-rapidapi-key': "7c660e7db2msh6dba68fb0305bc6p1d982cjsn55312d329620"
-            }
-
+            'x-rapidapi-host': URL,
+            'x-rapidapi-key': RapidAPI_KEY
+        }
+        # parameters can be defined as a dictionary. These parameters are later parsed down and added to the base url or the api-endpoint.
+        # PARAMS = {'address':location}
+        #r = requests.get(url = URL, params = PARAMS)
         conn.request("GET", "/stock/v2/get-financials?region=US&symbol=AMRN", headers=headers)
-
         res = conn.getresponse()
+        if res.status ==200:
+            print('Success to call. ')
+        elif res.status == 404:
+            print('Not Found. ')
+
         data = res.read()
 
-        print(data.decode("utf-8"))
         A=data.decode("utf-8")
 
         A3=A.replace("\"","\'")
         B=json.loads(A)
-        print (B)
         CreateJsonFile(B)
+        return B
 
     except AttributeError as error:
         print(error)
+
+
 def CreateJsonFile(data):
     try:
         file_path_real= "./jong.json"
