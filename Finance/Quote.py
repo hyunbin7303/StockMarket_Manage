@@ -12,7 +12,6 @@ class Quote:
 
         return self.__dict__ == other.__dict__
 
-
     def __init__(self,
                  something: str = None,
                  quoteNum: int = None,
@@ -23,7 +22,6 @@ class Quote:
         self.quoteNum = quoteNum
         self.datetimecheck = datetimecheck
         self.title = title
-
 
     def __len__(self):
         return len(self.title)

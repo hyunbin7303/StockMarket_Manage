@@ -26,8 +26,10 @@ class YahooAPI(object):
         self._timeout = timeout
 
 
-
         # def get
+    def _TestingStock_APICALL(self):
 
+        try:
+            return self.C
         
 
