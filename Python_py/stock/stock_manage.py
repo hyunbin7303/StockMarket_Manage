@@ -59,8 +59,6 @@ def get_data(ticker,trigger):
     except RemoteDataError:
         print('No data found for {t}'.format(t=ticker))
 
-
-
 def read_data_from_excel():
     print("Reading data from Excel files.")
 
@@ -70,20 +68,13 @@ def write_data_to_excel():
 def write_data_to_db():
     print("Writing data to db.")
 
-# class StockManager:
-#     def __init__(self):
-#         print('Testing')
-
-#     def get_stocks_from_file(self):
-#         print ('Test get stock from file.')
-#         stock_names = open(self.stock_filePath, "r").readlines()
-#         stock_names = [str(item).strip("\n")]
-
-
-    
 
 
 
+class InvalidStockError(RuntimeError):
+    # Error Code in here.
+    def __init__(self):
+        print('Testing')
 
 
 

@@ -1,12 +1,10 @@
-
-
-from stock.stock_manage import get_data
+from stock import stock_manage
 
 USA_STOCK = 'MSFT'
 def main():
     data = "My data read from the Web"
     print(data)
-    get_data(USA_STOCK, 'print')
+    stock_manage.get_data(USA_STOCK, 'print')
 
 
 
