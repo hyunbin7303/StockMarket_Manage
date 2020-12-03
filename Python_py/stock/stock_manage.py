@@ -1,5 +1,6 @@
 
-
+# https://www.youtube.com/watch?v=P1ivPY-PQVw
+# https://www.youtube.com/watch?v=9fjs8FeLMJk
 
 
 from pandas_datareader import data
@@ -11,9 +12,6 @@ from datetime import datetime
 
 START_DATE = '2005-01-01'
 END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
-USA_STOCK = 'MSFT'
-
-
 
 def get_stats(stock_data):
     return {
@@ -24,13 +22,10 @@ def get_stats(stock_data):
         'long_rolling': stock_data.rolling(window=200).mean()
     }
 
-
-
 def clean_data(stock_data, col):
     weekdays = pd.date_range(start=START_DATE, end=END_DATE)
     clean_data = stock_data[col].reindex(weekdays)
     return clean_data.fillna(method='ffill')
-
 
 def create_plot(stock_data, ticker):
     stats = get_stats(stock_data)
@@ -47,17 +42,48 @@ def create_plot(stock_data, ticker):
     plt.title('Stock Price over Time.')
     plt.show()
 
+def get_data(ticker,trigger):
 
-
-def get_data(ticker):
     try:
         stock_data = data.DataReader(ticker,'yahoo', START_DATE, END_DATE)
         adj_close = clean_data(stock_data, 'Adj Close')
-        create_plot(adj_close,ticker)
+        
+        if trigger == 'plot':
+            create_plot(adj_close,ticker)
+        elif trigger == 'print':
+            print(stock_data)
+        else:
+            print('no input.')
 
 
     except RemoteDataError:
         print('No data found for {t}'.format(t=ticker))
 
 
-get_data(USA_STOCK)
+
+def read_data_from_excel():
+    print("Reading data from Excel files.")
+
+def write_data_to_excel():
+    print("Writing data to excel files.")
+
+def write_data_to_db():
+    print("Writing data to db.")
+
+# class StockManager:
+#     def __init__(self):
+#         print('Testing')
+
+#     def get_stocks_from_file(self):
+#         print ('Test get stock from file.')
+#         stock_names = open(self.stock_filePath, "r").readlines()
+#         stock_names = [str(item).strip("\n")]
+
+
+    
+
+
+
+
+
+

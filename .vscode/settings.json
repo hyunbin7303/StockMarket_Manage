@@ -2,6 +2,7 @@
     "python.autoComplete.extraPaths": ["./Finance"],
     "python.jediEnabled": true,
     "python.languageServer": "Jedi",
+    "jupyter.jupyterServerType": "local",
 
 
 }
