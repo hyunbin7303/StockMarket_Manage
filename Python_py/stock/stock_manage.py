@@ -59,6 +59,10 @@ def get_data(ticker,trigger):
     except RemoteDataError:
         print('No data found for {t}'.format(t=ticker))
 
+
+def get_return(input, old, new):
+    print('Getting the return value')
+
 def read_data_from_excel():
     print("Reading data from Excel files.")
 
