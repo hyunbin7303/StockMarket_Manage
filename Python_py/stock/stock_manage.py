@@ -3,7 +3,7 @@
 # https://www.youtube.com/watch?v=9fjs8FeLMJk
 
 
-from pandas_datareader import data
+from pandas_datareader import data as wb
 from pandas_datareader._utils import RemoteDataError
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -45,7 +45,7 @@ def create_plot(stock_data, ticker):
 def get_data(ticker,trigger):
 
     try:
-        stock_data = data.DataReader(ticker,'yahoo', START_DATE, END_DATE)
+        stock_data = wb.DataReader(ticker,'yahoo', START_DATE, END_DATE)
         adj_close = clean_data(stock_data, 'Adj Close')
         
         if trigger == 'plot':
@@ -59,6 +59,35 @@ def get_data(ticker,trigger):
     except RemoteDataError:
         print('No data found for {t}'.format(t=ticker))
 
+def calculate_volatility(self):
+    print(self)
+
+def calculate_AverageReturn(ticker, trigger):
+    try:
+        company = wb.DataReader(ticker, data_source = 'yahoo', start='2010-1-1')
+        company['simple_return'] = (company['Adj Close']/ company['Adj Close'].shift(1)) -1
+        if trigger == 'plot':
+            company['simple_return'].plot(figsize=(8,5))
+        elif trigger == 'print':
+            print(company['simple_return'])
+            avg_returns_d = company['simple_return'].mean()
+            print(avg_returns_d) # per day.
+
+        elif trigger == 'print_year':
+            avg_returns_annual= company['simple_return'].mean() * 250
+            print(avg_returns_annual)
+            print(str(round(avg_returns_annual, 5) *100) + ' %')
+
+        elif trigger =='log':
+            company['log_return'] = np.log(company['Adj Close']/ company['Adj Close'].shift(1))
+            print(company['log_return'])
+
+        else:
+            print('no input.')
+        
+
+    except RemoteDataError:
+        print('No data found for {t}'.format(t=ticker))
 
 def get_return(input, old, new):
     print('Getting the return value')

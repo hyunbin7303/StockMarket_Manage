@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from datetime import datetime
-
+from helper.utils import utils
 
 
 class StockManager:
@@ -18,3 +18,6 @@ class StockManager:
         print ('Test get stock from file.')
         # stock_names = open(self.stock_filePath, "r").readlines()
         # stock_names = [str(item).strip("\n")]
+
+
+   # def get_my_data(self, ticker):

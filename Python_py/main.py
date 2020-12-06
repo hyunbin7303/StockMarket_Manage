@@ -1,12 +1,10 @@
 from stock import stock_manage
 
-USA_STOCK = 'MSFT'
 def main():
-    data = "My data read from the Web"
-    print(data)
-    stock_manage.get_data(USA_STOCK, 'print')
-
-
+    #stock_manage.get_data('MSFT', 'print')
+    stock_manage.get_data('MSFT', 'plot')
+  #  stock_manage.calculate_AverageReturn('MSFT', 'print')
+    stock_manage.calculate_AverageReturn('MSFT', 'plot')
 
 ## Main start from here.
 if __name__ =="__main__":
