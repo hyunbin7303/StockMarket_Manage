@@ -1,7 +1,7 @@
 
 # https://www.youtube.com/watch?v=P1ivPY-PQVw
 # https://www.youtube.com/watch?v=9fjs8FeLMJk
-
+#https://github.com/tradytics/surpriver/blob/master/detection_engine.py
 
 from pandas_datareader import data as wb
 from pandas_datareader._utils import RemoteDataError
@@ -61,7 +61,7 @@ def get_data(ticker,trigger):
 
 def calculate_volatility(self):
     print(self)
-
+ 
 def calculate_AverageReturn(ticker, trigger):
     try:
         company = wb.DataReader(ticker, data_source = 'yahoo', start='2010-1-1')
