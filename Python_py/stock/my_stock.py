@@ -1,6 +1,4 @@
-# import os
-# import sys
-# import json
+
 from pandas_datareader import data
 from pandas_datareader._utils import RemoteDataError
 import matplotlib.pyplot as plt

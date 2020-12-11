@@ -42,7 +42,11 @@ def create_plot(stock_data, ticker):
     plt.title('Stock Price over Time.')
     plt.show()
 
-def get_data(ticker,trigger):
+def get_data(ticker,trigger, start_day = None):
+    if start_day != None:
+        global START_DATE
+        START_DATE = start_day
+        print('start day checking : ',START_DATE)
 
     try:
         stock_data = wb.DataReader(ticker,'yahoo', START_DATE, END_DATE)
