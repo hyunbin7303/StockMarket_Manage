@@ -1,10 +1,52 @@
+import getopt
+import sys
+import argparse
 from stock import stock_manage
 
+
+
+TICKER =""
+START_YEAR = 0
+END_YEAR = 0
+
+def argparse_testing():
+  if len(sys.argv)> 10:
+    print('Too much arguemnts')
+    sys.exit()
+
+  # Construct the argument parser
+  ap = argparse.ArgumentParser(description="Argument parsing for Stock Manager application.", epilog="Enjoy this application.")
+  # Add the arguments to the parser
+  ap.add_argument("-t", "--ticker", type=str, required=True, help="TICKER... Type please")
+  ap.add_argument("-sy", "--startYear", type=int, required=False, help="start year")
+  ap.add_argument("-ey", "--endYear", type=int, required =False, help="end year")
+  ap.add_argument("-f", "--file", type=str, required=False, help="Getting all tickers file(should be txt files for now...")
+  args = vars(ap.parse_args())
+  print('The ticker is ', args['ticker'])
+  
+
+
+  global TICKER
+  TICKER = str(args['ticker'])
+
+
+  # if statement for checking.
+  #global START_YEAR
+  #START_YEAR = int(args['startYear'])
+
+
+  #if st atement for checking.
+  #global END_YEAR
+  #END_YEAR = int(args['endYear'])
+
 def main():
-    #stock_manage.get_data('MSFT', 'print')
-    stock_manage.get_data('MSFT', 'plot')
+  
+  argparse_testing()
+  print(TICKER)
+  stock_manage.get_data(TICKER, 'print')
+  stock_manage.get_data(TICKER, 'plot')
   #  stock_manage.calculate_AverageReturn('MSFT', 'print')
-    stock_manage.calculate_AverageReturn('MSFT', 'plot')
+  #  stock_manage.calculate_AverageReturn('MSFT', 'plot')
 
 ## Main start from here.
 if __name__ =="__main__":
