@@ -1,7 +1,12 @@
 
-# https://www.youtube.com/watch?v=P1ivPY-PQVw
-# https://www.youtube.com/watch?v=9fjs8FeLMJk
-#https://github.com/tradytics/surpriver/blob/master/detection_engine.py
+# 
+# 
+#https://github.com/tradytics/surpriver/blob/master/detection_en gine.py
+#plt.style.use('seaborn-white')
+#plt.rc('grid', linestyle="dotted", color='#a0a0a0')
+#plt.rcParams['axes.edgecolor'] = "#04383F"
+
+
 
 from pandas_datareader import data as wb
 from pandas_datareader._utils import RemoteDataError
@@ -10,7 +15,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 
-START_DATE = '2005-01-01'
+START_DATE =''
 END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
 
 def get_stats(stock_data):
@@ -27,6 +32,10 @@ def clean_data(stock_data, col):
     clean_data = stock_data[col].reindex(weekdays)
     return clean_data.fillna(method='ffill')
 
+
+
+
+## Styling can be the global in some cases.... Please consider line 5~7.
 def create_plot(stock_data, ticker):
     stats = get_stats(stock_data)
     plt.style.use('dark_background')
@@ -43,10 +52,12 @@ def create_plot(stock_data, ticker):
     plt.show()
 
 def get_data(ticker,trigger, start_day = None):
+    if start_day == "" or start_day == None:
+        start_day  ='2005-01-01'
+
     if start_day != None:
         global START_DATE
         START_DATE = start_day
-        print('start day checking : ',START_DATE)
 
     try:
         stock_data = wb.DataReader(ticker,'yahoo', START_DATE, END_DATE)
@@ -78,6 +89,7 @@ def calculate_AverageReturn(ticker, trigger):
             print(avg_returns_d) # per day.
 
         elif trigger == 'print_year':
+            print('print year : ')
             avg_returns_annual= company['simple_return'].mean() * 250
             print(avg_returns_annual)
             print(str(round(avg_returns_annual, 5) *100) + ' %')
