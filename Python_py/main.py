@@ -5,20 +5,21 @@ from stock import stock_manage
 from helper.utils.arg_manager import arg_manager
 
 def main():
-  
-
-  test = arg_manager(sys.argv)
+  test = arg_manager()
   test.arg_store(sys.argv)         
-  print(test.get_ticker())    
-  #try:
-  stock_manage.get_data(test.get_ticker(), 'print', test.get_startdate())
-  stock_manage.get_data(test.get_ticker(), 'plot', test.get_startdate())
+  try:
+    stock_manage.get_data(test.get_ticker(), 'print', test.get_startdate())
+    stock_manage.get_data(test.get_ticker(), 'plot', test.get_startdate())
     # stock_manage.calculate_AverageReturn(TICKER, 'print')
     # stock_manage.calculate_AverageReturn(TICKER, 'plot')
     # stock_manage.calculate_AverageReturn(TICKER, 'print_year')
 
-  #except:
-   #  print('error happen.')
+  except TypeError:
+    print('error happen.')
+  except NameError:
+    print ("name Error")
+  finally:
+    print('finanlly statement')
 
 
 if __name__ =="__main__":
@@ -38,4 +39,4 @@ if __name__ =="__main__":
 
 
 
-
+# Please use Operator Overloading.

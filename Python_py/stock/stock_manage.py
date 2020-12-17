@@ -1,10 +1,4 @@
 
-# 
-# 
-#https://github.com/tradytics/surpriver/blob/master/detection_en gine.py
-#plt.style.use('seaborn-white')
-#plt.rc('grid', linestyle="dotted", color='#a0a0a0')
-#plt.rcParams['axes.edgecolor'] = "#04383F"
 
 from pandas_datareader import data as wb
 from pandas_datareader._utils import RemoteDataError

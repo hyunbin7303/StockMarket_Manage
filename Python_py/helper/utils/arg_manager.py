@@ -19,7 +19,6 @@ ap.add_argument("-m", "--mine", type=str, required=False, help="Getting my json 
 ap.add_argument("-a", "--all", type=str, required=False, help="Display all stocks.")
 
 # additional argument that I would like to add:
-#   """
 # argParser.add_argument("--top_n", type=int, default = 25, help="How many top predictions do you want to print")
 # argParser.add_argument("--min_volume", type=int, default = 5000, help="Minimum volume filter. Stocks with average volume of less than this value will be ignored")
 # argParser.add_argument("--history_to_use", type=int, default = 7, help="How many bars of 1 hour do you want to use for the anomaly detection model.")
@@ -31,13 +30,11 @@ ap.add_argument("-a", "--all", type=str, required=False, help="Display all stock
 # argParser.add_argument("--future_bars", type=int, default = 25, help="How many bars to keep for testing purposes.")
 # argParser.add_argument("--volatility_filter", type=float, default = 0.05, help="Stocks with volatility less than this value will be ignored.")
 # argParser.add_argument("--output_format", type=str, default = "CLI", help="What format to use for printing/storing results. Can be CLI or JSON.")
-#   """
-#Sample run:
-#python detection_engine.py --is_test 1 --future_bars 25 --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 14 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/feature_dict.npy' --is_save_dictionary 1 --output_format 'CLI'
+#Sample run: #python detection_engine.py --is_test 1 --future_bars 25 --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 14 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/feature_dict.npy' --is_save_dictionary 1 --output_format 'CLI'
 
 class arg_manager:
 
-    def __init__(self, args):
+    def __init__(self):
         self.__ticker = ''   
         self.__startdate= '2000-01-01'
         self.__enddate = ''
