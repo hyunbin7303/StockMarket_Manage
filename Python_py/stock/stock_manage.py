@@ -6,8 +6,6 @@
 #plt.rc('grid', linestyle="dotted", color='#a0a0a0')
 #plt.rcParams['axes.edgecolor'] = "#04383F"
 
-
-
 from pandas_datareader import data as wb
 from pandas_datareader._utils import RemoteDataError
 import matplotlib.pyplot as plt
@@ -31,10 +29,6 @@ def clean_data(stock_data, col):
     weekdays = pd.date_range(start=START_DATE, end=END_DATE)
     clean_data = stock_data[col].reindex(weekdays)
     return clean_data.fillna(method='ffill')
-
-
-
-
 ## Styling can be the global in some cases.... Please consider line 5~7.
 def create_plot(stock_data, ticker):
     stats = get_stats(stock_data)
@@ -117,9 +111,7 @@ def write_data_to_excel():
 def write_data_to_db():
     print("Writing data to db.")
 
-
-
-
+# Not using for now...
 class InvalidStockError(RuntimeError):
     # Error Code in here.
     def __init__(self):
