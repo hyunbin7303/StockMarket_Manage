@@ -21,3 +21,15 @@ class utils:
 
     # def __enter__():
     #     print('how it is used')
+    
+
+    @staticmethod
+    def file_read():
+        try:
+            file = open('stock.txt', 'open mode')
+        except EOFError as ex:
+            print("Caught the EOF error.", ex )
+            raise ex
+        except IOError as e:
+            print("Caught the I/O error.", e)
+            raise ex    

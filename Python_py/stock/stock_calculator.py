@@ -15,7 +15,6 @@ class stock_calculator:
     def __init__(self):
         print('stock calculator.')
 
-
     @staticmethod
     def get_stats(stock_data):
         return {
@@ -26,22 +25,17 @@ class stock_calculator:
             'long_rolling': stock_data.rolling(window=200).mean()
         }
 
-
-
     @staticmethod
     def clean_data(stock_data, col):
         weekdays = pd.date_range(start=START_DATE, end=END_DATE)
         clean_data = stock_data[col].reindex(weekdays)
         return clean_data.fillna(method='ffill')
 
-
-
     ## Styling can be the global in some cases.... Please consider line 5~7.
     @staticmethod
     def create_plot(stock_data, ticker):
         stats = stock_calculator.get_stats(stock_data)
         plt.style.use('dark_background')
-
         plt.subplots(figsize=(12,8))
     #  plt.style.use('dark_background') // order is important.
         plt.plot(stock_data, label=ticker)
@@ -52,7 +46,6 @@ class stock_calculator:
         plt.legend()
         plt.title('Stock Price over Time.')
         plt.show()
-   
    
     @staticmethod
     def get_data(ticker,trigger, start_day = None):
@@ -78,12 +71,10 @@ class stock_calculator:
         except RemoteDataError:
             print('No data found for {t}'.format(t=ticker))
 
-
     @staticmethod
     def calculate_volatility(self):
         print(self)
     
-
     @staticmethod
     def calculate_AverageReturn(ticker, trigger):
         try:
