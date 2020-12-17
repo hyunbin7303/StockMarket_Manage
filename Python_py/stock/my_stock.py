@@ -9,6 +9,10 @@ from helper.utils import utils
 
 
 class user_stockManager:
+
+    self.__username= ''
+    self.__enddate = ''
+
     def __init__(self):
         print('Testing')
 
