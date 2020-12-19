@@ -9,9 +9,7 @@ from datetime import datetime
 START_DATE =''
 END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
 
-
 class stock_calculator:
-
     def __init__(self):
         print('stock calculator.')
 
@@ -37,7 +35,7 @@ class stock_calculator:
         stats = stock_calculator.get_stats(stock_data)
         plt.style.use('dark_background')
         plt.subplots(figsize=(12,8))
-    #  plt.style.use('dark_background') // order is important.
+        #plt.style.use('dark_background') #order is important.
         plt.plot(stock_data, label=ticker)
         plt.plot(stats['short_rolling'], label='20 day rolling mean')
         plt.plot(stats['long_rolling'], label='200 day rolling mean')
@@ -70,6 +68,19 @@ class stock_calculator:
 
         except RemoteDataError:
             print('No data found for {t}'.format(t=ticker))
+
+    # TODO : Jongyoon.
+    @staticmethod
+    def get_peg(ticker, trigger, site_source):
+        print('', ticker)
+        if site_source == 'yahoo':
+            print(site_source)
+
+        elif site_source  == 'naver':
+            print(site_source)
+        else:
+            print('other source.')
+
 
     @staticmethod
     def calculate_volatility(self):

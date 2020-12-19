@@ -18,3 +18,6 @@ with open("config.json", "r") as jsonfile:
 
 print(data['username'])
 print(data['tickers'][0]['symbol'])    
+
+# https://www.datacamp.com/community/tutorials/reading-writing-files-python
+# https://www.programiz.com/python-programming/generator

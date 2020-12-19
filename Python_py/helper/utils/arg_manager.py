@@ -18,6 +18,10 @@ ap.add_argument("-f", "--file", type=str, required=False, help="Getting all tick
 ap.add_argument("-m", "--mine", type=str, required=False, help="Getting my json file from the location.")
 ap.add_argument("-a", "--all", type=str, required=False, help="Display all stocks.")
 
+ap.add_argument("-peg", "--peg", type=str, required=False, help="Display all stocks.")
+
+
+
 # additional argument that I would like to add:
 # argParser.add_argument("--top_n", type=int, default = 25, help="How many top predictions do you want to print")
 # argParser.add_argument("--min_volume", type=int, default = 5000, help="Minimum volume filter. Stocks with average volume of less than this value will be ignored")
@@ -40,7 +44,7 @@ class arg_manager:
         self.__enddate = ''
         self.__output_format= ''
         self.__username =''
-
+        self.__peg_site = ''
     def cur_directory(self):
         directory_path = str(os.path.dirname(os.path.abspath(__file__)))
         print('Current location : ', directory_path)
@@ -58,6 +62,10 @@ class arg_manager:
 
         if args['username'] != None:
             self.__username = str(args['username'])
+
+        if args['peg'] != None:
+            self.__peg_site = str(args['peg'])
+            print(self.__peg_site)
 
     def user_setting_json(self):
         print('used for getting user info(Only using json for now)')

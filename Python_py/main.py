@@ -1,15 +1,15 @@
 import getopt
 import sys
 import argparse
-from stock import stock_manage
+from stock import stock_calculator
 from helper.utils.arg_manager import arg_manager
 
 def main():
   test = arg_manager()
   test.arg_store(sys.argv)         
   try:
-    stock_manage.stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
-    stock_manage.stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
+    stock_calculator.stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
+    # stock_calculator.stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
     # stock_manage.calculate_AverageReturn(TICKER, 'print')
     # stock_manage.calculate_AverageReturn(TICKER, 'plot')
     # stock_manage.calculate_AverageReturn(TICKER, 'print_year')
