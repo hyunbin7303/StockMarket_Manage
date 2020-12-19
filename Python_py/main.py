@@ -9,8 +9,12 @@ def main():
   test.arg_store(sys.argv)         
   try:
     stock_calculator.stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
-    # stock_calculator.stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
-    # stock_manage.calculate_AverageReturn(TICKER, 'print')
+    stock_calculator.stock_calculator.get_peg(test.get_ticker(), '')
+
+
+    #checking
+    #stock_calculator.stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
+    #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print')
     # stock_manage.calculate_AverageReturn(TICKER, 'plot')
     # stock_manage.calculate_AverageReturn(TICKER, 'print_year')
 
