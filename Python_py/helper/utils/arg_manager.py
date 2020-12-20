@@ -9,7 +9,7 @@ import argparse
 # Construct the argument parser
 ap = argparse.ArgumentParser(description="Argument parsing for Stock Manager application.", epilog="Enjoy this application.")
 # Add the arguments to the parser
-ap.add_argument("-t", "--ticker", type=str, required=True, help="TICKER... Type please")
+ap.add_argument("-t", "--ticker", type=str, required=False, help="TICKER... Type please")
 ap.add_argument("-sd", "--startday", type=str, required=False, help="start day")
 ap.add_argument("-ed", "--endday", type=str, required =False, help="end day")
 ap.add_argument("-g", "--get", type=int, required =False, help="a")
@@ -17,9 +17,9 @@ ap.add_argument("-u", "--username", type=str, required =False, help="User name t
 ap.add_argument("-f", "--file", type=str, required=False, help="Getting all tickers file(should be txt files for now...")
 ap.add_argument("-m", "--mine", type=str, required=False, help="Getting my json file from the location.")
 ap.add_argument("-a", "--all", type=str, required=False, help="Display all stocks.")
-
 ap.add_argument("-peg", "--peg", type=str, required=False, help="Display all stocks.")
 
+ap.add_argument("-app", "--application", type=str, required=False, help="Application For testing")
 
 
 # additional argument that I would like to add:
@@ -45,6 +45,8 @@ class arg_manager:
         self.__output_format= ''
         self.__username =''
         self.__peg_site = ''
+        self.__app = ''
+
     def cur_directory(self):
         directory_path = str(os.path.dirname(os.path.abspath(__file__)))
         print('Current location : ', directory_path)
@@ -66,6 +68,10 @@ class arg_manager:
         if args['peg'] != None:
             self.__peg_site = str(args['peg'])
             print(self.__peg_site)
+
+        if args['application'] != None:
+            self.__app = str(args['application'])
+            print(self.__app)
 
     def user_setting_json(self):
         print('used for getting user info(Only using json for now)')

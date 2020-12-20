@@ -1,6 +1,7 @@
 import getopt
 import sys
 import argparse
+import ftplib
 from stock import stock_calculator
 from helper.utils.arg_manager import arg_manager
 
@@ -8,8 +9,9 @@ def main():
   test = arg_manager()
   test.arg_store(sys.argv)         
   try:
-    stock_calculator.stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
-    # stock_calculator.stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
+    stock_calculator.stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate(), test.get_enddate())
+    #check = stock_calculator.stock_calculator.get_alltickers_sp500()
+    #stock_calculator.stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
     # stock_manage.calculate_AverageReturn(TICKER, 'print')
     # stock_manage.calculate_AverageReturn(TICKER, 'plot')
     # stock_manage.calculate_AverageReturn(TICKER, 'print_year')
@@ -31,10 +33,8 @@ if __name__ =="__main__":
 
 # When we use relative modular imports, we should stay outside the package and call.
 # Python -m myPackage.subPck...~~
-
 # __init__.py files are required to make Python treat the directories as containing packages.
 # This is done tp prevent directories with a common name, such as string, ...
 
-
-
 # Please use Operator Overloading.
+#https://algotrading101.com/learn/yahoo-finance-api-guide/

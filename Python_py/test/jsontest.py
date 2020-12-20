@@ -8,8 +8,6 @@ import json
 #     # Print the data of dictionary 
 #     print("\nPeople1:", data['people1']) 
 #     print("\nPeople2:", data['people2'])
-    
-
 
 with open("config.json", "r") as jsonfile:
     data = json.load(jsonfile) # Reading the file
