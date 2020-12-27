@@ -81,7 +81,6 @@ class stock_calculator:
         else:
             print('other source.')
 
-
     @staticmethod
     def calculate_volatility(self):
         print(self)
@@ -116,20 +115,17 @@ class stock_calculator:
             print('No data found for {t}'.format(t=ticker))
 
     @staticmethod
-    def get_return(input, old, new):
-        print('Getting the return value')
+    def get_incomestatement(ticker):
+        # Get Yahoo finance data.
+        print('income statement for company : {}', ticker)
 
     @staticmethod
-    def read_data_from_excel():
-        print("Reading data from Excel files.")
+    def get_cashflow(ticker):
+        print('cash flow app for {}', ticker)
 
     @staticmethod
-    def write_data_to_excel():
-        print("Writing data to excel files.")
-
-    @staticmethod
-    def write_data_to_db():
-        print("Writing data to db.")
+    def get_balancesheet(ticker):
+        print('balance sheet.', ticker)
 
     # Not using for now...
     class InvalidStockError(RuntimeError):

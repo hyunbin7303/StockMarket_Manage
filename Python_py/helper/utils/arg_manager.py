@@ -71,7 +71,7 @@ class arg_manager:
         print('used for getting user info(Only using json for now)')
 
     def get_ticker(self):
-        print('show something',self.__ticker)
+        print('Ticker : ',self.__ticker)
         return self.__ticker
 
     def get_startdate(self):

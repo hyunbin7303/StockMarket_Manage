@@ -5,6 +5,8 @@
 from pathlib import Path
 import setuptools
 
+
+print("setup checking,.")
 project_dir = Path(__file__).parent
 
 setuptools.setup(

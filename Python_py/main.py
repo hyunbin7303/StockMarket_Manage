@@ -3,8 +3,12 @@ import sys
 import argparse
 from stock import stock_calculator
 from helper.utils.arg_manager import arg_manager
-
+from helper.utils.utils import utils
 def main():
+# TODO Automatically read json file in config.
+  util = utils()
+  #util.get_configFile('user')
+
   test = arg_manager()
   test.arg_store(sys.argv)         
   try:
@@ -13,10 +17,10 @@ def main():
 
 
     #checking
-    stock_calculator.stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
-    stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print')
-    stock_manage.calculate_AverageReturn(TICKER, 'plot')
-    stock_manage.calculate_AverageReturn(TICKER, 'print_year')
+    #stock_calculator.stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
+    #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print')
+    #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'plot')
+    #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print_year')
 
   except Exception as ex:
     print(ex)
@@ -38,7 +42,3 @@ if __name__ =="__main__":
 
 # __init__.py files are required to make Python treat the directories as containing packages.
 # This is done tp prevent directories with a common name, such as string, ...
-
-
-
-# Please use Operator Overloading.
