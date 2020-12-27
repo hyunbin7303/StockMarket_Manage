@@ -10,7 +10,7 @@ print("setup checking,.")
 project_dir = Path(__file__).parent
 
 setuptools.setup(
-    name="fact",
+    name="stock",
     version="1.0.0",
     description="Stockmarket Python",
     # Allow UTF-8 characters in README with encoding argument.
@@ -25,7 +25,7 @@ setuptools.setup(
 
     # See https://stackoverflow.com/questions/7522250/
     include_package_data=True,
-    package_data={"fact": ["py.typed"]},
+    package_data={"stock": ["py.typed"]},
     install_requires=project_dir.joinpath("requirements.txt").read_text().split("\n"),
     zip_safe=False,
     license="MIT",
@@ -41,5 +41,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    entry_points={"console_scripts": ["fact=fact.cli:main"]},
+    entry_points={"console_scripts": ["stock=stock.cli:main"]},
 )
