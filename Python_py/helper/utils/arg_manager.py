@@ -18,7 +18,7 @@ ap.add_argument("-f", "--file", type=str, required=False, help="Getting all tick
 ap.add_argument("-m", "--mine", type=str, required=False, help="Getting my json file from the location.")
 ap.add_argument("-a", "--all", type=str, required=False, help="Display all stocks.")
 
-ap.add_argument("-peg", "--peg", type=str, required=False, help="Display all stocks.")
+ap.add_argument("-peg", "--peg_site", type=str, required=False, help="Display all stocks.")
 
 
 
@@ -63,8 +63,8 @@ class arg_manager:
         if args['username'] != None:
             self.__username = str(args['username'])
 
-        if args['peg'] != None:
-            self.__peg_site = str(args['peg'])
+        if args['peg_site'] != None:
+            self.__peg_site = str(args['peg_site'])
             print(self.__peg_site)
 
     def user_setting_json(self):
@@ -82,4 +82,6 @@ class arg_manager:
 
     def get_username(self):
         return self.__username
+    def get_peg_site(self):
+        return self.__peg_site
 

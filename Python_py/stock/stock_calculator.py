@@ -71,10 +71,14 @@ class stock_calculator:
 
     # TODO : Jongyoon.
     @staticmethod
-    def get_peg(ticker, trigger, site_source):
+    def get_peg(ticker,  site_source):
         print('', ticker)
         if site_source == 'yahoo':
-            print(site_source)
+            url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
+            Raw_data = pd.read_html(url_tmpl, encoding='UTF-8')
+            Raw_data=Raw_data[0]
+            PEG_raw=Raw_data.loc[[4,5]]
+            print(PEG_raw)
 
         elif site_source  == 'naver':
             print(site_source)
