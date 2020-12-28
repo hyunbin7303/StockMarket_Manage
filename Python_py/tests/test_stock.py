@@ -1,11 +1,15 @@
-
 import unittest
-from stock.stock_manage import get_data
+import sys
+from stock_calculator import stock_calculator
 
-class TestStockManageMethods(unittest.TestCase):
-    
-    def test_getData(self):
-        get_data('NVDA','print')
+class TestStockCalculator(unittest.TestCase):
+
+    def test_stock_calculator(self):
+        print('testing')
 
 
 
+
+if __name__ =='__main__':
+    print(sys.path)
+    unittest.main()
