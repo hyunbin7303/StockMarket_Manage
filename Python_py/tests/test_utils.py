@@ -1,7 +1,6 @@
-from helper.utils.arg_manager import arg_manager
-from helper.utils.utils import utils
 import unittest
 import sys
+from stock_calculator import stock_calculator
 
 class TestUtilsMethods(unittest.TestCase):
 
