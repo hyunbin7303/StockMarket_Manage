@@ -1,6 +1,6 @@
 {
-    "stock-setup": "",
-    "person-field": "",
-    "logging-path":"",
-    "data-store":""
+    "stock-setup": ".\\..\\",
+    "person-field": "..\\..\\",
+    "logging-path":"C:\\logging",
+    "data-store":"C:\\datastore"
 }

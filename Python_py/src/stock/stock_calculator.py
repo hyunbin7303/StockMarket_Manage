@@ -71,20 +71,15 @@ class stock_calculator:
 
     # TODO : Jongyoon.
     @staticmethod
-    def get_peg(ticker,  site_source):
+    def get_peg(ticker, trigger, site_source):
         print('', ticker)
         if site_source == 'yahoo':
-            url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
-            Raw_data = pd.read_html(url_tmpl, encoding='UTF-8')
-            Raw_data=Raw_data[0]
-            PEG_raw=Raw_data.loc[[4,5]]
-            print(PEG_raw)
+            print(site_source)
 
         elif site_source  == 'naver':
             print(site_source)
         else:
             print('other source.')
-
 
     @staticmethod
     def calculate_volatility(self):
@@ -120,20 +115,17 @@ class stock_calculator:
             print('No data found for {t}'.format(t=ticker))
 
     @staticmethod
-    def get_return(input, old, new):
-        print('Getting the return value')
+    def get_incomestatement(ticker):
+        # Get Yahoo finance data.
+        print('income statement for company : {}', ticker)
 
     @staticmethod
-    def read_data_from_excel():
-        print("Reading data from Excel files.")
+    def get_cashflow(ticker):
+        print('cash flow app for {}', ticker)
 
     @staticmethod
-    def write_data_to_excel():
-        print("Writing data to excel files.")
-
-    @staticmethod
-    def write_data_to_db():
-        print("Writing data to db.")
+    def get_balancesheet(ticker):
+        print('balance sheet.', ticker)
 
     # Not using for now...
     class InvalidStockError(RuntimeError):
