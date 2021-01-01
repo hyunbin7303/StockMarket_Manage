@@ -69,18 +69,59 @@ class stock_calculator:
         except RemoteDataError:
             print('No data found for {t}'.format(t=ticker))
 
-    # TODO : Jongyoon.
     @staticmethod
-    def get_peg(ticker, trigger, site_source):
-        print('', ticker)
-        if site_source == 'yahoo':
-            print(site_source)
+    def get_peg(ticker, peg_site):
+ #       print('aaa{ticker}'.format(ticker))
+        if peg_site != "":    
+            if peg_site == 'yahoo':
+                url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
+                Raw_data_peg = pd.read_html(url_tmpl, encoding='UTF-8')
+                Raw_data_peg=Raw_data_peg[0]
+                PEG_raw_peg=Raw_data_peg.loc[[4,5]]
+                print(PEG_raw_peg)
+            elif peg_site  == 'naver':
+                print(peg_site)
+            else:
+                print('other source.')
 
-        elif site_source  == 'naver':
-            print(site_source)
-        else:
-            print('other source.')
-
+    # 2021-01-01 getmargin(profit/operating)
+    @staticmethod
+    def get_margin(ticker, margin):
+        if margin != "":
+            if margin == 'y':
+                url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
+                Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
+                Raw_data_margin = Raw_data_margin[5]
+                print(Raw_data_margin) 
+                Operating_Margin=Raw_data_margin.iloc[[1],[1]]
+                Operating_Margin=Operating_Margin.values
+                Operating_Margin=Operating_Margin.tolist()
+                Operating_Margin=Operating_Margin[0]
+                Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
+                if Operating_Margin[0] >= 20:
+                    print ("Operating_Margin over 20%")
+            else:
+                print('insert y or n')
+ 
+    # 2021-01-02 get revenue and check groth 15% per year
+    @staticmethod
+    def get_revenue(ticker, revenue):
+        if revenue != "":
+            if revenue == 'y':
+                url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/analysis?p={ticker}'.format(ticker=ticker) 
+                Raw_data_revenue = pd.read_html(url_tmpl, encoding='UTF-8')
+                Raw_data_revenue = Raw_data_revenue[1]
+                print(Raw_data_revenue)
+    #extract current Growth and convert the format from dp to list
+                Current_Growth=Raw_data_revenue.iloc[[5],[3]]
+                Current_Growth=Current_Growth.values
+                Current_Growth=Current_Growth.tolist()
+                Current_Growth=Current_Growth[0]
+                Current_Growth[0]=float(Current_Growth[0].replace('%',''))
+                if Current_Growth[0] >= 15:
+                    print ("Current Growth over 15%")
+            else:
+                print('insert y or n')
     @staticmethod
     def calculate_volatility(self):
         print(self)
@@ -115,17 +156,20 @@ class stock_calculator:
             print('No data found for {t}'.format(t=ticker))
 
     @staticmethod
-    def get_incomestatement(ticker):
-        # Get Yahoo finance data.
-        print('income statement for company : {}', ticker)
+    def get_return(input, old, new):
+        print('Getting the return value')
 
     @staticmethod
-    def get_cashflow(ticker):
-        print('cash flow app for {}', ticker)
+    def read_data_from_excel():
+        print("Reading data from Excel files.")
 
     @staticmethod
-    def get_balancesheet(ticker):
-        print('balance sheet.', ticker)
+    def write_data_to_excel():
+        print("Writing data to excel files.")
+
+    @staticmethod
+    def write_data_to_db():
+        print("Writing data to db.")
 
     # Not using for now...
     class InvalidStockError(RuntimeError):

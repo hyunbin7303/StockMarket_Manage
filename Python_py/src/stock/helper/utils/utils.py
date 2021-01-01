@@ -4,10 +4,8 @@ import sys
 import json
 import datetime as dt
 class utils:
-    # __init() method is called immediately after an instance is created.
-    # it takes one parameter, the stream object that we want to use as standard output for the life of the context.
     def __init__(self):
-        print('Utilities constroctor.')
+        pass
 
     @staticmethod
     def path_test():
@@ -15,10 +13,6 @@ class utils:
 
     def path_testing(self):
         print("haha")
-
-    # def __enter__():
-    #     print('how it is used')
-    
 
     @staticmethod
     def file_read():
@@ -41,8 +35,10 @@ class utils:
             print("Read successful")
             jsonfile.close()
         elif setup is 'folderpath':
-            print('folder path info.')
+         #   print('folder path info.')
+            pass
         elif setup is 'user':
-            print('read one of the file from user folder.')
+     #       print('read one of the file from user folder.')
+            pass
         else:
             print('do nothing')
