@@ -25,20 +25,16 @@ class utils:
             print("Caught the I/O error.", e)
             raise ex    
 
-
     @staticmethod
     def get_configFile(setup):
-        print('setup info.',setup)
         if setup is 'apikey':
             with open("//user//config.json", "r") as jsonfile:
                 data = json.load(jsonfile) # Reading the file
             print("Read successful")
             jsonfile.close()
         elif setup is 'folderpath':
-         #   print('folder path info.')
             pass
         elif setup is 'user':
-     #       print('read one of the file from user folder.')
             pass
         else:
             print('do nothing')
