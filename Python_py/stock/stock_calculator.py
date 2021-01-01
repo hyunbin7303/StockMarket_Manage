@@ -71,19 +71,31 @@ class stock_calculator:
 
     # TODO : Jongyoon.
     @staticmethod
-    def get_peg(ticker,  site_source):
-        print('', ticker)
-        if site_source == 'yahoo':
-            url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
-            Raw_data = pd.read_html(url_tmpl, encoding='UTF-8')
-            Raw_data=Raw_data[0]
-            PEG_raw=Raw_data.loc[[4,5]]
-            print(PEG_raw)
+    def get_peg(ticker, peg_site):
+ #       print('aaa{ticker}'.format(ticker))
+        if peg_site != "":    
+            if peg_site == 'yahoo':
+                url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
+                Raw_data_peg = pd.read_html(url_tmpl, encoding='UTF-8')
+                Raw_data_peg=Raw_data_peg[0]
+                PEG_raw_peg=Raw_data_peg.loc[[4,5]]
+                print(PEG_raw_peg)
+            elif peg_site  == 'naver':
+                print(peg_site)
+            else:
+                print('other source.')
 
-        elif site_source  == 'naver':
-            print(site_source)
-        else:
-            print('other source.')
+    # 2021-01-01 getmargin(profit/operating)
+    @staticmethod
+    def get_margin(ticker, margin):
+        if margin != "":
+            if margin == 'y':
+                url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
+                Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
+                Raw_data_margin = Raw_data_margin[5]
+                print(Raw_data_margin) 
+            else:
+                print('insert y or n')
 
 
     @staticmethod

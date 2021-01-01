@@ -10,6 +10,7 @@ def main():
   try:
     stock_calculator.stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
     stock_calculator.stock_calculator.get_peg(test.get_ticker(),test.get_peg_site())
+    stock_calculator.stock_calculator.get_margin(test.get_ticker(),test.get_margin())
     #stock_calculator.stock_calculator.get_peg(test.get_ticker(), '')
 
 

@@ -3,7 +3,7 @@ import os
 import sys
 import json
 import datetime as dt
-import argparse
+import argparse 
 
 
 # Construct the argument parser
@@ -17,10 +17,8 @@ ap.add_argument("-u", "--username", type=str, required =False, help="User name t
 ap.add_argument("-f", "--file", type=str, required=False, help="Getting all tickers file(should be txt files for now...")
 ap.add_argument("-m", "--mine", type=str, required=False, help="Getting my json file from the location.")
 ap.add_argument("-a", "--all", type=str, required=False, help="Display all stocks.")
-
 ap.add_argument("-peg", "--peg_site", type=str, required=False, help="Display all stocks.")
-
-
+ap.add_argument("-mg", "--margin", type=str, required=False, help="Display all stocks.")
 
 # additional argument that I would like to add:
 # argParser.add_argument("--top_n", type=int, default = 25, help="How many top predictions do you want to print")
@@ -67,6 +65,10 @@ class arg_manager:
             self.__peg_site = str(args['peg_site'])
             print(self.__peg_site)
 
+        if args['margin'] != None:
+            self.__margin = str(args['margin'])
+            print(self.__margin)
+
     def user_setting_json(self):
         print('used for getting user info(Only using json for now)')
 
@@ -82,6 +84,10 @@ class arg_manager:
 
     def get_username(self):
         return self.__username
+
     def get_peg_site(self):
         return self.__peg_site
+    
+    def get_margin(self):
+        return self.__margin
 
