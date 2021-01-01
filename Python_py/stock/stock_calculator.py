@@ -94,10 +94,35 @@ class stock_calculator:
                 Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
                 Raw_data_margin = Raw_data_margin[5]
                 print(Raw_data_margin) 
+                Operating_Margin=Raw_data_margin.iloc[[1],[1]]
+                Operating_Margin=Operating_Margin.values
+                Operating_Margin=Operating_Margin.tolist()
+                Operating_Margin=Operating_Margin[0]
+                Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
+                if Operating_Margin[0] >= 20:
+                    print ("Operating_Margin over 20%")
             else:
                 print('insert y or n')
-
-
+ 
+    # 2021-01-02 get revenue and check groth 15% per year
+    @staticmethod
+    def get_revenue(ticker, revenue):
+        if revenue != "":
+            if revenue == 'y':
+                url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/analysis?p={ticker}'.format(ticker=ticker) 
+                Raw_data_revenue = pd.read_html(url_tmpl, encoding='UTF-8')
+                Raw_data_revenue = Raw_data_revenue[1]
+                print(Raw_data_revenue)
+    #extract current Growth and convert the format from dp to list
+                Current_Growth=Raw_data_revenue.iloc[[5],[3]]
+                Current_Growth=Current_Growth.values
+                Current_Growth=Current_Growth.tolist()
+                Current_Growth=Current_Growth[0]
+                Current_Growth[0]=float(Current_Growth[0].replace('%',''))
+                if Current_Growth[0] >= 15:
+                    print ("Current Growth over 15%")
+            else:
+                print('insert y or n')
     @staticmethod
     def calculate_volatility(self):
         print(self)
