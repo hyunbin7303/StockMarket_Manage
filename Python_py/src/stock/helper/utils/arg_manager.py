@@ -17,9 +17,9 @@ ap.add_argument("-u", "--username", type=str, required =False, help="User name t
 ap.add_argument("-f", "--file", type=str, required=False, help="Getting all tickers file(should be txt files for now...")
 ap.add_argument("-m", "--mine", type=str, required=False, help="Getting my json file from the location.")
 ap.add_argument("-a", "--all", type=str, required=False, help="Display all stocks.")
-
-ap.add_argument("-peg", "--peg", type=str, required=False, help="Display all stocks.")
-
+ap.add_argument("-peg", "--peg_site", type=str, required=False, help="Display all stocks.")
+ap.add_argument("-mg", "--margin", type=str, required=False, help="y/n")
+ap.add_argument("-rev", "--revenue", type=str, required=False, help="y/n")
 
 
 # additional argument that I would like to add:
@@ -45,6 +45,8 @@ class arg_manager:
         self.__output_format= ''
         self.__username =''
         self.__peg_site = ''
+        self.__margin =''
+        self.__revenue =''
     def cur_directory(self):
         directory_path = str(os.path.dirname(os.path.abspath(__file__)))
         print('Current location : ', directory_path)
@@ -63,16 +65,26 @@ class arg_manager:
         if args['username'] != None:
             self.__username = str(args['username'])
 
-        if args['peg'] != None:
-            self.__peg_site = str(args['peg'])
-            print(self.__peg_site)
+        if args['peg_site'] != None:
+            self.__peg_site = str(args['peg_site'])
+
+        if args['margin'] != None:
+            self.__margin = str(args['margin'])
+
+        if args['revenue'] != None:
+            self.__revenue = str(args['revenue'])
 
     def user_setting_json(self):
         print('used for getting user info(Only using json for now)')
 
     def get_ticker(self):
-        print('Ticker : ',self.__ticker)
         return self.__ticker
+
+    def get_margin(self):
+        return self.__margin
+
+    def get_revenue(self):
+        return self.__revenue
 
     def get_startdate(self):
         return self.__startdate

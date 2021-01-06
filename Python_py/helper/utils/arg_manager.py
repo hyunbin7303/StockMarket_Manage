@@ -3,7 +3,7 @@ import os
 import sys
 import json
 import datetime as dt
-import argparse
+import argparse 
 
 
 # Construct the argument parser
@@ -18,9 +18,9 @@ ap.add_argument("-f", "--file", type=str, required=False, help="Getting all tick
 ap.add_argument("-m", "--mine", type=str, required=False, help="Getting my json file from the location.")
 ap.add_argument("-a", "--all", type=str, required=False, help="Display all stocks.")
 
-ap.add_argument("-peg", "--peg_site", type=str, required=False, help="Display all stocks.")
-
-
+ap.add_argument("-peg", "--peg_site", type=str, required=False, help="yahoo")
+ap.add_argument("-mg", "--margin", type=str, required=False, help="y/n")
+ap.add_argument("-rev", "--revenue", type=str, required=False, help="y/n")
 
 # additional argument that I would like to add:
 # argParser.add_argument("--top_n", type=int, default = 25, help="How many top predictions do you want to print")
@@ -45,6 +45,8 @@ class arg_manager:
         self.__output_format= ''
         self.__username =''
         self.__peg_site = ''
+        self.__margin =''
+        self.__revenue =''
     def cur_directory(self):
         directory_path = str(os.path.dirname(os.path.abspath(__file__)))
         print('Current location : ', directory_path)
@@ -67,6 +69,15 @@ class arg_manager:
             self.__peg_site = str(args['peg_site'])
             print(self.__peg_site)
 
+        if args['margin'] != None:
+            self.__margin = str(args['margin'])
+            print(self.__margin)
+
+        if args['revenue'] != None:
+            self.__revenue = str(args['revenue'])
+            print(self.__revenue)
+        
+
     def user_setting_json(self):
         print('used for getting user info(Only using json for now)')
 
@@ -82,6 +93,14 @@ class arg_manager:
 
     def get_username(self):
         return self.__username
+
     def get_peg_site(self):
         return self.__peg_site
+    
+    def get_margin(self):
+        return self.__margin
+
+    def get_revenue(self):
+        return self.__revenue
+
 
