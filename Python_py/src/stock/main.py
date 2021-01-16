@@ -14,9 +14,10 @@ def main():
   test.arg_store(sys.argv)         
   try:
     #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
+    stock_calculator.get_peg(test.get_ticker(),test.get_peg_site())
     stock_calculator.get_margin(test.get_ticker(),test.get_margin())
     stock_calculator.get_revenue(test.get_ticker(),test.get_revenue())
-    #stock_calculator.stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
+    stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
     #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print')
     #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'plot')
     #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print_year')

@@ -94,4 +94,7 @@ class arg_manager:
 
     def get_username(self):
         return self.__username
+    
+    def get_peg_site(self):
+        return self.__peg_site
 
