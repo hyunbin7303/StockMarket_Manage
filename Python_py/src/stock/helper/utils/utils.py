@@ -26,15 +26,25 @@ class utils:
             raise ex    
 
     @staticmethod
+    def load_ticker(path):
+        stocks = open(path, "r").readlines()
+        stocks = [str(item).strip("\n") for item in stocks]
+        stocks = list(sorted(set(stocks)))
+        return stocks
+
+    @staticmethod
     def get_configFile(setup):
+        
+
+
         if setup is 'apikey':
             with open("//user//config.json", "r") as jsonfile:
                 data = json.load(jsonfile) # Reading the file
             print("Read successful")
             jsonfile.close()
-        elif setup is 'folderpath':
-            pass
-        elif setup is 'user':
-            pass
-        else:
-            print('do nothing')
+        # elif setup is 'folderpath':
+        #     pass
+        # elif setup is 'user':
+        #     pass
+        # else:
+        #     print('do nothing')

@@ -5,22 +5,33 @@ import argparse
 from helper.utils.arg_manager import arg_manager
 from helper.utils.utils import utils
 from stock_calculator import stock_calculator
+
+
+
 def main():
 # TODO Automatically read json file in config.
   util = utils()
-  util.get_configFile('user')
   
   test = arg_manager()
   test.arg_store(sys.argv)         
   try:
-    #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
-    stock_calculator.get_peg(test.get_ticker(),test.get_peg_site())
-    stock_calculator.get_margin(test.get_ticker(),test.get_margin())
-    stock_calculator.get_revenue(test.get_ticker(),test.get_revenue())
-    stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
-    #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print')
-    #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'plot')
-    #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print_year')
+    
+    if test.get_username() != 'None':
+      util.get_configFile(test.get_username())
+      test.get_option_choose(test.get_username())
+
+    else:
+      stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
+      stock_calculator.get_peg(test.get_ticker(),test.get_peg_site())
+      stock_calculator.get_margin(test.get_ticker(),test.get_margin())
+      stock_calculator.get_revenue(test.get_ticker(),test.get_revenue())
+
+      # How to do Unit testing this one?
+      #stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
+      #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print')
+      #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'plot')
+      #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print_year')
+
   except Exception as ex:
     print(ex)
 
