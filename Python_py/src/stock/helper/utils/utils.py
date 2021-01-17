@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import datetime as dt
+from pathlib import Path
 class utils:
     def __init__(self):
         pass
@@ -27,17 +28,16 @@ class utils:
 
     @staticmethod
     def load_ticker(path):
-        stocks = open(path, "r").readlines()
+        base_path = Path(__file__).parent
+        file_path = (base_path / "../../../../data/stock_list.txt").resolve()
+        stocks = open(file_path, "r").readlines()
         stocks = [str(item).strip("\n") for item in stocks]
         stocks = list(sorted(set(stocks)))
         return stocks
 
     @staticmethod
     def get_configFile(setup):
-        
-
-
-        if setup is 'apikey':
+        if setup == 'apikey':
             with open("//user//config.json", "r") as jsonfile:
                 data = json.load(jsonfile) # Reading the file
             print("Read successful")

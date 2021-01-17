@@ -4,7 +4,7 @@ import sys
 import json
 import datetime as dt
 import argparse
-
+from .utils import utils
 
 # Construct the argument parser
 ap = argparse.ArgumentParser(description="Argument parsing for Stock Manager application.", epilog="Enjoy this application.")
@@ -105,10 +105,11 @@ class arg_manager:
         num = input ("Enter number :") 
         if num == '1':
             print('user info : {}'.format(userinfo))
-           # utils.load_ticker()
 
         elif num == '2':
             print('clicked number 2')
+            stocklists = utils.load_ticker('stock_list.txt')
+            return stocklists
 
         elif num == '3':
             print('clicked number 3 ')

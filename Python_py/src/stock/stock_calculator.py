@@ -71,7 +71,6 @@ class stock_calculator:
 
     @staticmethod
     def get_peg(ticker, peg_site):
- #       print('aaa{ticker}'.format(ticker))
         if peg_site != "":    
             if peg_site == 'yahoo':
                 url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
