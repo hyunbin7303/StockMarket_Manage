@@ -5,7 +5,7 @@ import argparse
 from helper.utils.arg_manager import arg_manager
 from helper.utils.utils import utils
 from stock_calculator import stock_calculator
-from stock.stock_collector import stock_collector
+from stock_collector import stock_collector
 
 def average_return(self, test):
   stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
@@ -19,14 +19,18 @@ def main():
   test.arg_store(sys.argv)         
   try:
     
-    if test.get_username() != 'None':
+    if test.get_username() != 'None': # -u kevin 
       utils.get_configFile(test.get_username())
       get_userchoose = test.get_option_choose(test.get_username())
+      for ticker in get_userchoose:
+        print(ticker)
       #run this in order to see the whole tickers.
       # for i in get_userchoose:
-      #   print(i)
-
-
+      #
+      # get all ticker.
+      # for ticker in tickcers:
+      #       stock_calculator.get_data(ticker, 'print', test.get_startdate())
+      #       #stock_calculator.get_peg(ticker,test.get_peg_site())
 
     else:
       stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
