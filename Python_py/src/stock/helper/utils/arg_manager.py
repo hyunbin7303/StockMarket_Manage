@@ -104,15 +104,19 @@ class arg_manager:
     def get_option_choose(self, userinfo):
         num = input ("Enter number :") 
         if num == '1':
-            print('user info : {}'.format(userinfo))
-
+            name = input ("Enter username: ") 
+            print('user info : {}'.format(name))
+            userinfo = utils.load_user_tickers(name)
+            return userinfo
+            
         elif num == '2':
             print('clicked number 2')
-            stocklists = utils.load_ticker('stock_list.txt')
+            stocklists = utils.load_all_tickers('stock_list.txt')
             return stocklists
 
         elif num == '3':
-            print('clicked number 3 ')
-
+            print('clicked number 3. Return all tickers.')
+            stocklists = utils.load_all_tickers('stock_list.txt')
+            return stocklists
         else:
             print('Wrong input.')

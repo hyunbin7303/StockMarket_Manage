@@ -19,25 +19,24 @@ def main():
   test.arg_store(sys.argv)         
   try:
     
-    if test.get_username() != 'None': # -u kevin 
+    if test.get_username() != 'None':
       utils.get_configFile(test.get_username())
-      get_userchoose = test.get_option_choose(test.get_username())
-      for ticker in get_userchoose:
-        print(ticker)
-      #run this in order to see the whole tickers.
-      # for i in get_userchoose:
-      #
-      # get all ticker.
-      # for ticker in tickcers:
-      #       stock_calculator.get_data(ticker, 'print', test.get_startdate())
-      #       #stock_calculator.get_peg(ticker,test.get_peg_site())
+      get_tickers = test.get_option_choose(test.get_username())
+      myStocks = []
+      for t in get_tickers['tickers']:
+        myStocks.append(t['symbol'])     
+
+      print('PEG INFORMATION -----------------------------------------')
+      for ticker in myStocks:
+        print('TICKER NAME : {}'.format(ticker))
+        stock_calculator.get_peg(ticker,'yahoo')
+
 
     else:
-      stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
+     # stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
       stock_calculator.get_peg(test.get_ticker(),test.get_peg_site())
-      stock_calculator.get_margin(test.get_ticker(),test.get_margin())
-      stock_calculator.get_revenue(test.get_ticker(),test.get_revenue())
-      #average_return(test)
+     # stock_calculator.get_margin(test.get_ticker(),test.get_margin())
+     # stock_calculator.get_revenue(test.get_ticker(),test.get_revenue())
 
   except Exception as ex:
     print(ex)
