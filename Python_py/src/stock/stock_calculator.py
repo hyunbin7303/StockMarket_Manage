@@ -121,6 +121,50 @@ class stock_calculator:
                     print ("Current Growth over 15%")
             else:
                 print('insert y or n')
+
+    @staticmethod
+    def get_rsi(ticker, rsi_period):
+        if rsi_period != "":
+            url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/history?p={ticker}'.format(ticker=ticker) 
+            Raw_data_RSI = pd.read_html(url_tmpl, encoding='UTF-8')
+            Raw_data_RSI =Raw_data_RSI[0]
+    #extract RSI data refer to rsi_period
+            RSI_Raw=Raw_data_RSI.iloc[0:rsi_period]
+            RSI_Raw=RSI_Raw.sort_values(by=['Date'], ascending=True)
+            np.array(RSI_Raw['Date'].tolist())
+            np.array(RSI_Raw['Close*'].tolist())
+            RSI_date=list(np.array(RSI_Raw['Date'].tolist()))
+            RSI_close=list(np.array(RSI_Raw['Close*'].tolist()))
+    #calculate close gap
+            RSI_close_gap=[]
+            for i in range(len(RSI_close)):
+                if i==(len(RSI_close)-1):
+                    break
+                RSI_close_gap.append(round(float(RSI_close[i+1])-float(RSI_close[i]),2))
+    #calculate RSI numer/deno
+            RSI_numer=0
+            RSI_deno=0
+            for i in RSI_close_gap:
+                if i<0:
+                    RSI_deno+=abs(i)
+                else:
+                    RSI_deno+=i
+                    RSI_numer+=i
+            RSI=round(RSI_numer/RSI_deno,2)
+            # print (RSI_deno)
+            # print (RSI_numer)
+            print ("RSI={RSI} ".format(RSI=RSI)) 
+            #RSI > 0.7 : overbought, RSI <0.3 : oversold            
+            if RSI < 0.3:
+                print ("oversold")
+            elif RSI >0.7:     
+                print ("overbought")
+            else :
+                print ("normal")         
+        else:
+             print('insert rsi_period')
+
+
     @staticmethod
     def calculate_volatility(self):
         print(self)
