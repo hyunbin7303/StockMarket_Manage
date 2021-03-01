@@ -161,9 +161,23 @@ class stock_calculator:
                 print ("overbought")
             else :
                 print ("normal")         
-        else:
-             print('insert rsi_period')
 
+    @staticmethod
+    def get_sed(ticker, SED_gap):
+        START_DATE  ='2005-01-01'
+        stock_data = wb.DataReader(ticker,'yahoo', START_DATE, END_DATE)
+        stock_data=stock_data.reset_index()
+        SED=stock_data.loc[:,['Date','Close']]
+        SED = SED.sort_values(by=['Date'], ascending=False) 
+        np.array(SED['Date'].tolist())
+        np.array(SED['Close'].tolist())
+        SED_date_time=list(np.array(SED['Date'].tolist()))
+        SED_Date=[]
+        for i in SED_date_time:
+            SED_Date.append(i.date())
+        SED_Close=list(np.array(SED['Close'].tolist()))
+        SED=round(100*(float(SED_Close[0])-float(SED_Close[SED_gap]))/float(SED_Close[0]),2)
+        print("Start({}) End({}) Difference for {} traiding days  is {}%".format(SED_Date[0],SED_Date[SED_gap],SED_gap,SED))            
 
     @staticmethod
     def calculate_volatility(self):
