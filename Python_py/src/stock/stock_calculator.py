@@ -124,7 +124,24 @@ class stock_calculator:
     @staticmethod
     def calculate_volatility(self):
         print(self)
-    
+
+
+
+    @staticmethod
+    def calculate_filter(ticker, trading_day = None):
+        pass
+
+
+    @staticmethod 
+    def caclulate_EPS(ticker):
+#주당순이익이란 1주가 벌어들이는 당기순이익을 의미한다. 당기순이익을 발행주식수로 나누면 된다. 
+        search_value('Earnings Per Share USD', '2019-09')
+
+    @staticmethod
+    def calculate_PER(ticker):
+
+        
+
     @staticmethod
     def calculate_AverageReturn(ticker, trigger):
         try:
