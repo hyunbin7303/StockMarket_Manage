@@ -33,10 +33,25 @@ def main():
 
 
     else:
-     # stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
-      stock_calculator.get_peg(test.get_ticker(),test.get_peg_site())
-     # stock_calculator.get_margin(test.get_ticker(),test.get_margin())
-     # stock_calculator.get_revenue(test.get_ticker(),test.get_revenue())
+      setupFilter = utils.get_configFile('user_settings')
+      tickers = utils.load_all_tickers()
+      for ticker in tickers:
+        print('INDEX NAME : {}'.format(ticker))
+           #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
+        stock_calculator.get_margin(ticker,'y')
+        stock_calculator.get_peg(ticker,'yahoo')
+
+
+
+
+      #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
+      #stock_calculator.get_peg(test.get_ticker(),test.get_peg_site())
+      #stock_calculator.get_margin(test.get_ticker(),test.get_margin())
+      #stock_calculator.get_revenue(test.get_ticker(),test.get_revenue())
+      #stock_calculator.get_margin('NAIL','y')
+      #stock_calculator.get_margin('UUP','y')
+
+            
 
   except Exception as ex:
     print(ex)

@@ -20,13 +20,14 @@ class utils:
             raise ex    
 
     @staticmethod
-    def load_all_tickers(path):
+    def load_all_tickers():
+        matchers = ['#', '/']
         base_path = Path(__file__).parent
         file_path = (base_path / "../../../../data/stock_list.txt").resolve()
         stocks = open(file_path, "r").readlines()
         stocks = [str(item).strip("\n") for item in stocks]
-        stocks = list(sorted(set(stocks)))
-        return stocks
+        element = [x for x in stocks if "#" not in x]
+        return list(sorted(set(element)))
 
     @staticmethod
     def load_user_tickers(username):
@@ -48,14 +49,16 @@ class utils:
 
     @staticmethod
     def get_configFile(setup):
+        base_path = Path(__file__).parent
+        base_path = os.path.join(base_path / "../../../../config/", setup + ".json")
         if setup == 'apikey':
-            with open("//user//config.json", "r") as jsonfile:
-                data = json.load(jsonfile) # Reading the file
-            print("Read successful")
-            jsonfile.close()
-        # elif setup is 'folderpath':
-        #     pass
-        # elif setup is 'user':
-        #     pass
-        # else:
-        #     print('do nothing')
+            with open(base_path, "r") as jsonfile:
+                data = json.load(jsonfile)
+        elif setup == "user_settings":
+            with open(base_path, "r") as jsonfile:
+                data = json.load(jsonfile)
+        elif setup == "folderpath":
+            with open(base_path, "r") as jsonfile:
+                data = json.load(jsonfile)
+        jsonfile.close()
+        return data

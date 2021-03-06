@@ -89,16 +89,23 @@ class stock_calculator:
         if margin != "":
             if margin == 'y':
                 url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
-                Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
-                Raw_data_margin = Raw_data_margin[5]
-                print(Raw_data_margin) 
-                Operating_Margin=Raw_data_margin.iloc[[1],[1]]
-                Operating_Margin=Operating_Margin.values
-                Operating_Margin=Operating_Margin.tolist()
-                Operating_Margin=Operating_Margin[0]
-                Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
-                if Operating_Margin[0] >= 20:
-                    print ("Operating_Margin over 20%")
+                try:
+
+
+
+                    Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
+                    Raw_data_margin = Raw_data_margin[5]
+                    print(Raw_data_margin) 
+                    Operating_Margin=Raw_data_margin.iloc[[1],[1]]
+                    Operating_Margin=Operating_Margin.values
+                    Operating_Margin=Operating_Margin.tolist()
+                    Operating_Margin=Operating_Margin[0]
+                    Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
+                    if Operating_Margin[0] >= 20:
+                        print ("Operating_Margin over 20%")
+
+                except Exception as ex:
+                    print(ex)
             else:
                 print('insert y or n')
  
@@ -139,7 +146,7 @@ class stock_calculator:
 
     @staticmethod
     def calculate_PER(ticker):
-
+        pass
         
 
     @staticmethod
