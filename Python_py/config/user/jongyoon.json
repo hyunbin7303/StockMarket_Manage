@@ -1,0 +1,20 @@
+{
+    "username" : "jongyoon1234",
+    "tickers":
+    [
+        {
+            "symbol": "MSFT",
+            "weight": 10.00
+        },
+        {
+            "symbol": "SQ",
+            "weight": 20.00
+        },
+        {
+            "symbol": "NVDA",
+            "weight": 20.00
+        }
+    ],
+    "cash": 1000.00,
+    "balance": 10000.00
+}

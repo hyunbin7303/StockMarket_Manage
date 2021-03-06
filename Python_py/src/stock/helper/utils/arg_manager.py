@@ -4,12 +4,12 @@ import sys
 import json
 import datetime as dt
 import argparse
-
+from .utils import utils
 
 # Construct the argument parser
 ap = argparse.ArgumentParser(description="Argument parsing for Stock Manager application.", epilog="Enjoy this application.")
 # Add the arguments to the parser
-ap.add_argument("-t", "--ticker", type=str, required=True, help="TICKER... Type please")
+ap.add_argument("-t", "--ticker", type=str, required=False, help="Ticker.")
 ap.add_argument("-sd", "--startday", type=str, required=False, help="start day")
 ap.add_argument("-ed", "--endday", type=str, required =False, help="end day")
 ap.add_argument("-g", "--get", type=int, required =False, help="a")
@@ -37,7 +37,6 @@ ap.add_argument("-rev", "--revenue", type=str, required=False, help="y/n")
 #Sample run: #python detection_engine.py --is_test 1 --future_bars 25 --top_n 25 --min_volume 5000 --data_granularity_minutes 60 --history_to_use 14 --is_load_from_dictionary 0 --data_dictionary_path 'dictionaries/feature_dict.npy' --is_save_dictionary 1 --output_format 'CLI'
 
 class arg_manager:
-
     def __init__(self):
         self.__ticker = ''   
         self.__startdate= '2000-01-01'
@@ -47,9 +46,6 @@ class arg_manager:
         self.__peg_site = ''
         self.__margin =''
         self.__revenue =''
-    def cur_directory(self):
-        directory_path = str(os.path.dirname(os.path.abspath(__file__)))
-        print('Current location : ', directory_path)
 
     def arg_store(self, args):
         args = vars(ap.parse_args())
@@ -62,7 +58,7 @@ class arg_manager:
         if args['endday'] != None:
             self.__enddate = str(args['endday'])
 
-        if args['username'] != None:
+        if args['username'] != None or args['username'] != '':
             self.__username = str(args['username'])
 
         if args['peg_site'] != None:
@@ -74,8 +70,6 @@ class arg_manager:
         if args['revenue'] != None:
             self.__revenue = str(args['revenue'])
 
-    def user_setting_json(self):
-        print('used for getting user info(Only using json for now)')
 
     def get_ticker(self):
         return self.__ticker
@@ -94,4 +88,35 @@ class arg_manager:
 
     def get_username(self):
         return self.__username
+    
+    def get_peg_site(self):
+        return self.__peg_site
 
+
+
+    def cur_directory(self):
+        directory_path = str(os.path.dirname(os.path.abspath(__file__)))
+        print('Current location : ', directory_path)
+
+    def user_setting_json(self):
+        print('used for getting user info(Only using json for now)')
+
+    def get_option_choose(self, userinfo):
+        num = input ("Enter number :") 
+        if num == '1':
+            name = input ("Enter username: ") 
+            print('user info : {}'.format(name))
+            userinfo = utils.load_user_tickers(name)
+            return userinfo
+            
+        elif num == '2':
+            print('clicked number 2')
+            stocklists = utils.load_all_tickers('stock_list.txt')
+            return stocklists
+
+        elif num == '3':
+            print('clicked number 3. Return all tickers.')
+            stocklists = utils.load_all_tickers('stock_list.txt')
+            return stocklists
+        else:
+            print('Wrong input.')

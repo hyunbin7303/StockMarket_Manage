@@ -5,21 +5,54 @@ import argparse
 from helper.utils.arg_manager import arg_manager
 from helper.utils.utils import utils
 from stock_calculator import stock_calculator
+from stock_collector import stock_collector
+
+def average_return(self, test):
+  stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
+  stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print')
+  stock_calculator.calculate_AverageReturn(test.get_ticker(), 'plot')
+  stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print_year')
+
 def main():
-# TODO Automatically read json file in config.
-  util = utils()
-  util.get_configFile('user')
-  
+
   test = arg_manager()
   test.arg_store(sys.argv)         
   try:
-    #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
-    stock_calculator.get_margin(test.get_ticker(),test.get_margin())
-    stock_calculator.get_revenue(test.get_ticker(),test.get_revenue())
-    #stock_calculator.stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
-    #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print')
-    #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'plot')
-    #stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print_year')
+    
+    if test.get_username() != 'None':
+      utils.get_configFile(test.get_username())
+      get_tickers = test.get_option_choose(test.get_username())
+      myStocks = []
+      for t in get_tickers['tickers']:
+        myStocks.append(t['symbol'])     
+
+      print('PEG INFORMATION -----------------------------------------')
+      for ticker in myStocks:
+        print('TICKER NAME : {}'.format(ticker))
+        stock_calculator.get_peg(ticker,'yahoo')
+
+
+    else:
+      setupFilter = utils.get_configFile('user_settings')
+      tickers = utils.load_all_tickers()
+      for ticker in tickers:
+        print('INDEX NAME : {}'.format(ticker))
+           #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
+        stock_calculator.get_margin(ticker,'y')
+        stock_calculator.get_peg(ticker,'yahoo')
+
+
+
+
+      #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
+      #stock_calculator.get_peg(test.get_ticker(),test.get_peg_site())
+      #stock_calculator.get_margin(test.get_ticker(),test.get_margin())
+      #stock_calculator.get_revenue(test.get_ticker(),test.get_revenue())
+      #stock_calculator.get_margin('NAIL','y')
+      #stock_calculator.get_margin('UUP','y')
+
+            
+
   except Exception as ex:
     print(ex)
 

@@ -71,7 +71,6 @@ class stock_calculator:
 
     @staticmethod
     def get_peg(ticker, peg_site):
- #       print('aaa{ticker}'.format(ticker))
         if peg_site != "":    
             if peg_site == 'yahoo':
                 url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
@@ -90,16 +89,23 @@ class stock_calculator:
         if margin != "":
             if margin == 'y':
                 url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
-                Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
-                Raw_data_margin = Raw_data_margin[5]
-                print(Raw_data_margin) 
-                Operating_Margin=Raw_data_margin.iloc[[1],[1]]
-                Operating_Margin=Operating_Margin.values
-                Operating_Margin=Operating_Margin.tolist()
-                Operating_Margin=Operating_Margin[0]
-                Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
-                if Operating_Margin[0] >= 20:
-                    print ("Operating_Margin over 20%")
+                try:
+
+
+
+                    Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
+                    Raw_data_margin = Raw_data_margin[5]
+                    print(Raw_data_margin) 
+                    Operating_Margin=Raw_data_margin.iloc[[1],[1]]
+                    Operating_Margin=Operating_Margin.values
+                    Operating_Margin=Operating_Margin.tolist()
+                    Operating_Margin=Operating_Margin[0]
+                    Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
+                    if Operating_Margin[0] >= 20:
+                        print ("Operating_Margin over 20%")
+
+                except Exception as ex:
+                    print(ex)
             else:
                 print('insert y or n')
  
@@ -125,7 +131,24 @@ class stock_calculator:
     @staticmethod
     def calculate_volatility(self):
         print(self)
-    
+
+
+
+    @staticmethod
+    def calculate_filter(ticker, trading_day = None):
+        pass
+
+
+    @staticmethod 
+    def caclulate_EPS(ticker):
+#주당순이익이란 1주가 벌어들이는 당기순이익을 의미한다. 당기순이익을 발행주식수로 나누면 된다. 
+        search_value('Earnings Per Share USD', '2019-09')
+
+    @staticmethod
+    def calculate_PER(ticker):
+        pass
+        
+
     @staticmethod
     def calculate_AverageReturn(ticker, trigger):
         try:
