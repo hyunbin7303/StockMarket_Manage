@@ -12,25 +12,26 @@ def average_return(self, test):
   stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print')
   stock_calculator.calculate_AverageReturn(test.get_ticker(), 'plot')
   stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print_year')
-
 def invalid_op(x):
   raise Exception("Invalid operation")
-
 def user_mode():
   pass
-
 def all_filter():
-  setupFilter = utils.get_configFile('user_settings')
+  setupFilter = utils.get_configFile('user_settings')['filter']
   tickers = utils.load_all_tickers()
   for ticker in tickers:
     print('INDEX NAME : {}'.format(ticker))
-    stock_calculator.get_margin(ticker,'y')
-    stock_calculator.get_peg(ticker,'yahoo')
+    if setupFilter['peg'] != 'None':
+      stock_calculator.get_peg(ticker,'y')
+    
+    if setupFilter['mg'] != 'None':
+      stock_calculator.get_margin(ticker,'y')
 
+    if setupFilter['rev'] != 'None':
+      stock_calculator.get_revenue(ticker, 'y')
 def invalid_op(x):
   raise Exception("Invalid operation")
-
-def perform_operation(chosen_operation, operation_args=None):
+def perform_operation(chosen_operation, operation_args=None): 
   # If operation_args wasn't provided (i.e. it is None), set it to be an empty dictionary
   operation_args = operation_args or {}
   ops = {
@@ -39,7 +40,14 @@ def perform_operation(chosen_operation, operation_args=None):
   }
   chosen_operation_function = ops.get(chosen_operation, invalid_op)
   return chosen_operation_function(**operation_args)
-  
+# Need to update this method... Not using it currently.
+def perform_filter_methods(ticker, site, chosen_filter, operation_args = None):
+  operation_args = operation_args or {}
+  ops = {
+    "peg" : "year",
+    "mg":stock_calculator.get_margin(ticker,site),
+    "rev": stock_calculator.get_revenue(ticker,"y")
+  }
 def main():
   test = arg_manager()
   test.arg_store(sys.argv)         
@@ -59,14 +67,8 @@ def main():
 
     else:
       perform_operation("all_filter")
-   #x = perform_operation("add", {"to": 4}) # Adds 4
-
+      #x = perform_operation("add", {"to": 4}) # Adds 4
       #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
-      #stock_calculator.get_peg(test.get_ticker(),test.get_peg_site())
-      #stock_calculator.get_margin(test.get_ticker(),test.get_margin())
-      #stock_calculator.get_revenue(test.get_ticker(),test.get_revenue())
-      #stock_calculator.get_margin('NAIL','y')
-      #stock_calculator.get_margin('UUP','y')
 
   except Exception as ex:
     print(ex)

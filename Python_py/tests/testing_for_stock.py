@@ -1,2 +1,0 @@
-import finance as yf
-

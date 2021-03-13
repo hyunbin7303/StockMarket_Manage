@@ -3,5 +3,7 @@
         "peg" : "year",
         "mg":"year",
         "rev" :"year"
-    }
+    },
+    "DisplayScreen" : true,
+    "CreateTxtFile": true
 }
