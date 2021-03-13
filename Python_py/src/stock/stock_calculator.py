@@ -72,7 +72,7 @@ class stock_calculator:
     @staticmethod
     def get_peg(ticker, peg_site):
         if peg_site != "":    
-            if peg_site == 'yahoo':
+            if peg_site == 'y':
                 url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
                 Raw_data_peg = pd.read_html(url_tmpl, encoding='UTF-8')
                 Raw_data_peg=Raw_data_peg[0]
@@ -90,9 +90,6 @@ class stock_calculator:
             if margin == 'y':
                 url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
                 try:
-
-
-
                     Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
                     Raw_data_margin = Raw_data_margin[5]
                     print(Raw_data_margin) 
@@ -132,13 +129,6 @@ class stock_calculator:
     def calculate_volatility(self):
         print(self)
 
-
-
-    @staticmethod
-    def calculate_filter(ticker, trading_day = None):
-        pass
-
-
     @staticmethod 
     def caclulate_EPS(ticker):
 #주당순이익이란 1주가 벌어들이는 당기순이익을 의미한다. 당기순이익을 발행주식수로 나누면 된다. 
@@ -148,11 +138,13 @@ class stock_calculator:
     def calculate_PER(ticker):
         pass
         
-
     @staticmethod
-    def calculate_AverageReturn(ticker, trigger):
+    def calculate_AverageReturn(ticker, trigger, start_day = None):
         try:
-            company = wb.DataReader(ticker, data_source = 'yahoo', start='2010-1-1')
+            startday='2010-1-1'
+            if start_day != None:
+                startday = start_day
+            company = wb.DataReader(ticker, data_source = 'yahoo', start=startday)
             company['simple_return'] = (company['Adj Close']/ company['Adj Close'].shift(1)) -1
             if trigger == 'plot':
                 company['simple_return'].plot(figsize=(8,5))

@@ -1,3 +1,9 @@
 {
-    "filter" : ["peg","mg","rev"]
+    "filter" : {
+        "peg" : "year",
+        "mg":"year",
+        "rev" :"year"
+    },
+    "DisplayScreen" : true,
+    "CreateTxtFile": true
 }
