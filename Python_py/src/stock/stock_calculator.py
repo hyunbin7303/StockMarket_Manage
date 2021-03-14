@@ -98,8 +98,8 @@ class stock_calculator:
                     Operating_Margin=Operating_Margin.tolist()
                     Operating_Margin=Operating_Margin[0]
                     Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
-                    if Operating_Margin[0] >= 20:
-                        print ("Operating_Margin over 20%")
+                    # if Operating_Margin[0] >= 20:
+                    #     print ("Operating_Margin over 20%")
 
                 except Exception as ex:
                     print(ex)
@@ -169,7 +169,6 @@ class stock_calculator:
 
         except RemoteDataError:
             print('No data found for {t}'.format(t=ticker))
-
     @staticmethod
     def get_return(input, old, new):
         print('Getting the return value')
