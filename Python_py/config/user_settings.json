@@ -1,9 +1,10 @@
 {
     "filter" : {
-        "peg" : "year",
-        "mg":"year",
-        "rev" :"year"
+        "peg" : "yahoo",
+        "mg":"yahoo",
+        "rev" :"yahoo"
     },
     "DisplayScreen" : true,
     "CreateTxtFile": true
 }
+

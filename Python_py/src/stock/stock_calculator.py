@@ -70,59 +70,57 @@ class stock_calculator:
             print('No data found for {t}'.format(t=ticker))
 
     @staticmethod
-    def get_peg(ticker, peg_site):
-        if peg_site != "":    
-            if peg_site == 'y':
-                url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
-                Raw_data_peg = pd.read_html(url_tmpl, encoding='UTF-8')
-                Raw_data_peg=Raw_data_peg[0]
-                PEG_raw_peg=Raw_data_peg.loc[[4,5]]
-                print(PEG_raw_peg)
-            elif peg_site  == 'naver':
-                print(peg_site)
-            else:
-                print('other source.')
+    def get_peg(ticker, site):
+        if site == 'yahoo':
+            url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
+            Raw_data_peg = pd.read_html(url_tmpl, encoding='UTF-8')
+            Raw_data_peg=Raw_data_peg[0]
+            PEG_raw_peg=Raw_data_peg.loc[[4,5]]
+            #print(PEG_raw_peg)
+            return PEG_raw_peg
+        elif peg_site  == 'naver':
+            print(peg_site)
+
 
     # 2021-01-01 getmargin(profit/operating)
     @staticmethod
-    def get_margin(ticker, margin):
-        if margin != "":
-            if margin == 'y':
-                url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
-                try:
-                    Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
-                    Raw_data_margin = Raw_data_margin[5]
-                    print(Raw_data_margin) 
-                    Operating_Margin=Raw_data_margin.iloc[[1],[1]]
-                    Operating_Margin=Operating_Margin.values
-                    Operating_Margin=Operating_Margin.tolist()
-                    Operating_Margin=Operating_Margin[0]
-                    Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
-                    # if Operating_Margin[0] >= 20:
-                    #     print ("Operating_Margin over 20%")
+    def get_margin(ticker, site):
+        if site == 'yahoo':
+            url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
+            try:
+                Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
+                Raw_data_margin = Raw_data_margin[5]
+                print(Raw_data_margin) 
+                return Raw_data_margin
 
-                except Exception as ex:
-                    print(ex)
-            else:
-                print('insert y or n')
- 
+                Operating_Margin=Raw_data_margin.iloc[[1],[1]]
+                Operating_Margin=Operating_Margin.values
+                Operating_Margin=Operating_Margin.tolist()
+                Operating_Margin=Operating_Margin[0]
+                Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
+                # if Operating_Margin[0] >= 20:
+                #     print ("Operating_Margin over 20%")
+            except Exception as ex:
+                print(ex)
+
     # 2021-01-02 get revenue and check groth 15% per year
     @staticmethod
-    def get_revenue(ticker, revenue):
-        if revenue != "":
-            if revenue == 'y':
-                url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/analysis?p={ticker}'.format(ticker=ticker) 
-                Raw_data_revenue = pd.read_html(url_tmpl, encoding='UTF-8')
-                Raw_data_revenue = Raw_data_revenue[1]
-                print(Raw_data_revenue)
-    #extract current Growth and convert the format from dp to list
-                Current_Growth=Raw_data_revenue.iloc[[5],[3]]
-                Current_Growth=Current_Growth.values
-                Current_Growth=Current_Growth.tolist()
-                Current_Growth=Current_Growth[0]
-                Current_Growth[0]=float(Current_Growth[0].replace('%',''))
-                if Current_Growth[0] >= 15:
-                    print ("Current Growth over 15%")
+    def get_revenue(ticker, site):
+        if site == 'yahoo':
+            url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/analysis?p={ticker}'.format(ticker=ticker) 
+            Raw_data_revenue = pd.read_html(url_tmpl, encoding='UTF-8')
+            Raw_data_revenue = Raw_data_revenue[1]
+            #print(Raw_data_revenue)
+            return Raw_data_revenue
+
+            #extract current Growth and convert the format from dp to list
+            Current_Growth=Raw_data_revenue.iloc[[5],[3]]
+            Current_Growth=Current_Growth.values
+            Current_Growth=Current_Growth.tolist()
+            Current_Growth=Current_Growth[0]
+            Current_Growth[0]=float(Current_Growth[0].replace('%',''))
+            if Current_Growth[0] >= 15:
+                print ("Current Growth over 15%")
             else:
                 print('insert y or n')
     @staticmethod

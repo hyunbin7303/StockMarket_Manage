@@ -18,16 +18,18 @@ def all_filter():
   for ticker in tickers:
     print('INDEX NAME : {}'.format(ticker))
     if setupFilter['peg'] != 'None':
-      stock_calculator.get_peg(ticker,'y')
-    
+      check = stock_calculator.get_peg(ticker,'yahoo')
+
     if setupFilter['mg'] != 'None':
-      stock_calculator.get_margin(ticker,'y')
+      check2= stock_calculator.get_margin(ticker,'yahoo')
 
     if setupFilter['rev'] != 'None':
-      stock_calculator.get_revenue(ticker, 'y')
+      check3 = stock_calculator.get_revenue(ticker, 'yahoo')
 
-    #StockInfo(ticker, )
-
+    print(check)
+    print(check2)
+    print(check3)
+    StockInfo(ticker, check, check2, check3)
 
 
 def perform_operation(chosen_operation, operation_args=None): 
