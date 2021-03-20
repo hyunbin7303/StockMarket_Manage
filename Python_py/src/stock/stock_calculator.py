@@ -180,6 +180,10 @@ class stock_calculator:
         SED_Close=list(np.array(SED['Close'].tolist()))
         SED=round(100*(float(SED_Close[0])-float(SED_Close[SED_gap]))/float(SED_Close[0]),2)
         print("Start({}) End({}) Difference for {} traiding days  is {}%".format(SED_Date[0],SED_Date[SED_gap],SED_gap,SED))            
+    @staticmethod
+    def Return_of_Rate(ticker, period)
+        
+
 
     @staticmethod
     def calculate_volatility(self):
