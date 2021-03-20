@@ -21,6 +21,8 @@ ap.add_argument("-peg", "--peg_site", type=str, required=False, help="Display al
 ap.add_argument("-mg", "--margin", type=str, required=False, help="y/n")
 ap.add_argument("-rev", "--revenue", type=str, required=False, help="y/n")
 
+ap.add_argument("-rsi", "--rsi_period", type=int, required=False, help="rsi_period ex)14")
+ap.add_argument("-sed", "--sed_gap", type=int, required=False, help="sed_gap ex)14")
 
 # additional argument that I would like to add:
 # argParser.add_argument("--top_n", type=int, default = 25, help="How many top predictions do you want to print")
@@ -47,6 +49,8 @@ class arg_manager:
         self.__margin =''
         self.__revenue =''
 
+        self.__rsi_period =''
+        self.__sed_gap =''
     def arg_store(self, args):
         args = vars(ap.parse_args())
         if args['ticker'] != None:
@@ -70,6 +74,11 @@ class arg_manager:
         if args['revenue'] != None:
             self.__revenue = str(args['revenue'])
 
+        if args['rsi_period'] != None:
+            self.__rsi_period = int(args['rsi_period'])
+
+        if args['sed_gap'] != None:
+            self.__sed_gap = int(args['sed_gap'])
 
     def get_ticker(self):
         return self.__ticker
@@ -92,6 +101,11 @@ class arg_manager:
     def get_peg_site(self):
         return self.__peg_site
 
+    def get_rsi_period(self):
+        return self.__rsi_period
+
+    def get_sed_gap(self):
+        return self.__sed_gap
 
 
     def cur_directory(self):
