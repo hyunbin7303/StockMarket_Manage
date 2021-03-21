@@ -78,8 +78,7 @@ class stock_calculator:
             PEG_raw_peg=Raw_data_peg.loc[[4,5]]
             #print(PEG_raw_peg)
             return PEG_raw_peg
-        elif peg_site  == 'naver':
-            print(peg_site)
+
 
 
     # 2021-01-01 getmargin(profit/operating)
@@ -162,13 +161,16 @@ class stock_calculator:
             elif RSI >0.7:     
                 print ("overbought")
             else :
-                print ("normal")         
+                print ("normal")
+            return RSI         
 
     @staticmethod
     def get_sed(ticker, SED_gap):
-        START_DATE  ='2005-01-01'
+        # windows system date.
+        START_DATE  ='1970-01-02'
         stock_data = wb.DataReader(ticker,'yahoo', START_DATE, END_DATE)
         stock_data=stock_data.reset_index()
+        IPO=stock_data.iloc[0].iloc[0].date()
         SED=stock_data.loc[:,['Date','Close']]
         SED = SED.sort_values(by=['Date'], ascending=False) 
         np.array(SED['Date'].tolist())
@@ -179,9 +181,11 @@ class stock_calculator:
             SED_Date.append(i.date())
         SED_Close=list(np.array(SED['Close'].tolist()))
         SED=round(100*(float(SED_Close[0])-float(SED_Close[SED_gap]))/float(SED_Close[0]),2)
-        print("Start({}) End({}) Difference for {} traiding days  is {}%".format(SED_Date[0],SED_Date[SED_gap],SED_gap,SED))            
-    @staticmethod
-    def Return_of_Rate(ticker, period)
+        print ("IPO date: {}".format(IPO))
+        print("Start({}):({}) End({}):({}) Difference for {} traiding days  is {}%".format(SED_Date[SED_gap],round(SED_Close[SED_gap],2),SED_Date[0],round(SED_Close[0],2),SED_gap,SED))
+        return SED            
+#    @staticmethod
+#    def Return_of_Rate(ticker, period)
         
 
 
@@ -192,7 +196,8 @@ class stock_calculator:
     @staticmethod 
     def caclulate_EPS(ticker):
 #주당순이익이란 1주가 벌어들이는 당기순이익을 의미한다. 당기순이익을 발행주식수로 나누면 된다. 
-        search_value('Earnings Per Share USD', '2019-09')
+#        search_value('Earnings Per Share USD', '2019-09')
+        print ('a')
 
     @staticmethod
     def calculate_PER(ticker):
