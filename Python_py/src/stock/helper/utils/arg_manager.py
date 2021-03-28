@@ -24,6 +24,8 @@ ap.add_argument("-rev", "--revenue", type=str, required=False, help="y/n")
 ap.add_argument("-rsi", "--rsi_period", type=int, required=False, help="rsi_period ex)14")
 ap.add_argument("-sed", "--sed_gap", type=int, required=False, help="sed_gap ex)14")
 
+ap.add_argument("-ror", "--return_of_rate", type=str, nargs=2, required=False, help="retur_of_rate_date_gap ex)2020-01-01 2020-02-02")
+
 # additional argument that I would like to add:
 # argParser.add_argument("--top_n", type=int, default = 25, help="How many top predictions do you want to print")
 # argParser.add_argument("--min_volume", type=int, default = 5000, help="Minimum volume filter. Stocks with average volume of less than this value will be ignored")
@@ -51,6 +53,8 @@ class arg_manager:
 
         self.__rsi_period =''
         self.__sed_gap =''
+        self.__ror=''
+
     def arg_store(self, args):
         args = vars(ap.parse_args())
         if args['ticker'] != None:
@@ -79,6 +83,9 @@ class arg_manager:
 
         if args['sed_gap'] != None:
             self.__sed_gap = int(args['sed_gap'])
+ 
+        if args['return_of_rate'] != None:
+            self.__return_of_rate = list(args['return_of_rate'])
 
     def get_ticker(self):
         return self.__ticker
@@ -107,6 +114,8 @@ class arg_manager:
     def get_sed_gap(self):
         return self.__sed_gap
 
+    def get_return_of_rate(self):
+        return self.__return_of_rate
 
     def cur_directory(self):
         directory_path = str(os.path.dirname(os.path.abspath(__file__)))

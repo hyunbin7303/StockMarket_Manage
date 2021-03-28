@@ -66,6 +66,7 @@ def main():
 
     else:
       stock_calculator.get_sed(test.get_ticker(),test.get_sed_gap())
+      stock_calculator.get_Return_of_Rate(test.get_ticker(),test.get_return_of_rate())
       #perform_operation("all_filter")
       #x = perform_operation("add", {"to": 4}) # Adds 4
       #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())

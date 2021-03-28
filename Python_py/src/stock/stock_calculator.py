@@ -166,7 +166,7 @@ class stock_calculator:
 
     @staticmethod
     def get_sed(ticker, SED_gap):
-        # windows system date.
+        # windows system date from 1970-01-01.
         START_DATE  ='1970-01-02'
         stock_data = wb.DataReader(ticker,'yahoo', START_DATE, END_DATE)
         stock_data=stock_data.reset_index()
@@ -184,8 +184,23 @@ class stock_calculator:
         print ("IPO date: {}".format(IPO))
         print("Start({}):({}) End({}):({}) Difference for {} traiding days  is {}%".format(SED_Date[SED_gap],round(SED_Close[SED_gap],2),SED_Date[0],round(SED_Close[0],2),SED_gap,SED))
         return SED            
-#    @staticmethod
-#    def Return_of_Rate(ticker, period)
+ 
+    @staticmethod
+    def get_Return_of_Rate(ticker, ror_list):
+        stock_data = wb.DataReader(ticker,'yahoo', str(ror_list[0]), str(ror_list[1]))
+        stock_data=stock_data.reset_index()
+        ROR=stock_data.loc[:,['Date','Close']]
+        ROR = ROR.sort_values(by=['Date'], ascending=True) 
+        np.array(ROR['Date'].tolist())
+        np.array(ROR['Close'].tolist())
+        ROR_date_time=list(np.array(ROR['Date'].tolist()))
+        ROR_Date=[]
+        for i in ROR_date_time:
+            ROR_Date.append(i.date())
+        ROR_Close=list(np.array(ROR['Close'].tolist()))
+        ROR=round(100*(float(ROR_Close[0])-float(ROR_Close[(len(ROR_Date)-1)]))/float(ROR_Close[(len(ROR_Date)-1)]),2)
+        print("Return of rate: Start({}):({}) End({}):({}) Difference for {} traiding days  is {}%".format(ror_list[0],round(ROR_Close[0],2),ror_list[1],round(ROR_Close[(len(ROR_Date)-1)],2),len(ROR_Date)-1,ROR))
+        return ROR          
         
 
 
