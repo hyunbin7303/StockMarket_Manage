@@ -3,25 +3,6 @@
 
 
 
-class MetricBase(object):
-    """Metric template class."""
-    _language = None
-    _metrics = None
-
-    def __init__(self, *args, **kwds ):
-        pass
-
-    def reset(self):
-        """
-        Reset the processor.
-        Implement this in case you need to reset the processor for each key.
-        """
-        pass
-
-
-
-
-
 
 class MetricBase(object):
     """
@@ -35,4 +16,12 @@ class MetricBase(object):
     def flush(self, timestamp, interval):
         """ Flush all metrics up to the given timestamp. """
         raise NotImplementedError()
+
+
+
+    def get_row(self, metric):
+        pass
+
+    def get_column(self, metric):
+        pass
 

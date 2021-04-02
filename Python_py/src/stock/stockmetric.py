@@ -1,5 +1,12 @@
 from metricbase import MetricBase
 
+
+DEFAULT_STOCK = "basic"
+DEFAULT_TAG = "A"
+
+
+
+
 class StockMetric(MetricBase):
 
     def __init__(self, ticker, revenue, margin, peg):
@@ -8,7 +15,6 @@ class StockMetric(MetricBase):
         self.mg = margin
         self.peg = peg
 
-    stats_tag = "d"
 
     def add_point(self, value):
         self.value.append(value)
@@ -16,6 +22,18 @@ class StockMetric(MetricBase):
     def flush(self, timestamp, interval):
         return [(timestamp, self.value, self.name, self.tags, self.host, MetricType.Distribution, interval)]
 
+
+    def get_revenue_info(self, filter):
+        pass
+
+    def get_margin_info(self, filter):
+        pass
+
+    def get_PEG_info(self, filter):
+        pass
+
+    def get_all(self, metric, timestamp = None):
+        pass
 
 # This is jsust example of Metric Class.
 class CoinMetric(MetricBase):

@@ -63,29 +63,34 @@ def perform_filter_methods(ticker, site, chosen_filter, operation_args = None):
   ops = {
     "peg" :stock_calculator.get_peg(ticker,site),
     "mg":  stock_calculator.get_margin(ticker,site),
-    "rev": stock_calculator.get_revenue(ticker,site)
+    "rev": stock_calculator.get_revenue(ticker,site),
+    "rsi": stock_calculator.get_rsi(ticker, ''),
+    '': stock_calculator.get_Return_of_Rate(ticker,'')
   }
 
 
-
-
 def main():
-  test = arg_manager()
-  test.arg_store(sys.argv)         
-  try:
-    if test.get_username() != 'None':
-        perform_operation("user_mode")
-
-    else:
-        perform_operation("all_filter")
+    product_app()
+   # testing_methods()
 
 
-  except Exception as ex:
-    print(ex)
+def product_app():
+    test = arg_manager()
+    test.arg_store(sys.argv)         
+    try:
+        if test.get_username() != 'None':
+            perform_operation("user_mode")
 
+        else:
+            perform_operation("all_filter")
+    #x = perform_operation("add", {"to": 4}) # Adds 4
+
+    except Exception as ex:
+        print(ex)
 
 def testing_methods():
-    stock_calculator.get_sed(test.get_ticker(),test.get_sed_gap())
+    test = arg_manager()
+    test.arg_store(sys.argv)         
+    #stock_calculator.get_sed(test.get_ticker(),test.get_sed_gap())
     stock_calculator.get_Return_of_Rate(test.get_ticker(),test.get_return_of_rate())
-    x = perform_operation("add", {"to": 4}) # Adds 4
-    stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
+    #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())

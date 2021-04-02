@@ -71,7 +71,7 @@ class stock_calculator:
             print('No data found for {t}'.format(t=ticker))
 
     @staticmethod
-    def get_peg(ticker, site):
+    def get_peg(ticker, site, timestamp = None):
         if site == 'yahoo':
             url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
             Raw_data_peg = pd.read_html(url_tmpl, encoding='UTF-8')
@@ -83,7 +83,7 @@ class stock_calculator:
 
     # 2021-01-01 getmargin(profit/operating)
     @staticmethod
-    def get_margin(ticker, site):
+    def get_margin(ticker, site, timestamp = None):
         if site == 'yahoo':
             url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
             try:
@@ -103,7 +103,7 @@ class stock_calculator:
 
     # 2021-01-02 get revenue and check groth 15% per year
     @staticmethod
-    def get_revenue(ticker, site):
+    def get_revenue(ticker, site, timestamp = None):
         if site == 'yahoo':
             url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/analysis?p={ticker}'.format(ticker=ticker) 
             Raw_data_revenue = pd.read_html(url_tmpl, encoding='UTF-8')
@@ -249,21 +249,6 @@ class stock_calculator:
 
         except RemoteDataError:
             print('No data found for {t}'.format(t=ticker))
-    @staticmethod
-    def get_return(input, old, new):
-        print('Getting the return value')
-
-    @staticmethod
-    def read_data_from_excel():
-        print("Reading data from Excel files.")
-
-    @staticmethod
-    def write_data_to_excel():
-        print("Writing data to excel files.")
-
-    @staticmethod
-    def write_data_to_db():
-        print("Writing data to db.")
 
     # Not using for now...
     class InvalidStockError(RuntimeError):

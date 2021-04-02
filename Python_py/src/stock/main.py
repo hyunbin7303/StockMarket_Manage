@@ -1,8 +1,8 @@
 import sys
 import argparse
 
-from cli import main
-
+from cli import product_app
+from cli import testing_methods
 
 if __name__ =="__main__":
 
@@ -11,5 +11,5 @@ if __name__ =="__main__":
         sys.stderr.write("You need python 3.5 or later to run this script\n")
         sys.exit(1)
 
-    main()
-
+    product_app()
+    # testing_methods()
