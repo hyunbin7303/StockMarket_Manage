@@ -8,8 +8,6 @@ class TestStockCalculator(unittest.TestCase):
         print('testing')
 
 
-
-
 if __name__ =='__main__':
     print(sys.path)
     unittest.main()

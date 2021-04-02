@@ -1,10 +1,10 @@
-
+import sys
+import argparse
 from pandas_datareader import data as wb
 from pandas_datareader._utils import RemoteDataError
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-import html5lib
 from datetime import datetime
 
 START_DATE =''
@@ -74,12 +74,11 @@ class stock_calculator:
     def get_peg(ticker, site):
         if site == 'yahoo':
             url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
-            Raw_data_peg = pd.read_html(url_tmpl, encoding='UTF-8', flavor='html5lib')
+            Raw_data_peg = pd.read_html(url_tmpl, encoding='UTF-8')
             Raw_data_peg=Raw_data_peg[0]
             PEG_raw_peg=Raw_data_peg.loc[[4,5]]
             return PEG_raw_peg
-        elif peg_site  == 'naver':
-            print(peg_site)
+
 
 
     # 2021-01-01 getmargin(profit/operating)
@@ -162,13 +161,16 @@ class stock_calculator:
             elif RSI >0.7:     
                 print ("overbought")
             else :
-                print ("normal")         
+                print ("normal")
+            return RSI         
 
     @staticmethod
     def get_sed(ticker, SED_gap):
-        START_DATE  ='2005-01-01'
+        # windows system date from 1970-01-01.
+        START_DATE  ='1970-01-02'
         stock_data = wb.DataReader(ticker,'yahoo', START_DATE, END_DATE)
         stock_data=stock_data.reset_index()
+        IPO=stock_data.iloc[0].iloc[0].date()
         SED=stock_data.loc[:,['Date','Close']]
         SED = SED.sort_values(by=['Date'], ascending=False) 
         np.array(SED['Date'].tolist())
@@ -179,10 +181,27 @@ class stock_calculator:
             SED_Date.append(i.date())
         SED_Close=list(np.array(SED['Close'].tolist()))
         SED=round(100*(float(SED_Close[0])-float(SED_Close[SED_gap]))/float(SED_Close[0]),2)
-        print("Start({}) End({}) Difference for {} traiding days  is {}%".format(SED_Date[0],SED_Date[SED_gap],SED_gap,SED))            
+        print ("IPO date: {}".format(IPO))
+        print("Start({}):({}) End({}):({}) Difference for {} traiding days  is {}%".format(SED_Date[SED_gap],round(SED_Close[SED_gap],2),SED_Date[0],round(SED_Close[0],2),SED_gap,SED))
+        return SED            
+ 
     @staticmethod
-    def Return_of_Rate(ticker, period):
-        pass
+    def get_Return_of_Rate(ticker, ror_list):
+        stock_data = wb.DataReader(ticker,'yahoo', str(ror_list[0]), str(ror_list[1]))
+        stock_data=stock_data.reset_index()
+        ROR=stock_data.loc[:,['Date','Close']]
+        ROR = ROR.sort_values(by=['Date'], ascending=True) 
+        np.array(ROR['Date'].tolist())
+        np.array(ROR['Close'].tolist())
+        ROR_date_time=list(np.array(ROR['Date'].tolist()))
+        ROR_Date=[]
+        for i in ROR_date_time:
+            ROR_Date.append(i.date())
+        ROR_Close=list(np.array(ROR['Close'].tolist()))
+        ROR=round(100*(float(ROR_Close[0])-float(ROR_Close[(len(ROR_Date)-1)]))/float(ROR_Close[(len(ROR_Date)-1)]),2)
+        print("Return of rate: Start({}):({}) End({}):({}) Difference for {} traiding days  is {}%".format(ror_list[0],round(ROR_Close[0],2),ror_list[1],round(ROR_Close[(len(ROR_Date)-1)],2),len(ROR_Date)-1,ROR))
+        return ROR          
+        
 
 
     @staticmethod
@@ -192,7 +211,8 @@ class stock_calculator:
     @staticmethod 
     def caclulate_EPS(ticker):
 #주당순이익이란 1주가 벌어들이는 당기순이익을 의미한다. 당기순이익을 발행주식수로 나누면 된다. 
-        search_value('Earnings Per Share USD', '2019-09')
+#        search_value('Earnings Per Share USD', '2019-09')
+        print ('a')
 
     @staticmethod
     def calculate_PER(ticker):
