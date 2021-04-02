@@ -1,11 +1,10 @@
-import getopt
 import sys
 import argparse
 
 from helper.utils.arg_manager import arg_manager
 from helper.utils.utils import utils
 from stock_calculator import stock_calculator
-from stockinfo import StockInfo
+from stockmetric import StockMetric
 
 
 def invalid_op(x):
@@ -26,10 +25,13 @@ def all_filter():
     if setupFilter['rev'] != 'None':
       check3 = stock_calculator.get_revenue(ticker, 'yahoo')
 
-    print(check)
-    print(check2)
-    print(check3)
-    StockInfo(ticker, check, check2, check3)
+    stock = StockMetric(ticker, check, check2, check3)
+    print(stock.peg)
+    print(stock.mg)
+    print(stock.rev)
+
+    utils.write_file('txt',stock.peg)
+
 
 
 def perform_operation(chosen_operation, operation_args=None): 
@@ -46,7 +48,7 @@ def perform_filter_methods(ticker, site, chosen_filter, operation_args = None):
   operation_args = operation_args or {}
   ops = {
     "peg" : "year",
-    "mg":stock_calculator.get_margin(ticker,site),
+    "mg":  stock_calculator.get_margin(ticker,site),
     "rev": stock_calculator.get_revenue(ticker,"y")
   }
 def main():

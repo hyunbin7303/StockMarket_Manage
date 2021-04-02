@@ -1,10 +1,6 @@
 
 
-
-def getStockInfo(stockinfo):
-    pass
-
-class StockInfo():
+class StockMetric():
 
     def __init__(self, ticker, revenue, margin, peg):
         # tickers = tickers if isinstance(a)

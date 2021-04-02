@@ -4,6 +4,7 @@ from pandas_datareader._utils import RemoteDataError
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import html5lib
 from datetime import datetime
 
 START_DATE =''
@@ -73,10 +74,9 @@ class stock_calculator:
     def get_peg(ticker, site):
         if site == 'yahoo':
             url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/key-statistics?p={ticker}'.format(ticker=ticker) 
-            Raw_data_peg = pd.read_html(url_tmpl, encoding='UTF-8')
+            Raw_data_peg = pd.read_html(url_tmpl, encoding='UTF-8', flavor='html5lib')
             Raw_data_peg=Raw_data_peg[0]
             PEG_raw_peg=Raw_data_peg.loc[[4,5]]
-            #print(PEG_raw_peg)
             return PEG_raw_peg
         elif peg_site  == 'naver':
             print(peg_site)
@@ -90,14 +90,13 @@ class stock_calculator:
             try:
                 Raw_data_margin = pd.read_html(url_tmpl, encoding='UTF-8')
                 Raw_data_margin = Raw_data_margin[5]
-                print(Raw_data_margin) 
-                return Raw_data_margin
-
                 Operating_Margin=Raw_data_margin.iloc[[1],[1]]
                 Operating_Margin=Operating_Margin.values
                 Operating_Margin=Operating_Margin.tolist()
                 Operating_Margin=Operating_Margin[0]
-                Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
+                return Raw_data_margin
+
+                #Operating_Margin[0]=float(Operating_Margin[0].replace('%',''))
                 # if Operating_Margin[0] >= 20:
                 #     print ("Operating_Margin over 20%")
             except Exception as ex:
@@ -111,14 +110,15 @@ class stock_calculator:
             Raw_data_revenue = pd.read_html(url_tmpl, encoding='UTF-8')
             Raw_data_revenue = Raw_data_revenue[1]
             #print(Raw_data_revenue)
-            return Raw_data_revenue
+            
 
             #extract current Growth and convert the format from dp to list
             Current_Growth=Raw_data_revenue.iloc[[5],[3]]
             Current_Growth=Current_Growth.values
             Current_Growth=Current_Growth.tolist()
             Current_Growth=Current_Growth[0]
-            Current_Growth[0]=float(Current_Growth[0].replace('%',''))
+            return Current_Growth
+            # Current_Growth[0]=float(Current_Growth[0].replace('%',''))
             if Current_Growth[0] >= 15:
                 print ("Current Growth over 15%")
             else:
@@ -181,8 +181,8 @@ class stock_calculator:
         SED=round(100*(float(SED_Close[0])-float(SED_Close[SED_gap]))/float(SED_Close[0]),2)
         print("Start({}) End({}) Difference for {} traiding days  is {}%".format(SED_Date[0],SED_Date[SED_gap],SED_gap,SED))            
     @staticmethod
-    def Return_of_Rate(ticker, period)
-        
+    def Return_of_Rate(ticker, period):
+        pass
 
 
     @staticmethod

@@ -2,6 +2,7 @@ import json
 import os
 import sys
 import json
+import csv
 import datetime as dt
 from pathlib import Path
 class utils:
@@ -62,3 +63,22 @@ class utils:
                 data = json.load(jsonfile)
         jsonfile.close()
         return data
+
+
+    @staticmethod
+    def write_file(format,data):
+        base_path = Path(__file__).parent
+        if format == 'excel':
+            excel_path = os.path.join(base_path / "../../../../data_output/",  "result.csv")
+            with open(excel_path, "w", newline='') as csv_file: 
+                writer = csv.writer(csv_file, delimiter=',')
+                for line in data:
+                    writer.writerow(line)
+
+        elif format == 'txt':
+            base_path = os.path.join(base_path / "../../../../data_output/",  "result.txt")
+            with open(base_path, "w") as text_file:
+                for line in data:
+                    writer.writerow(line)
+            #         f.writelines(["\nSee you soon!", "\nOver and out."])
+            # f.close()
