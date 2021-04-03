@@ -6,11 +6,8 @@ from helper.utils.utils import utils
 from stock_calculator import stock_calculator
 from stockmetric import StockMetric
 
-
 def invalid_op(x):
   raise Exception("Invalid operation")
-
-
 
 def user_mode():
     getConfig = utils.get_configFile(test.get_username())
@@ -22,7 +19,6 @@ def user_mode():
     for ticker in myStocks:
         print('TICKER NAME : {}'.format(ticker))
         stock_calculator.get_peg(ticker,'yahoo')
-
 
 def all_filter():
   setupFilter = utils.get_configFile('user_settings')['filter']
@@ -38,13 +34,19 @@ def all_filter():
     if setupFilter['rev'] != 'None':
       revenue = stock_calculator.get_revenue(ticker, 'yahoo')
 
-    stock = StockMetric(ticker, peg, margin, revenue)
+    if setupFilter['ror'] != 'None':
+      return_of_rate = stock_calculator.get_Return_of_Rate(ticker, setupFilter['ror'])
+
+    if setupFilter['rsi'] != 'None':
+      rsi = stock_calculator.get_rsi(ticker, setupFilter['rsi'])
+
+    stock = StockMetric(ticker, peg, margin, revenue, return_of_rate,rsi)
     print(stock.peg)
     print(stock.mg)
     print(stock.rev)
-    utils.write_file('txt',stock.peg)
-
-
+    print(stock.ror)
+    stock.print_rsi_info()
+    #utils.write_file('txt',stock.peg)
 
 def perform_operation(chosen_operation, operation_args=None): 
   # If operation_args wasn't provided (i.e. it is None), set it to be an empty dictionary
@@ -55,7 +57,6 @@ def perform_operation(chosen_operation, operation_args=None):
   }
   chosen_operation_function = ops.get(chosen_operation, invalid_op)
   return chosen_operation_function(**operation_args)
-
 
 # Need to update this method... Not using it currently.
 def perform_filter_methods(ticker, site, chosen_filter, operation_args = None):
@@ -72,7 +73,6 @@ def perform_filter_methods(ticker, site, chosen_filter, operation_args = None):
 def main():
     product_app()
    # testing_methods()
-
 
 def product_app():
     test = arg_manager()

@@ -2,7 +2,9 @@
     "filter" : {
         "peg" : "yahoo",
         "mg":"yahoo",
-        "rev" :"yahoo"
+        "rev" :"yahoo",
+        "ror": ["2020-01-01", "2020-04-01"],
+        "rsi": 20
     },
     "DisplayScreen" : true,
     "CreateTxtFile": true

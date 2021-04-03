@@ -14,6 +14,7 @@ class stock_calculator:
     def __init__(self):
         print('stock calculator.')
 
+
     @staticmethod
     def get_stats(stock_data):
         return {
@@ -70,6 +71,7 @@ class stock_calculator:
         except RemoteDataError:
             print('No data found for {t}'.format(t=ticker))
 
+    #The price/earnings to growth ratio (PEG ratio) is a stock's price-to-earnings (P/E) ratio divided by the growth rate of its earnings for a specified time period.
     @staticmethod
     def get_peg(ticker, site, timestamp = None):
         if site == 'yahoo':
@@ -78,8 +80,6 @@ class stock_calculator:
             Raw_data_peg=Raw_data_peg[0]
             PEG_raw_peg=Raw_data_peg.loc[[4,5]]
             return PEG_raw_peg
-
-
 
     # 2021-01-01 getmargin(profit/operating)
     @staticmethod
@@ -108,9 +108,6 @@ class stock_calculator:
             url_tmpl = 'https://finance.yahoo.com/quote/{ticker}/analysis?p={ticker}'.format(ticker=ticker) 
             Raw_data_revenue = pd.read_html(url_tmpl, encoding='UTF-8')
             Raw_data_revenue = Raw_data_revenue[1]
-            #print(Raw_data_revenue)
-            
-
             #extract current Growth and convert the format from dp to list
             Current_Growth=Raw_data_revenue.iloc[[5],[3]]
             Current_Growth=Current_Growth.values
@@ -199,7 +196,6 @@ class stock_calculator:
             ROR_Date.append(i.date())
         ROR_Close=list(np.array(ROR['Close'].tolist()))
         ROR=round(100*(float(ROR_Close[0])-float(ROR_Close[(len(ROR_Date)-1)]))/float(ROR_Close[(len(ROR_Date)-1)]),2)
-        print("Return of rate: Start({}):({}) End({}):({}) Difference for {} traiding days  is {}%".format(ror_list[0],round(ROR_Close[0],2),ror_list[1],round(ROR_Close[(len(ROR_Date)-1)],2),len(ROR_Date)-1,ROR))
         return ROR          
         
 
