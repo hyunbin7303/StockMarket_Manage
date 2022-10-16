@@ -1,7 +1,7 @@
-init:
-    pip install -r requirements.txt
+stock_install:
+	pip install -r requirements.txt
 
-test:
-    py.test tests
+stock_link:
+	ln -sf $(CURDIR)/README.md $(CURDIR)/docs/index.md
 
-.PHONY: init test
+

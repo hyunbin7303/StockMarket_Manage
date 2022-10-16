@@ -10,8 +10,8 @@
             "request": "launch",
             "program": "${file}",
             "console":"integratedTerminal",
-            "stopOnEntry": true
-
+            "stopOnEntry": true,
+            "args": ["all_filter"]
         }
 
     ]

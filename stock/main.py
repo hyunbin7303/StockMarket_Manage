@@ -12,6 +12,7 @@ def average_return(self, test):
   stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print')
   stock_calculator.calculate_AverageReturn(test.get_ticker(), 'plot')
   stock_calculator.calculate_AverageReturn(test.get_ticker(), 'print_year')
+     
 def invalid_op(x):
   raise Exception("Invalid operation")
 def user_mode():
@@ -26,6 +27,7 @@ def all_filter():
     
     if setupFilter['mg'] != 'None':
       stock_calculator.get_margin(ticker,'y')
+
 
     if setupFilter['rev'] != 'None':
       stock_calculator.get_revenue(ticker, 'y')
