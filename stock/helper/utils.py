@@ -49,8 +49,8 @@ class utils:
 
     @staticmethod
     def get_configFile(setup):
-        base_path = Path(__file__).parent
-        base_path = os.path.join(base_path / "../../../../config/", setup + ".json")
+        base_path = Path(__file__).parent.parent
+        base_path = os.path.join(base_path / "../config/", setup + ".json")
         if setup == 'apikey':
             with open(base_path, "r") as jsonfile:
                 data = json.load(jsonfile)
@@ -60,5 +60,10 @@ class utils:
         elif setup == "folderpath":
             with open(base_path, "r") as jsonfile:
                 data = json.load(jsonfile)
+        else:
+            with open(base_path, "r") as jsonfile:
+                data = json.load(jsonfile)
+
+
         jsonfile.close()
         return data

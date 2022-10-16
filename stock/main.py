@@ -73,7 +73,7 @@ def main():
       #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
 
   except Exception as ex:
-    print(ex)
+    print("Excetion Happened : " + ex)
 
 
 if __name__ =="__main__":
