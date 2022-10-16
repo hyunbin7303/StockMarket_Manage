@@ -8,6 +8,7 @@ from datetime import datetime
 from helper.utils import utils
 
 
+
 class stock_collector:
 
 

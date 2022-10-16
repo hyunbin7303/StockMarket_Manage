@@ -4,7 +4,6 @@ import sys
 import json
 import datetime as dt
 import argparse
-from .utils import utils
 
 # Construct the argument parser
 ap = argparse.ArgumentParser(description="Argument parsing for Stock Manager application.", epilog="Enjoy this application.")
@@ -48,7 +47,8 @@ class arg_manager:
         self.__revenue =''
 
     def arg_store(self, args):
-        args = vars(ap.parse_args())
+        test = ap.parse_args()
+        args = vars(test)
         if args['ticker'] != None:
             self.__ticker = str(args['ticker'])
 
