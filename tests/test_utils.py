@@ -1,6 +1,6 @@
 import unittest
 import sys
-from stock_calculator import stock_calculator
+from stock.stock_calculator import stock_calculator
 from helper.utils.utils import utils
 class TestUtilsMethods(unittest.TestCase):
 

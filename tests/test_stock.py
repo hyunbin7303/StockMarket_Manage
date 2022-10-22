@@ -1,15 +1,21 @@
 import unittest
 import sys
-from stock_calculator import stock_calculator
+from stock.stock_calculator import stock_calculator
 
 class TestStockCalculator(unittest.TestCase):
 
     def test_stock_calculator(self):
-        print('testing')
+        self.assertEqual(sum([1, 2, 3]), 6, "Should be 6")
 
+
+    def test_stock_peg(self):
+        stock_calculator.get_peg("NVDA", "")
+        print('testing PEG')
+        assert ("")
 
 
 
 if __name__ =='__main__':
-    print(sys.path)
+    test_stock_calculator()
+    test_stock_peg()
     unittest.main()

@@ -1,4 +1,3 @@
-
 from pandas_datareader import data as wb
 from pandas_datareader._utils import RemoteDataError
 import matplotlib.pyplot as plt
@@ -10,6 +9,9 @@ START_DATE =''
 END_DATE = str(datetime.now().strftime('%Y-%m-%d'))
 
 class stock_calculator:
+
+
+    
     def __init__(self):
         print('stock calculator.')
 

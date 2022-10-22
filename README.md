@@ -9,3 +9,6 @@
 
 * Install the package Matplotlib
 `python -m pip install -U matplotlib`
+
+
+pip install pandas-datareader
