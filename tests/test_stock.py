@@ -9,7 +9,7 @@ class TestStockCalculator(unittest.TestCase):
 
 
     def test_stock_peg(self):
-        stock_calculator.get_peg("NVDA", "")
+        stock_calculator.get_peg("A", "y")
         print('testing PEG')
         assert ("")
 

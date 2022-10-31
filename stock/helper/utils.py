@@ -32,7 +32,7 @@ def load_user_tickers(username):
         print("Caught the I/O error.", e)
         raise ex    
 
-
+# What am I trying to do from here? 
 def get_config_file(setup):
     base_path = Path(__file__).parent.parent
     base_path = os.path.join(base_path / "../config/", setup + ".json")

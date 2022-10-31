@@ -3,7 +3,7 @@ import sys
 import argparse
 import helper.utils as utils
 from stock_calculator import stock_calculator
-
+from pathlib import Path
 
 class stock_manager:
 
@@ -39,14 +39,25 @@ class stock_manager:
             "mg":  stock_calculator.get_margin(ticker,site),
             "rev": stock_calculator.get_revenue(ticker,"y")
         }
-
-
         print("getting the PER ratio first.")
+
+    def load_all_tickers(self):
+        try:
+            matchers = ['#', '/']
+            base_path = Path(__file__).parent
+            file_path = (base_path / "../data/stock_list.txt").resolve()
+            stocks = open(file_path, "r").readlines()
+            stocks = [str(item).strip("\n") for item in stocks]
+            element = [x for x in stocks if "#" not in x]
+            return list(sorted(set(element)))
+
+        except Exception as ex:
+            print("Exception for file handling : " + ex)
 
 
     def all_filter(self):
         setupFilter = utils.get_config_file('user_settings')['filter']
-        tickers = load_all_tickers()
+        tickers = self.load_all_tickers()
         for ticker in tickers:
             print('INDEX NAME : {}'.format(ticker))
             if setupFilter['peg'] != 'None':
