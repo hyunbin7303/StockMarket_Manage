@@ -67,15 +67,19 @@ class stock_manager:
 
         for ticker in tickers:
             print('INDEX NAME : {}'.format(ticker))
-            collector.get_data(ticker, startdate, enddate)
+            #data = collector.get_historic_data(ticker, startdate, enddate)
+            collector.load_financials(ticker) 
 
-            datacheck = stock_calculator.get_per(ticker)
 
-            if setupFilter['peg'] != 'None':
-                stock_calculator.get_peg(ticker,'y')
+
+
+            # datacheck = stock_calculator.get_per(ticker)
             
-            if setupFilter['mg'] != 'None':
-                stock_calculator.get_margin(ticker,'y')
+            # if setupFilter['peg'] != 'None':
+            #     stock_calculator.get_peg(ticker,'y')
+            
+            # if setupFilter['mg'] != 'None':
+            #     stock_calculator.get_margin(ticker,'y')
 
-            if setupFilter['rev'] != 'None':
-                stock_calculator.get_revenue(ticker, 'y')
+            # if setupFilter['rev'] != 'None':
+            #     stock_calculator.get_revenue(ticker, 'y')
