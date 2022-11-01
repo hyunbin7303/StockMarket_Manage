@@ -17,10 +17,10 @@ class stock_collector:
         self.__enddate = ''
         self.__api_key = 'rFCMKgr8aQAV6tQb8kM6DMK_AgoVw8aq'
         self.__url = 'https://api.polygon.io'
-        self.__income_statement =[]
-        self.__cashflow_statement = []
-        self.__balance_sheet= []
-
+        self.__income_statement ={}
+        self.__cashflow_statement = {}
+        self.__balance_sheet= {}
+        self.____comprehensive_income = {}
     def get_stocks_from_file(self):
         print ('Test get stock from file.')
 
@@ -42,6 +42,9 @@ class stock_collector:
         pass
 
     def get_margin(self, ticker): # This is part of the income statement. 
+        # Get margin data from the 
+
+
         pass
 
     
@@ -50,17 +53,16 @@ class stock_collector:
         url = f'{self.__url}/vX/reference/financials?ticker={ticker}&apiKey={self.__api_key}'
         response = requests.get(url).json()
         financials = response['results'][0]['financials']
-        self.__income_statement = pd.DataFrame(financials['income_statement']).values.tolist()
-        self.__cashflow_statement = pd.DataFrame(financials['cash_flow_statement']).values.tolist()
-        self.__balance_sheet = pd.DataFrame(financials['balance_sheet']).values.tolist()
-        self.__comprehensive_income = pd.DataFrame(financials['comprehensive_income']).values.tolist()
+        self.__income_statement = pd.DataFrame(financials['income_statement']).to_dict()
+        self.__cashflow_statement = pd.DataFrame(financials['cash_flow_statement']).to_dict()
+        self.__balance_sheet = pd.DataFrame(financials['balance_sheet']).to_dict()
+        self.__comprehensive_income = pd.DataFrame(financials['comprehensive_income']).to_dict()
 
-
-    def get_income_statement() -> list:
+    def get_income_statement():
         return self.__income_statement
 
-    def get_cashflow_statement() -> list:
+    def get_cashflow_statement():
         return self.__cashflow_statement
 
-    def get_balance_sheet() -> list:
+    def get_balance_sheet():
         return self.__balance_sheet
