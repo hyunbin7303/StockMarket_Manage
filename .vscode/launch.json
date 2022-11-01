@@ -11,7 +11,7 @@
             "program": "${file}",
             "console":"integratedTerminal",
             "stopOnEntry": true,
-            "args": ["--ticker", "NVDA"]
+            "args": ["--ticker", "NVDA", "--startday", "2020-01-01", "--endday", "2022-01-01"]
         }
 
     ]

@@ -3,9 +3,14 @@ import sys
 import argparse
 import helper.utils as utils
 from stock_calculator import stock_calculator
+from stock_collector import stock_collector
+
 from pathlib import Path
 
 class stock_manager:
+
+
+
 
     def average_return(self, test):
         stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
@@ -19,12 +24,12 @@ class stock_manager:
     def user_mode(self):
         print("User mode activate")
 
-    def perform_operation(self, chosen_operation): 
+    def perform_operation(self, chosen_operation, startdate = None, enddate = None): 
         try:
             if chosen_operation == "user_mode":
                 self.user_mode()
             elif chosen_operation == "all_filter":
-                self.all_filter()
+                self.all_filter(startdate, enddate)
 
    #         chosen_operation_function = ops.get(chosen_operation, invalid_op)
         except Exception as ex:
@@ -55,11 +60,17 @@ class stock_manager:
             print("Exception for file handling : " + ex)
 
 
-    def all_filter(self):
+    def all_filter(self, startdate, enddate):
         setupFilter = utils.get_config_file('user_settings')['filter']
         tickers = self.load_all_tickers()
+        collector = stock_collector()
+
         for ticker in tickers:
             print('INDEX NAME : {}'.format(ticker))
+            collector.get_data(ticker, startdate, enddate)
+
+            datacheck = stock_calculator.get_per(ticker)
+
             if setupFilter['peg'] != 'None':
                 stock_calculator.get_peg(ticker,'y')
             

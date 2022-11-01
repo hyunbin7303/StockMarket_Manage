@@ -14,7 +14,7 @@ setuptools.setup(
     version="1.0.0",
     description="Stockmarket Python",
     # Allow UTF-8 characters in README with encoding argument.
-    long_description=project_dir.joinpath("README.rst").read_text(encoding="utf-8"),
+    # long_description=project_dir.joinpath("README.rst").read_text(encoding="utf-8"),
     keywords=["python"],
     author="Kevin, Jongyoon",
     url="https://github.com/hyunbin7303/StockMarket_Manage",

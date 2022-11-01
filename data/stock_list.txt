@@ -1,7 +1,6 @@
-A
-AA
-AACG
-AAL
+MSFT
+#AAPL
+#C
 #AAMC
 #AAME
 #AAN
@@ -13,6 +12,3 @@ AAL
 #OTRK
 #RKT
 #GLD
-JAMF
-NAIL
-UUP

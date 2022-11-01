@@ -71,6 +71,14 @@ class stock_calculator:
         except RemoteDataError:
             print('No data found for {t}'.format(t=ticker))
 
+
+    
+    @staticmethod
+    def get_per(ticker):
+        return wb.get_data_yahoo(ticker)
+
+
+#The price/earnings-to-growth (PEG) ratio addresses one of the primary weaknesses of the price-to-earnings (P/E) ratio, which is the lack of consideration for future growth.
     @staticmethod
     def get_peg(ticker, peg_site):
         if peg_site != "":    
@@ -132,8 +140,7 @@ class stock_calculator:
         print(self)
 
     @staticmethod 
-    def caclulate_EPS(ticker):
-#주당순이익이란 1주가 벌어들이는 당기순이익을 의미한다. 당기순이익을 발행주식수로 나누면 된다. 
+    def caclulate_EPS(ticker):#주당순이익이란 1주가 벌어들이는 당기순이익을 의미한다. 당기순이익을 발행주식수로 나누면 된다. 
         search_value('Earnings Per Share USD', '2019-09')
 
     @staticmethod

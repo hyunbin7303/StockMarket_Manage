@@ -27,7 +27,7 @@ def main():
 
 
     else:
-      manager.perform_operation("all_filter")
+      manager.perform_operation("all_filter", test.get_startdate(), test.get_enddate())
       #x = perform_operation("add", {"to": 4}) # Adds 4
       #stock_calculator.get_data(test.get_ticker(), 'print', test.get_startdate())
 
