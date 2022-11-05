@@ -13,7 +13,7 @@ def main():
   test.arg_store(sys.argv)   
   manager = stock_manager()    
   try:
-    
+    # Not using this portion at all(for now)
     if test.get_username() != 'None':
       getConfig = get_config_file(test.get_username())
       get_tickers = test.get_option_choose(test.get_username())

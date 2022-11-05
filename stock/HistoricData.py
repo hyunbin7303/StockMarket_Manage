@@ -1,12 +1,12 @@
 import pandas as pd
 
 
-class BaseData():
+class BaseData(object):
     def __init__(self, label, value, unit, order):
-        self.__label = label
-        self.__value = value
-        self.__unit = unit
-        self.__order = order
+        self.label = label
+        self.value = value
+        self.unit = unit
+        self.order = order
 
 class HistoricData():
         def __init__(self, open, close, high, low, ts, vol, vwap):

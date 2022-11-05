@@ -4,7 +4,7 @@ import argparse
 import helper.utils as utils
 from stock_calculator import stock_calculator
 from stock_collector import stock_collector
-
+from HistoricData import BaseData
 from pathlib import Path
 
 class stock_manager:
@@ -70,9 +70,15 @@ class stock_manager:
             #data = collector.get_historic_data(ticker, startdate, enddate)
             collector.load_financials(ticker) 
 
+            income_sm = collector.get_income_statement()
+            balance = collector.get_balance_sheet()
+            print(balance)
 
-
-
+            Equity = balance["equity"]
+            test = BaseData(Equity['label'], Equity['value'], Equity['unit'], Equity['order'])
+            print(test.label)
+            
+            # test = BaseData(Revenue)
             # datacheck = stock_calculator.get_per(ticker)
             
             # if setupFilter['peg'] != 'None':
