@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from datetime import datetime
-from HistoricData import HistoricData
 
 # Getting the stock information from the user.
 class stock_collector:
@@ -40,14 +39,6 @@ class stock_collector:
     #Comprehensive income is the variation in a company's net assets from non-owner sources during a specific period.
     def get_comprehensive_income(self, ticker):
         pass
-
-    def get_margin(self, ticker): # This is part of the income statement. 
-        # Get margin data from the 
-
-
-        pass
-
-    
 
     def load_financials(self, ticker)-> None:
         url = f'{self.__url}/vX/reference/financials?ticker={ticker}&apiKey={self.__api_key}'

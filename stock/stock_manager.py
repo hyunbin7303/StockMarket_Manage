@@ -4,7 +4,8 @@ import argparse
 import helper.utils as utils
 from stock_calculator import stock_calculator
 from stock_collector import stock_collector
-from HistoricData import BaseData
+from StockData import BaseData
+from StockData import StockData
 from pathlib import Path
 
 class stock_manager:
@@ -71,21 +72,19 @@ class stock_manager:
             collector.load_financials(ticker) 
 
             income_sm = collector.get_income_statement()
+            GrossProfit = BaseData(**income_sm["gross_profit"])
+            Revenues = BaseData(**income_sm["revenues"])
+            
             balance = collector.get_balance_sheet()
-            print(balance)
+            Equity = BaseData(**balance["equity"])
+            Assets = BaseData(**balance["assets"])
+            CurrentAssets = BaseData(**balance["current_assets"])
+            Liabilities = BaseData(**balance["liabilities"])
 
-            Equity = balance["equity"]
-            test = BaseData(Equity['label'], Equity['value'], Equity['unit'], Equity['order'])
-            print(test.label)
-            
-            # test = BaseData(Revenue)
+
+            stock = StockData(Equity.value, Liabilities.value, GrossProfit.value, Revenues.value)
+            print(stock.__str__())
             # datacheck = stock_calculator.get_per(ticker)
-            
-            # if setupFilter['peg'] != 'None':
-            #     stock_calculator.get_peg(ticker,'y')
-            
-            # if setupFilter['mg'] != 'None':
-            #     stock_calculator.get_margin(ticker,'y')
+            # Get PEG data
 
-            # if setupFilter['rev'] != 'None':
-            #     stock_calculator.get_revenue(ticker, 'y')
+      
