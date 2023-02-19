@@ -2,6 +2,7 @@ import getopt
 import sys
 import argparse
 import helper.utils as utils
+import helper.dbaccess as dbaccess
 from stock_calculator import stock_calculator
 from stock_collector import stock_collector
 from StockData import BaseData
@@ -11,7 +12,9 @@ from pathlib import Path
 class stock_manager:
 
 
-
+    def __init__(self):
+        print("stock manager Constructor")
+        # need to initialize Db access
 
     def average_return(self, test):
         stock_calculator.get_data(test.get_ticker(), 'plot', test.get_startdate())
@@ -47,7 +50,7 @@ class stock_manager:
         }
         print("getting the PER ratio first.")
 
-    def load_all_tickers(self):
+    def load_all_tickers(self) -> list:
         try:
             matchers = ['#', '/']
             base_path = Path(__file__).parent

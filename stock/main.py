@@ -2,8 +2,10 @@ import getopt
 import sys
 import argparse
 import helper.utils as util
+from typing import Any, List, Dict, TypeVar, Generic
 
 from helper.arg_manager import arg_manager
+from helper.dbaccess import DbConnection
 from stock_calculator import stock_calculator
 from stock_collector import stock_collector
 from stock_manager import stock_manager
@@ -11,6 +13,12 @@ from stock_manager import stock_manager
 def main():
   test = arg_manager()
   test.arg_store(sys.argv)   
+
+  # DB Access Testing in general. 
+  dbaccess = DbConnection("127.0.0.1", "postgres", "Master#1234", "5432", "FinanceDiary")
+  # dbaccess.execute("SELECT * from public.", Nil, "")  
+  rows = dbaccess.select_rows("select * from indicators")
+
   manager = stock_manager()    
   try:
     # Not using this portion at all(for now)

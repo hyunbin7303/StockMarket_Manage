@@ -49,11 +49,11 @@ class stock_collector:
         self.__balance_sheet = pd.DataFrame(financials['balance_sheet']).to_dict()
         self.__comprehensive_income = pd.DataFrame(financials['comprehensive_income']).to_dict()
 
-    def get_income_statement(self):
+    def get_income_statement(self) -> dict:
         return self.__income_statement
 
-    def get_cashflow_statement(self):
+    def get_cashflow_statement(self) -> dict:
         return self.__cashflow_statement
 
-    def get_balance_sheet(self):
+    def get_balance_sheet(self) -> dict:
         return self.__balance_sheet

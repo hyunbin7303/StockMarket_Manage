@@ -4,6 +4,7 @@ import sys
 import json
 import datetime as dt
 import argparse
+from typing import Any, List, Dict, TypeVar, Generic
 
 # Construct the argument parser
 ap = argparse.ArgumentParser(description="Argument parsing for Stock Manager application.", epilog="Enjoy this application.")

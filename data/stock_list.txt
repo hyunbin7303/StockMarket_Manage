@@ -1,5 +1,5 @@
-MSFT
-#AAPL
+#MSFT
+AAPL
 #C
 #AAMC
 #AAME
