@@ -14,11 +14,13 @@ def main():
   test = arg_manager()
   test.arg_store(sys.argv)   
 
-  # DB Access Testing in general. 
   dbaccess = DbConnection("127.0.0.1", "postgres", "Master#1234", "5432", "FinanceDiary")
-  # dbaccess.execute("SELECT * from public.", Nil, "")  
   rows = dbaccess.select_rows("select * from indicators")
+  print(rows[0][1])
+  # TODO : Insert Data
+  # TODO : Update Data
 
+  
   manager = stock_manager()    
   try:
     # Not using this portion at all(for now)
