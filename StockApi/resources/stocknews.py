@@ -3,6 +3,7 @@ from flask import request
 from flask.views import MethodView
 from flask_smorest import abort, Blueprint
 from db import stockNews, stocks
+from schemas import StockNewsSchema, StockNewsUpdateSchema
 
 blueprint = Blueprint("stockNews", __name__, description="Operations on StockNews")
 
@@ -16,7 +17,6 @@ class StockNews(MethodView):
             return stockNews[stocknews_id]
         except KeyError:
             abort(404, message ="Ticker cannot be found in stocks.")
-
 
 
     def put(self, stocknews_id):
@@ -46,15 +46,14 @@ class StockNewsList(MethodView):
     def get(self):
         return {"stocknews" : list(stockNews.values())}
 
-    def post(self):
+    @blueprint.arguments(StockNewsSchema)
+    def post(self, news_data):
         news_data = request.get_json()
 
-        if "ticker" not in news_data or "title" not in news_data:
-           abort(400, message= "Bad request. Ensure 'ticker' and 'title' are included in the Json payload. ")
-    
         if news_data["stock_id"] not in stocks:
             return abort(404, message="Stock not found, so stock news cannot be stored.")
         
         news_id = uuid.uuid4().hex
         news = {**news_data, "id": news_id}
         stockNews[news_id] = news  
+        return news
