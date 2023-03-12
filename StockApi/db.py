@@ -19,5 +19,9 @@ def db_access():
 
 def sql_query():
     pass
-# Create Common folder for sharing Db Access or others etc....
-# CHeck other solutions how they solved this issue. 
+
+def create_tables():
+    pass
+
+def create_sample_data():
+    pass

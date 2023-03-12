@@ -15,13 +15,6 @@ class Stocks(MethodView):
         except KeyError:
             abort(404, message ="Ticker cannot be found in stocks.")
 
-# @app.get("/stocks/ById/<int:stock_id>")
-# def get_stocks_by_id(stock_id):
-#     try:
-#         return stocks[stock_id]
-#     except KeyError:
-#          return abort(404, message="Stock not found")
-
     def post(self):
         try:
             stock_data = request.get_json()

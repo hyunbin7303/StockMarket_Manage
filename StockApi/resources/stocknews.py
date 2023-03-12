@@ -10,8 +10,6 @@ blueprint = Blueprint("stockNews", __name__, description="Operations on StockNew
 @blueprint.route("/stocknews/<string:stocknews_id>")
 class StockNews(MethodView):
 
-    def get(self):
-        return {"stocknews" : list(stockNews.values())}
 
     def get(self, stocknews_id):
         try:
@@ -19,18 +17,6 @@ class StockNews(MethodView):
         except KeyError:
             abort(404, message ="Ticker cannot be found in stocks.")
 
-    def post(self):
-        news_data = request.get_json()
-
-        if "ticker" not in news_data or "title" not in news_data:
-           abort(400, message= "Bad request. Ensure 'ticker' and 'title' are included in the Json payload. ")
-    
-        if news_data["stock_id"] not in stocks:
-            return abort(404, message="Stock not found, so stock news cannot be stored.")
-        
-        news_id = uuid.uuid4().hex
-        news = {**news_data, "id": news_id}
-        stockNews[news_id] = news  
 
 
     def put(self, stocknews_id):
@@ -56,4 +42,19 @@ class StockNews(MethodView):
 
 @blueprint.route("/stocknews")
 class StockNewsList(MethodView):
-    pass
+
+    def get(self):
+        return {"stocknews" : list(stockNews.values())}
+
+    def post(self):
+        news_data = request.get_json()
+
+        if "ticker" not in news_data or "title" not in news_data:
+           abort(400, message= "Bad request. Ensure 'ticker' and 'title' are included in the Json payload. ")
+    
+        if news_data["stock_id"] not in stocks:
+            return abort(404, message="Stock not found, so stock news cannot be stored.")
+        
+        news_id = uuid.uuid4().hex
+        news = {**news_data, "id": news_id}
+        stockNews[news_id] = news  
