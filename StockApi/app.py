@@ -4,7 +4,6 @@ from flask_smorest import Api
 from resources.stocks import blueprint as StockBlueprint
 from resources.stocknews import blueprint as StockNewsBlueprint
 
-
 app = Flask(__name__)
 
 app.config["PROPAGATE_EXCEPTIONS"] = True

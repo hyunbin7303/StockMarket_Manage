@@ -7,7 +7,6 @@ from schemas import StockNewsSchema, StockNewsUpdateSchema
 
 blueprint = Blueprint("stockNews", __name__, description="Operations on StockNews")
 
-
 @blueprint.route("/stocknews/<string:stocknews_id>")
 class StockNews(MethodView):
 
@@ -38,15 +37,15 @@ class StockNews(MethodView):
         except KeyError:
             abort(404, message= "Ticker cannot be found in stocks.")
  
-
-
 @blueprint.route("/stocknews")
 class StockNewsList(MethodView):
 
+    @blueprint.response(200, StockNewsSchema(many=True)) 
     def get(self):
-        return {"stocknews" : list(stockNews.values())}
+        return stockNews.values()
 
     @blueprint.arguments(StockNewsSchema)
+    @blueprint.response(201, StockNewsSchema)
     def post(self, news_data):
         news_data = request.get_json()
 

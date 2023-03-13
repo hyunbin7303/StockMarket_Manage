@@ -1,3 +1,10 @@
+from flask_sqlalchemy import SQLAlchemy
+
+
+db = SQLAlchemy()
+
+
+
 stocks = {}
 stockNews = {
     1: {
@@ -11,7 +18,7 @@ stockNews = {
         "Description" : "Why it goes down..."
     }
 } 
-
+stockFinancials = {}
 
 
 def db_access():
