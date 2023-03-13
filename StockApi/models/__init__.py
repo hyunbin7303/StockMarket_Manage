@@ -1,2 +1,2 @@
-from models.stock import StockModel
-from models.stocknews import StockNewsModel
+from models.stock import Stock
+# from models.stocknews import StockNewsModel

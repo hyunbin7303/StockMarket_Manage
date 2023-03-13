@@ -1,7 +1,11 @@
 import psycopg2
 from psycopg2 import Error
+from psycopg2.extras import RealDictCursor
 
-# example from https://github.com/masroore/pg_simple/blob/master/pg_simple/pg_simple.py
+
+
+
+# # example from https://github.com/masroore/pg_simple/blob/master/pg_simple/pg_simple.py
 class DbConnection:
     def __init__(self,Host,Username,Pwd,Port,Name):
         self.host = Host
@@ -19,6 +23,7 @@ class DbConnection:
             print(err_msg)
             return False
         return conn
+    
     def execute(self,sql_raw, params, qry_type):
         try:
             cur.execute(sql_raw, params)
@@ -46,14 +51,28 @@ class DbConnection:
 
         return results
 
-    def db_create_init_tables(self):
-        print("Create tables if not exist.")
+    def db_create_init_tables(self, query):
+        try:
+            conn = self.get_conn()
+            cur = conn.cursor()
+            create_script = query
+            cur.execute(create_script)
+            conn.commit()
+        except Exception as err:
+            print(err)
+        finally:
+            if cur is not None:
+                cur.close()
+            if conn is not None:
+                conn.close()
+
 
     def select_rows(self, query): #  sel_multi
-        with self.conn.cursor() as cur:
+        with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
             cur.execute(query)
             records = cur.fetchall()
         cur.close()
+        
         return records
 
     def select_specific(self, query):
@@ -77,3 +96,31 @@ class DbConnection:
         
         return result
 
+
+
+
+
+stocks = {}
+stockNews = {
+    1: {
+        "ticker" : "MSFT",
+        "Title" : "MSFT info",
+        "Description" : ""
+    },
+    2: {
+        "ticker":"TSLA",
+        "Title": "TSLA NEWS",
+        "Description" : "Why it goes down..."
+    }
+} 
+stockFinancials = {}
+
+
+# def sql_query():
+#     pass
+
+# def create_tables():
+#     pass
+
+# def create_sample_data():
+#     pass

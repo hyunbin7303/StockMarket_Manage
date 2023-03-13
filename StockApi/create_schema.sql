@@ -5,37 +5,9 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 
 DROP TABLE IF EXISTS Stocks;
-CREATE TABLE IF NOT EXISTS Stocks
-(
-    stock_id SERIAL PRIMARY KEY,
-    ticker character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    company_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    stock_desc character varying(500) COLLATE pg_catalog."default",
-	stock_type varchar(50),
-	stock_sector varchar(50),
-    stock_exchange character varying(100) COLLATE pg_catalog."default",
-    listing_date date
-);
-ALTER TABLE IF EXISTS public.stocks OWNER to postgres;
 -- Inserting data in Stock table 
 INSERT INTO Stocks(ticker, company_name, description, stock_type, stock_exchange) VALUES ('MSFT', 'Microsoft', 'Microsoft Organization', 'stock','NASDAQ');
-	
-	
 DROP TABLE IF EXISTS Indicators;
-CREATE TABLE IF NOT EXISTS Indicators
-(
-    indicator_id SERIAL PRIMARY KEY,
-    "Index" character varying(40) COLLATE pg_catalog."default" NOT NULL,
-    "Name" character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    "Desc" character varying(450) COLLATE pg_catalog."default",
-    "Country" character varying(50) COLLATE pg_catalog."default"
-)
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.indicators
-    OWNER to postgres;
-
-
 
 DROP TABLE IF EXISTS StockNews;
 CREATE TABLE IF NOT EXISTS StockNews

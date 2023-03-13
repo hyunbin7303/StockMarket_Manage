@@ -1,8 +1,9 @@
 import uuid
+import json
 from flask import request
 from flask.views import MethodView
 from flask_smorest import abort, Blueprint
-from db import stocks, stockFinancials
+from dbaccess import stocks, stockFinancials, DbConnection
 from schemas import StockSchema, StockUpdateSchema,StockFinancialSchema
 blueprint = Blueprint("stocks", __name__, description="Operations on Stocks")
 
@@ -54,7 +55,9 @@ class StocksList(MethodView):
 
     @blueprint.response(200, StockSchema(many=True)) 
     def get(self):
-        return stocks.values()
+        dbaccess = DbConnection("127.0.0.1", "postgres", "postgres", "5432", "FinanceDiary")
+        result = dbaccess.select_rows("SELECT * FROM stocks;")
+        return result
     
     @blueprint.arguments(StockSchema)
     @blueprint.response(200,StockSchema)
@@ -83,8 +86,6 @@ class StockFinancials(MethodView):
         # but do we need to do this if we are using the foreign key? 
         # Let's figure it out. 
 
-
-        
         pass
 
     

@@ -4,3 +4,5 @@
 [ ] - DB access layer.
 [ ] - DB migration
 [ ] - Api Documentation 
+[ ] - Domain Model Investigation 
+[ ] - 

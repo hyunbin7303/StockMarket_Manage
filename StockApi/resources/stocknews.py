@@ -2,8 +2,8 @@ import uuid
 from flask import request
 from flask.views import MethodView
 from flask_smorest import abort, Blueprint
-from db import stockNews, stocks
-from schemas import StockNewsSchema, StockNewsUpdateSchema
+from dbaccess import stockNews, stocks
+from schemas import StockNewsSchema
 
 blueprint = Blueprint("stockNews", __name__, description="Operations on StockNews")
 
