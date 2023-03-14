@@ -2,7 +2,7 @@ import uuid
 from flask import request
 from flask.views import MethodView
 from flask_smorest import abort, Blueprint
-from dbaccess import stockNews, stocks
+from dbaccess import DbConnection
 from schemas import StockNewsSchema
 
 blueprint = Blueprint("stockNews", __name__, description="Operations on StockNews")
@@ -13,7 +13,8 @@ class StockNews(MethodView):
 
     def get(self, stocknews_id):
         try:
-            return stockNews[stocknews_id]
+            pass
+            # return stockNews[stocknews_id]
         except KeyError:
             abort(404, message ="Ticker cannot be found in stocks.")
 
@@ -24,7 +25,7 @@ class StockNews(MethodView):
             abort(400, message="Bad request. Ensure ticker and title are included in the json payload.")
 
         try:
-            news = stockNews[stocknews_id]
+            # news = stockNews[stocknews_id]
             news |= news_data
         except KeyError:
             abort(404, message="news not found")
@@ -32,7 +33,8 @@ class StockNews(MethodView):
 
     def delete(self, stocknews_id):
         try:
-            del stockNews[stocknews_id]
+            pass
+            # del stockNews[stocknews_id]
             return {"message": "Stock has been removed"}
         except KeyError:
             abort(404, message= "Ticker cannot be found in stocks.")
@@ -42,17 +44,18 @@ class StockNewsList(MethodView):
 
     @blueprint.response(200, StockNewsSchema(many=True)) 
     def get(self):
-        return stockNews.values()
+        pass
+        # return stockNews.values()
 
     @blueprint.arguments(StockNewsSchema)
     @blueprint.response(201, StockNewsSchema)
     def post(self, news_data):
         news_data = request.get_json()
 
-        if news_data["stock_id"] not in stocks:
-            return abort(404, message="Stock not found, so stock news cannot be stored.")
+        # if news_data["stock_id"] not in stocks:
+        #     return abort(404, message="Stock not found, so stock news cannot be stored.")
         
         news_id = uuid.uuid4().hex
         news = {**news_data, "id": news_id}
-        stockNews[news_id] = news  
+        # stockNews[news_id] = news  
         return news

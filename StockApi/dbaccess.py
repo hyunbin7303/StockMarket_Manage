@@ -5,8 +5,8 @@ from psycopg2.extras import RealDictCursor
 
 
 
-# # example from https://github.com/masroore/pg_simple/blob/master/pg_simple/pg_simple.py
 class DbConnection:
+# # example from https://github.com/masroore/pg_simple/blob/master/pg_simple/pg_simple.py
     def __init__(self,Host,Username,Pwd,Port,Name):
         self.host = Host
         self.username = Username
@@ -16,7 +16,7 @@ class DbConnection:
         self.conn = self.get_conn()
 
     def get_conn(self): 
-        try:
+        try:                
             conn = psycopg2.connect(dbname=self.dbname,user=self.username,host=self.host, port=self.port, password=self.password)
         except psycopg2.OperationalError as err:
             err_msg = 'DB Connection Error - Error: {}'.format(err)
@@ -26,6 +26,7 @@ class DbConnection:
     
     def execute(self,sql_raw, params, qry_type):
         try:
+            cur = self.conn.cursor()
             cur.execute(sql_raw, params)
             if qry_type == 'sel_single':
                 results = cur.fetchone()
@@ -33,10 +34,10 @@ class DbConnection:
                 results = cur.fetchall()
             elif qry_type == 'insert':
                 results = cur.fetchone()
-                conn.commit()
+                self.conn.commit()
             elif qry_type == 'update':
                 results = cur.fetchone()
-                conn.commit()
+                self.conn.commit()
             else:
                 raise Exception('Invalid query type defined.')
 
@@ -47,24 +48,22 @@ class DbConnection:
             print('PostgreSQL integrity error via psycopg2.  %s', err)
             results = False
         finally:
-            conn.close()
+            self.conn.close()
 
         return results
 
     def db_create_init_tables(self, query):
+        conn = self.get_conn()
         try:
-            conn = self.get_conn()
             cur = conn.cursor()
             create_script = query
             cur.execute(create_script)
             conn.commit()
+            conn.close()
         except Exception as err:
             print(err)
         finally:
-            if cur is not None:
-                cur.close()
-            if conn is not None:
-                conn.close()
+            conn.close()
 
 
     def select_rows(self, query): #  sel_multi
@@ -72,7 +71,6 @@ class DbConnection:
             cur.execute(query)
             records = cur.fetchall()
         cur.close()
-        
         return records
 
     def select_specific(self, query):
@@ -80,12 +78,13 @@ class DbConnection:
 
     def command_query(self, query_type, query):
         try:
+            cur = self.conn.cursor()
             if query_type == 'insert':
                 results = cur.fetchone()
-                conn.commit()
+                self.conn.commit()
             elif query_type == 'update':
                 results = cur.fetchone()
-                conn.commit()
+                self.conn.commit()
 
         except psycopg2.ProgrammingError as err:
             print('Database error via psycopg2.  %s', err)
@@ -99,21 +98,6 @@ class DbConnection:
 
 
 
-
-stocks = {}
-stockNews = {
-    1: {
-        "ticker" : "MSFT",
-        "Title" : "MSFT info",
-        "Description" : ""
-    },
-    2: {
-        "ticker":"TSLA",
-        "Title": "TSLA NEWS",
-        "Description" : "Why it goes down..."
-    }
-} 
-stockFinancials = {}
 
 
 # def sql_query():

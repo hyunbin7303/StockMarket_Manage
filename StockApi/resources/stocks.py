@@ -1,9 +1,10 @@
 import uuid
 import json
+from utils import db_config
 from flask import request
 from flask.views import MethodView
 from flask_smorest import abort, Blueprint
-from dbaccess import stocks, stockFinancials, DbConnection
+from dbaccess import DbConnection
 from schemas import StockSchema, StockUpdateSchema,StockFinancialSchema
 blueprint = Blueprint("stocks", __name__, description="Operations on Stocks")
 
@@ -24,7 +25,10 @@ class Stocks(MethodView):
     @blueprint.response(200, StockSchema)
     def get(self, stock_id):
         try:
-            return stocks[stock_id]
+            dbsetup = db_config()
+            dbaccess = DbConnection(dbsetup['host'],dbsetup['username'], dbsetup['password'], dbsetup['port'], dbsetup['dbname'])
+            result = dbaccess.select_rows("SELECT * FROM stocks where = stock_id = {}", stock_id)
+            return result
         except KeyError:
             abort(404, message ="Ticker cannot be found in stocks.")
 
@@ -35,6 +39,7 @@ class Stocks(MethodView):
         stock_data = request.get_json()
 
         try:
+            # TODO : Find stock and update 
             stock = stocks[ticker]
             stock |= stock_data
             return stock 
@@ -45,6 +50,7 @@ class Stocks(MethodView):
     @blueprint.response(200, StockSchema)
     def delete(self, stock_id):
         try:
+            # TODO : Find stock and delete 
             del stocks[stock_id]
             return {"message": "Stock has been removed"}
         except KeyError:
@@ -62,22 +68,31 @@ class StocksList(MethodView):
     @blueprint.arguments(StockSchema)
     @blueprint.response(200,StockSchema)
     def post(self, stock_data):
-        stock_data = request.get_json()
-        for stock in stocks.values():
+
+
+        dbsetup = db_config()
+        dbaccess = DbConnection(dbsetup['host'],dbsetup['username'], dbsetup['password'], dbsetup['port'], dbsetup['dbname'])
+        result = dbaccess.select_rows("SELECT * FROM stocks;")
+
+        for stock in result:
             if stock_data["ticker"] == stock["ticker"] or stock:
                 abort(400, message=f"Stock ticker already exist.")
 
-        stock_id = uuid.uuid4().hex
-        new_stock = { **stock_data, "stock_id": stock_id }
-        stocks[stock_id] = new_stock 
-        return new_stock
+
+        insert_query = 'insert', """INSERT INTO Stocks(ticker, company_name, stock_desc, stock_type, stock_sector,stock_exchange) VALUES (%s, %s, %s, %s, %s, %s);""",(stock_data['ticker'], stock_data['company_name'], stock_data['stock_desc'],stock_data['stock_type'],stock_data['stock_sector'],stock_data['stock_exchange'])
+        dbaccess.command_query(insert_query)
+        stock_data = request.get_json()
+        # stock_id = uuid.uuid4().hex
+        # new_stock = { **stock_data, "stock_id": stock_id }
+        # stocks[stock_id] = new_stock 
+        return 'success'
     
 
 @blueprint.route("/stocks/<string:ticker>/financials")
 class StockFinancials(MethodView):
 
     def get(self):
-        return stockFinancials
+        return {}
     
     @blueprint.arguments(StockFinancialSchema)
     def post(self, financial_data):
@@ -90,3 +105,6 @@ class StockFinancials(MethodView):
 
     
 
+# Todo List. 
+# How Python app is going to find Db access configuration one by one ? 
+# Db Access as singleton which initially start when the app start? 
