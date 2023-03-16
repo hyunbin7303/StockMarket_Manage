@@ -1,9 +1,7 @@
-import psycopg2
-from psycopg2 import Error
-from psycopg2.extras import RealDictCursor
-
-
-
+import psycopg
+from psycopg import Error
+from psycopg_pool import ConnectionPool
+from psycopg.rows import dict_row
 
 class DbConnection:
 # # example from https://github.com/masroore/pg_simple/blob/master/pg_simple/pg_simple.py
@@ -17,8 +15,9 @@ class DbConnection:
 
     def get_conn(self): 
         try:                
-            conn = psycopg2.connect(dbname=self.dbname,user=self.username,host=self.host, port=self.port, password=self.password)
-        except psycopg2.OperationalError as err:
+
+            conn = psycopg.connect(dbname=self.dbname,user=self.username,host=self.host, port=self.port, password=self.password)
+        except psycopg.OperationalError as err:
             err_msg = 'DB Connection Error - Error: {}'.format(err)
             print(err_msg)
             return False
@@ -41,10 +40,10 @@ class DbConnection:
             else:
                 raise Exception('Invalid query type defined.')
 
-        except psycopg2.ProgrammingError as err:
+        except psycopg.ProgrammingError as err:
             print('Database error via psycopg2.  %s', err)
             results = False
-        except psycopg2.IntegrityError as err:
+        except psycopg.IntegrityError as err:
             print('PostgreSQL integrity error via psycopg2.  %s', err)
             results = False
         finally:
@@ -67,7 +66,7 @@ class DbConnection:
 
 
     def select_rows(self, query): #  sel_multi
-        with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
+        with self.conn.cursor(row_factory=dict_row) as cur:
             cur.execute(query)
             records = cur.fetchall()
         cur.close()
@@ -86,10 +85,10 @@ class DbConnection:
                 results = cur.fetchone()
                 self.conn.commit()
 
-        except psycopg2.ProgrammingError as err:
+        except psycopg.ProgrammingError as err:
             print('Database error via psycopg2.  %s', err)
             result = False
-        except psycopg2.IntegrityError() as err:
+        except psycopg.IntegrityError() as err:
             print('PostgreSQL integrity error via psycopg2.  %s', err)
             result = False
         

@@ -1,5 +1,6 @@
 flask
 flask-smorest
 python-dotenv
-psycopg2
-psycopg2-binary
+psycopg
+psycopg-binary
+psycopg-pool

@@ -5,10 +5,16 @@ from flask import request
 from flask.views import MethodView
 from flask_smorest import abort, Blueprint
 from dbaccess import DbConnection
+# from psycopg_pool import ConnectionPool
 from schemas import StockSchema, StockUpdateSchema,StockFinancialSchema
 blueprint = Blueprint("stocks", __name__, description="Operations on Stocks")
 
 
+def my_function():
+    with pool.connection() as conn:
+        conn.execute(...)
+
+    
 @blueprint.route("/stocks/ticker/<string:ticker>")
 class StockTicker(MethodView):
 
