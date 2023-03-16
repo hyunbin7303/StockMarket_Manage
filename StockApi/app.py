@@ -6,12 +6,10 @@ from flask_smorest import Api
 from utils import create_init_db
 # import DbConnection
 import models   
+from psycopg_pool import ConnectionPool
 
 from resources.stocks import blueprint as StockBlueprint
 from resources.stocknews import blueprint as StockNewsBlueprint
-
-
-
 
 def create_app(db_url = None):
 
@@ -31,5 +29,4 @@ def create_app(db_url = None):
     #     db.create_all()
     api.register_blueprint(StockNewsBlueprint)
     api.register_blueprint(StockBlueprint)
-
     return app

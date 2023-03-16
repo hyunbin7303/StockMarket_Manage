@@ -2,7 +2,14 @@
 
 [ ] - Restful Api implementation for CRUD.
 [ ] - DB access layer.
-[ ] - DB migration
-[ ] - Api Documentation 
-[ ] - Domain Model Investigation 
-[ ] - 
+[ ] - Object Pool Design pattern 
+
+
+# How to setup
+1. install the pip libraries for the stock api.
+`pip install -r requirements.txt`
+
+2. Run the application
+`flask run`
+
+

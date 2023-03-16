@@ -3,6 +3,26 @@ from psycopg import Error
 from psycopg_pool import ConnectionPool
 from psycopg.rows import dict_row
 
+class Database:
+    __pool = None
+
+    @classmethod
+    def initialize(cls, connStr):
+        cls.__pool = ConnectionPool(connStr)
+
+    @classmethod
+    def get_connection(cls):
+        return cls.__pool.getconn()
+
+    @classmethod
+    def return_connection(cls, connection):
+        Database.__pool.putconn(connection)
+
+    @classmethod
+    def close_all_connections(cls):
+        Database.__pool.closeall()
+
+
 class DbConnection:
 # # example from https://github.com/masroore/pg_simple/blob/master/pg_simple/pg_simple.py
     def __init__(self,Host,Username,Pwd,Port,Name):
@@ -12,10 +32,10 @@ class DbConnection:
         self.port = Port
         self.dbname = Name
         self.conn = self.get_conn()
-
-    def get_conn(self): 
+        
+    def get_conn(self, connStr = None): 
         try:                
-
+            
             conn = psycopg.connect(dbname=self.dbname,user=self.username,host=self.host, port=self.port, password=self.password)
         except psycopg.OperationalError as err:
             err_msg = 'DB Connection Error - Error: {}'.format(err)
@@ -75,6 +95,14 @@ class DbConnection:
     def select_specific(self, query):
         pass
 
+    def insert_data(self, query):
+        # SQL = "INSERT INTO authors (name) VALUES (%s)"  # Note: no quotes
+        # data = ("O'Reilly", )
+        # cur.execute(SQL, data)  # Note: no % operator
+        # with self.conn.execute(query)
+
+        pass
+
     def command_query(self, query_type, query):
         try:
             cur = self.conn.cursor()
@@ -93,6 +121,9 @@ class DbConnection:
             result = False
         
         return result
+
+def create_conn_pool(connStr):
+    pool = ConnectionPool(connStr)
 
 
 

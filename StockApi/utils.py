@@ -1,5 +1,7 @@
 from configparser import ConfigParser
-from dbaccess import DbConnection
+from dbaccess import DbConnection,Database
+from psycopg_pool import ConnectionPool
+
 query_create_stock_table = '''CREATE TABLE IF NOT EXISTS Stocks
 (
     stock_id SERIAL PRIMARY KEY,
@@ -46,14 +48,19 @@ def db_config():
 
 def db_conn_string():
     dbinfo = db_config()
-    dbstr = f"User ID={dbinfo['username']};Password{dbinfo['password']};Port={dbinfo['port']};Host={dbinfo['host']} Database={dbinfo['dbname']}"
+    dbstr = f"user={dbinfo['username']} password={dbinfo['password']} port={dbinfo['port']} host={dbinfo['host']} dbname={dbinfo['dbname']}"
     return dbstr
 
 def create_init_db():
     dbsetup = db_config()
-    dbaccess = DbConnection(dbsetup['host'],dbsetup['username'], dbsetup['password'], dbsetup['port'], dbsetup['dbname'])
-    dbaccess.db_create_init_tables(query_create_stock_table)
-    dbaccess.db_create_init_tables(query_create_indicator_table)
-    dbaccess.db_create_init_tables(query_create_StockNews_table)
+    # dbaccess = DbConnection(dbsetup['host'],dbsetup['username'], dbsetup['password'], dbsetup['port'], dbsetup['dbname'])
+    Database.initialize(db_conn_string())
+    conn = Database.get_connection()
+    # dbaccess.db_create_init_tables(query_create_stock_table)
+    # dbaccess.db_create_init_tables(query_create_indicator_table)
+    # dbaccess.db_create_init_tables(query_create_StockNews_table)
+
+
     # db access, create table for Daily
     # db access, Create table for financial 
+

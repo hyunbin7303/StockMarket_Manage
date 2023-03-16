@@ -1,3 +1,13 @@
+import uuid
+from dataclasses import dataclass, field
+from typing import List
+
+@dataclass
+class StockNews:
+    news_id: uuid 
+    stock_id: int
+    title: str
+    news_desc: str
 
 
 
