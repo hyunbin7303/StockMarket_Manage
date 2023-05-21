@@ -13,8 +13,8 @@ class StockNews(MethodView):
 
     def get(self, stocknews_id):
         try:
-            pass
-            # return stockNews[stocknews_id]
+            with Database.get_connection().connection() as conn:
+                conn.execute("SELECT * FROM stocknews where ticker = {};", ticker)
         except KeyError:
             abort(404, message ="Ticker cannot be found in stocks.")
 
@@ -33,18 +33,23 @@ class StockNews(MethodView):
 
     def delete(self, stocknews_id):
         try:
-            pass
-            # del stockNews[stocknews_id]
+            del stockNews[stocknews_id]
             return {"message": "Stock has been removed"}
         except KeyError:
             abort(404, message= "Ticker cannot be found in stocks.")
  
+
+
 @blueprint.route("/stocknews")
 class StockNewsList(MethodView):
 
     @blueprint.response(200, StockNewsSchema(many=True)) 
     def get(self):
-        pass
+        try:
+            with Database.get_connection().connection() as conn:
+                conn.execute("SELECT * FROM stocksnews", ticker)
+        except KeyError:
+            abort(404, message = "Unexpected things happened")
         # return stockNews.values()
 
     @blueprint.arguments(StockNewsSchema)

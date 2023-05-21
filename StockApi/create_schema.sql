@@ -7,7 +7,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 DROP TABLE IF EXISTS Stocks;
 -- Inserting data in Stock table 
 INSERT INTO Stocks(ticker, company_name, description, stock_type, stock_exchange) VALUES ('MSFT', 'Microsoft', 'Microsoft Organization', 'stock','NASDAQ');
-DROP TABLE IF EXISTS Indicators;
+
+
+
+
 
 DROP TABLE IF EXISTS StockNews;
 CREATE TABLE IF NOT EXISTS StockNews
@@ -43,6 +46,48 @@ CREATE TABLE IF NOT EXISTS StockFinancials
     CONSTRAINT "StockFinancials_pkey" PRIMARY KEY (financial_id)
 )
 
+
+
+
+DROP TABLE IF EXISTS Indicators;
+CREATE TABLE IF NOT EXISTS public.indicators
+(
+    "indicator_id" integer NOT NULL DEFAULT nextval('indicators_indicator_id_seq'::regclass),
+    "Index" character varying(40) COLLATE pg_catalog."default" NOT NULL,
+    "Name" character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    "Desc" character varying(450) COLLATE pg_catalog."default",
+    "Country" character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT indicators_pkey PRIMARY KEY (indicator_id)
+);
+
+TABLESPACE pg_default;
+
+INSERT INTO public.indicators VALUES (1, 'CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'US');
+INSERT INTO public.indicators VALUES (2, 'CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'CANADA');
+INSERT INTO public.indicators VALUES (3, 'CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'SOUTH KOREA');
+INSERT INTO public.indicators VALUES (4, 'CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'JAPAN');
+INSERT INTO public.indicators VALUES (5, 'CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'CHINA');
+INSERT INTO public.indicators VALUES (6, 'CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'UNITED KINGDOM');
+
+-- PMI? 
+-- It consists of a diffusion index that summarizes whether market conditions, as viewed by purchasing managers, are expanding, staying the same, or contracting. 
+-- The purpose of the PMI is to provide information about current and future business conditions to company decision makers, analysts, and investors.
+INSERT INTO public.indicators VALUES (7, 'PMI', 'Purchasing Managers Index', 'The Purchasing Managers Index (PMI) is an index of the prevailing direction of economic trends in the manufacturing and service sectors. ', 'US');
+INSERT INTO public.indicators VALUES (8, 'PMI', 'Purchasing Managers Index', 'The Purchasing Managers Index (PMI) is an index of the prevailing direction of economic trends in the manufacturing and service sectors. ', 'CHINA');
+INSERT INTO public.indicators VALUES (9, 'SOX', 'Philadelphia Semiconductor Index', 'The PHLX Semiconductor Sector IndexSM (SOXSM) is a modified market capitalization-weighted index composed of companies primarily involved in the design, distribution, manufacture, and sale of semiconductors.', 'US');
+
+
+DROP TABLE IF EXISTS IndicatorData;
+CREATE TABLE IF NOT EXISTS IndicatorData
+(
+	id UUID NOT NULL,
+	indicator_id INT,
+	"value" bigint,
+	"announced_date" date, 
+	"recorded_date" date,
+	date_source varchar(50)
+)
+
 	
 select * from Indicators
 select * from stocks
@@ -60,7 +105,6 @@ SELECT * FROM StockFinancials
 -- future course of the Federal Reserve's monetary policy.
 -- There are many indicators of inflation, but perhaps the most closely watched is the CPI. the CPI measures the change in the price of ordinary good that most people
 -- spend money on, such as clothing and medical services. 
-
 
 
 

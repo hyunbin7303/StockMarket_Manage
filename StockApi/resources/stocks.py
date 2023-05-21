@@ -23,19 +23,21 @@ class StockTicker(MethodView):
         except KeyError:
             abort(404, message="Ticker cannot be found.")
 
+
 @blueprint.route("/stocks/<int:stock_id>")
 class Stocks(MethodView):
 
-    @blueprint.response(200, StockSchema)
+    @blueprint.response(200, StockSchema(many=True))
     def get(self, stock_id):
+        query_str = 'SELECT * FROM stocks where stock_id =' + str(stock_id)
         try:
 
             dbsetup = db_config()
             dbaccess = DbConnection(dbsetup['host'],dbsetup['username'], dbsetup['password'], dbsetup['port'], dbsetup['dbname'])
-            result = dbaccess.select_rows("SELECT * FROM stocks where stock_id = {}", stock_id)
+            result = dbaccess.select_rows(query_str)
             return result
         except KeyError:
-            abort(404, message ="Ticker cannot be found in stocks.")
+            abort(404, message ="Not Found.")
 
 
     @blueprint.arguments(StockUpdateSchema)
@@ -97,7 +99,6 @@ class StocksList(MethodView):
         # new_stock = { **stock_data, "stock_id": stock_id }
         # stocks[stock_id] = new_stock
         return 'success'
-
 
 @blueprint.route("/stocks/<string:ticker>/financials")
 class StockFinancials(MethodView):

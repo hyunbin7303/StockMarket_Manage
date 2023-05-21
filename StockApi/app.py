@@ -10,7 +10,7 @@ from psycopg_pool import ConnectionPool
 
 from resources.stocks import blueprint as StockBlueprint
 from resources.stocknews import blueprint as StockNewsBlueprint
-
+from resources.indicators import blueprint as IndicatorsBlueprint
 def create_app(db_url = None):
 
     create_init_db()
@@ -29,4 +29,5 @@ def create_app(db_url = None):
     #     db.create_all()
     api.register_blueprint(StockNewsBlueprint)
     api.register_blueprint(StockBlueprint)
+    api.register_blueprint(IndicatorsBlueprint)
     return app

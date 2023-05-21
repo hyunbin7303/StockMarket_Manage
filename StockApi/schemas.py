@@ -44,3 +44,10 @@ class StockFinancialSchema(Schema):
     quarter = fields.Str()
 
      
+class IndicatorsSchema(Schema):
+    indicator_id = fields.Int(required=True)
+    index = fields.Str()
+    Name = fields.Str()
+    Desc = fields.Str()
+    Country = fields.Str()
+
