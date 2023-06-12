@@ -63,7 +63,7 @@ class Stocks(MethodView):
         except KeyError:
             abort(404, message= "Ticker cannot be found in stocks.")
 
-@blueprint.route("/stocks")
+@blueprint.route("/stocks", methods=['GET', 'POST'])
 class StocksList(MethodView):
 
     @blueprint.response(200, StockSchema(many=True))
