@@ -8,14 +8,14 @@ from db_session import database_instance
 from schemas import IndicatorsSchema
 from psycopg.rows import dict_row
 
-blueprint = Blueprint("indicators", __name__, description="Operations on Indicators")
+indicators_bp = Blueprint("indicators", __name__, description="Operations on Indicators")
 
 
-@blueprint.route("/indicators")
+@indicators_bp.route("/indicators")
 class Indicators(MethodView):
 
 
-    @blueprint.response(200, IndicatorsSchema(many=True))
+    @indicators_bp.response(200, IndicatorsSchema(many=True))
     def get(self):
 
         try:
@@ -27,11 +27,11 @@ class Indicators(MethodView):
             
         return result
 
-@blueprint.route("/indicators/<int:indicator_id>")
+@indicators_bp.route("/indicators/<int:indicator_id>")
 class IndicatorsById(MethodView):
 
 
-    @blueprint.response(200, IndicatorsSchema(many=True))
+    @indicators_bp.response(200, IndicatorsSchema(many=True))
     def get(self, indicator_id):
         query_str = 'SELECT * FROM indicators where indicator_id =' + str(indicator_id)
         try:

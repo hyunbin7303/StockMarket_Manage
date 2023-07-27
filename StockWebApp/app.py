@@ -4,13 +4,10 @@ from configparser import ConfigParser
 from flask import Flask
 from flask_smorest import Api
 from utils import create_init_db
-# import DbConnection
-import models   
-from psycopg_pool import ConnectionPool
-
-# from stocks.stocks import blueprint as StockBlueprint
+# from psycopg_pool import ConnectionPool
+from stocks.stocks import stocks_bp as StockBlueprint
 from stocknews.stocknews import stocknews_bp as StockNewsBlueprint
-# from indicators.indicators import blueprint as IndicatorsBlueprint
+from indicators.indicators import indicators_bp as IndicatorsBlueprint
 def create_app(db_url = None):
 
     create_init_db()
@@ -29,7 +26,9 @@ def create_app(db_url = None):
     #     db.create_all()
     api.register_blueprint(StockNewsBlueprint)
     # api.register_blueprint(StockBlueprint)
-    # api.register_blueprint(IndicatorsBlueprint)
+    api.register_blueprint(IndicatorsBlueprint)
+
     return app
+
 
 create_app()

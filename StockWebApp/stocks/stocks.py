@@ -10,24 +10,30 @@ from psycopg.rows import dict_row
 
 
 
-blueprint = Blueprint("stocks", __name__, description="Operations on Stocks")
-@blueprint.route("/stocks/ticker/<string:ticker>")
-class StockTicker(MethodView):
+stocks_bp = Blueprint("stocks", __name__, description="Operations on Stocks")
 
-    @blueprint.response(200, StockSchema)
-    def get(self, ticker):
-        try:
-            with Database.get_connection().connection() as conn:
-                conn.execute("SELECT * FROM stocks where ticker = {};", ticker)
-            pass # need to be updated after figuring out Stock endpoint practice.
-        except KeyError:
-            abort(404, message="Ticker cannot be found.")
+@stocks_bp.route('/<int:stock_id>', method=['GET'])
+def get_stockbyId(stock_id: int):
+    try:
+        with database_instance.get_connection().connection() as conn:
+            conn.execute("SELECT * FROM stocknews where ticker = {};", ticker)
+    except KeyError:
+        abort(404, message ="Ticker cannot be found in stocks.")
 
+@stocks_bp.route('/ticker/<string:ticker>')
+@stocks_bp.response(200, StockSchema)
+def get_stock_by_ticker(ticker: str): 
+    try:
+        with database_instance.get_connection().connection() as conn:
+            conn.execute("SELECT * FROM stocks where ticker = {};", ticker)
+        pass # need to be updated after figuring out Stock endpoint practice.
+    except KeyError:
+        abort(404, message="Ticker cannot be found.")
 
-@blueprint.route("/stocks/<int:stock_id>")
+@stocks_bp.route("/stocks/<int:stock_id>")
 class Stocks(MethodView):
 
-    @blueprint.response(200, StockSchema(many=True))
+    @stocks_bp.response(200, StockSchema(many=True))
     def get(self, stock_id):
         query_str = 'SELECT * FROM stocks where stock_id =' + str(stock_id)
         try:
@@ -40,8 +46,8 @@ class Stocks(MethodView):
             abort(404, message ="Not Found.")
 
 
-    @blueprint.arguments(StockUpdateSchema)
-    @blueprint.response(200, StockSchema)
+    @stocks_bp.arguments(StockUpdateSchema)
+    @stocks_bp.response(200, StockSchema)
     def put(self, ticker):
         stock_data = request.get_json()
 
@@ -54,7 +60,7 @@ class Stocks(MethodView):
             abort(404, message="Stock not found")
 
 
-    @blueprint.response(200, StockSchema)
+    @stocks_bp.response(200, StockSchema)
     def delete(self, stock_id):
         try:
             # TODO : Find stock and delete
@@ -63,10 +69,10 @@ class Stocks(MethodView):
         except KeyError:
             abort(404, message= "Ticker cannot be found in stocks.")
 
-@blueprint.route("/stocks", methods=['GET', 'POST'])
+@stocks_bp.route("/stocks", methods=['GET', 'POST'])
 class StocksList(MethodView):
 
-    @blueprint.response(200, StockSchema(many=True))
+    @stocks_bp.response(200, StockSchema(many=True))
     def get(self):
 
         try:
@@ -78,8 +84,8 @@ class StocksList(MethodView):
             
         return result
 
-    @blueprint.arguments(StockSchema)
-    @blueprint.response(200,StockSchema)
+    @stocks_bp.arguments(StockSchema)
+    @stocks_bp.response(200,StockSchema)
     def post(self, stock_data):
 
 
@@ -100,13 +106,13 @@ class StocksList(MethodView):
         # stocks[stock_id] = new_stock
         return 'success'
 
-@blueprint.route("/stocks/<string:ticker>/financials")
+@stocks_bp.route("/stocks/<string:ticker>/financials")
 class StockFinancials(MethodView):
 
     def get(self):
         return {}
 
-    @blueprint.arguments(StockFinancialSchema)
+    @stocks_bp.arguments(StockFinancialSchema)
     def post(self, financial_data):
         financial_data = request.get_json()
         # Check if ticker exists in the stock table.
@@ -115,8 +121,3 @@ class StockFinancials(MethodView):
 
         pass
 
-
-
-# Todo List.
-# How Python app is going to find Db access configuration one by one ?
-# Db Access as singleton which initially start when the app start?
