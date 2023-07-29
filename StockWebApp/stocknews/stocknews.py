@@ -6,6 +6,7 @@ from flask_smorest import abort, Blueprint
 from dbaccess import DbConnection
 from schemas import StockNewsSchema
 from db_session import database_instance
+from psycopg.rows import dict_row
 
 stocknews_bp = Blueprint("stockNews", __name__, description="Operations on StockNews")
 
@@ -13,7 +14,7 @@ stocknews_bp = Blueprint("stockNews", __name__, description="Operations on Stock
 @stocknews_bp.response(201, StockNewsSchema)
 def get_by_stocknewsId(stocknews_id: string):
     try:
-        with database_instance.get_connection().connection() as conn:
+        with database_instance.get_connection() as conn:
             conn.execute("SELECT * FROM stocknews where stocknews_id = {};", stocknews_id)
     except KeyError:
         abort(404, message ="Ticker cannot be found in stocks.")
@@ -23,8 +24,9 @@ def get_by_stocknewsId(stocknews_id: string):
 def get_all():
     # @blueprint.response(200, StockNewsSchema(many=True)) 
     try:
-        with database_instance.get_connection().connection() as conn:
-            conn.execute("SELECT * FROM stocksnews", ticker)
+        with database_instance.get_connection() as conn:
+            cur = conn.cursor(row_factory=dict_row)
+            result = cur.execute("SELECT * FROM indicators;").fetchall()
     except KeyError:
         abort(404, message = "Unexpected things happened")
     # return stockNews.values()
