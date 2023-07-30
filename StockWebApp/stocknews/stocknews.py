@@ -3,7 +3,6 @@ import string
 from flask import request
 from flask.views import MethodView
 from flask_smorest import abort, Blueprint
-from dbaccess import DbConnection
 from schemas import StockNewsSchema
 from db_session import database_instance
 from psycopg.rows import dict_row
@@ -26,10 +25,10 @@ def get_all():
     try:
         with database_instance.get_connection() as conn:
             cur = conn.cursor(row_factory=dict_row)
-            result = cur.execute("SELECT * FROM indicators;").fetchall()
+            result = cur.execute("SELECT * FROM stocknews;").fetchall()
     except KeyError:
         abort(404, message = "Unexpected things happened")
-    # return stockNews.values()
+    return result
 
 @stocknews_bp.route('/<string:stocknews_id>')
 def put_stocknews(stocknews_id):
@@ -37,32 +36,8 @@ def put_stocknews(stocknews_id):
     news_data = request.get_json()
     if "ticker" not in news_data or "title" not in news_data:
         abort(400, message="Bad request. Ensure ticker and title are included in the json payload.")
-
     try:
         # news = stockNews[stocknews_id]
         news |= news_data
     except KeyError:
         abort(404, message="news not found")
-
-
-# @stocknews_bp.route('/<string:stocknews_id>', method=['DELETE'])
-# def delete_stocknews(stocknews_id: str):
-#     try:
-#         del stockNews[stocknews_id]
-#         return {"message": "Stock has been removed"}
-#     except KeyError:
-#         abort(404, message= "Ticker cannot be found in stocks.")
-
-# @stocknews_bp.route("/", method=['POST'])
-# @stocknews_bp.arguments(StockNewsSchema)
-# @stocknews_bp.response(201, StockNewsSchema)
-# def create_stocknews(self, news_data)-> None:
-#     news_data = request.get_json()
-
-#     # if news_data["stock_id"] not in stocks:
-#     #     return abort(404, message="Stock not found, so stock news cannot be stored.")
-        
-#     news_id = uuid.uuid4().hex
-#     news = {**news_data, "id": news_id}
-#         # stockNews[news_id] = news  
-#     return news

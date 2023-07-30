@@ -14,7 +14,7 @@ def create_app(db_url = None):
     app = Flask(__name__)
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
-    app.config["API_TITLE"] = "Stores REST API"
+    app.config["API_TITLE"] = "Stocks REST API"
     app.config["API_VERSION"] = "v1"
     app.config["OPENAPI_VERSION"] = "3.0.3"
     app.config["OPENAPI_URL_PREFIX"] = "/"
@@ -25,7 +25,7 @@ def create_app(db_url = None):
     # with app.app_context():
     #     db.create_all()
     api.register_blueprint(StockNewsBlueprint)
-    # api.register_blueprint(StockBlueprint)
+    api.register_blueprint(StockBlueprint)
     api.register_blueprint(IndicatorsBlueprint)
 
     return app

@@ -22,9 +22,14 @@ class Indicators(MethodView):
             with database_instance.get_connection() as conn:
                 cur = conn.cursor(row_factory=dict_row)
                 result = cur.execute("SELECT * FROM indicators;").fetchall()
+
+
         except KeyError:
             abort(404, message="No indicators.")
-            
+            # database_instance.close_all_connections()
+        finally:
+            cur.close()
+            database_instance.return_connection(conn)
         return result
 
 @indicators_bp.route("/indicators/<int:indicator_id>")

@@ -52,10 +52,9 @@ def db_conn_string():
     return dbstr
 
 def create_init_db():
-    dbsetup = db_config()
+    # dbsetup = db_config()
     # dbaccess = DbConnection(dbsetup['host'],dbsetup['username'], dbsetup['password'], dbsetup['port'], dbsetup['dbname'])
     Database.initialize(db_conn_string())
-    conn = Database.get_connection()
     # dbaccess.db_create_init_tables(query_create_stock_table)
     # dbaccess.db_create_init_tables(query_create_indicator_table)
     # dbaccess.db_create_init_tables(query_create_StockNews_table)

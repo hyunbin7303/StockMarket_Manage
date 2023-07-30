@@ -81,3 +81,6 @@ INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('PMI'
 INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('SOX', 'Philadelphia Semiconductor Index', 'The PHLX Semiconductor Sector IndexSM (SOXSM) is a modified market capitalization-weighted index composed of companies primarily involved in the design, distribution, manufacture, and sale of semiconductors.', 'US');
 
 INSERT INTO Stocks(ticker, company_name, "stock_desc", "stock_type", stock_exchange) VALUES ('MSFT', 'Microsoft', 'Microsoft Organization', 'stock','NASDAQ');
+INSERT INTO Stocks(ticker, company_name, "stock_desc", "stock_type", stock_exchange) VALUES ('TESLA', 'Tesla, Inc.', 'Electronic car', 'stock','S&P 500');
+INSERT INTO Stocks(ticker ,company_name, "stock_desc", "stock_type", stock_exchange) VALUES ('NVDA', 'NVIDIA Corp', 'Graphics Cards company', 'stock', 'NASDAQ');
+

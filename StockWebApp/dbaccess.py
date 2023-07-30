@@ -5,18 +5,23 @@ from psycopg.rows import dict_row
 
 class Database:
     __pool = None
-
+    __connStr = ''
     @classmethod
     def initialize(cls, connStr):
-        cls.__pool = ConnectionPool(connStr)
+        __connStr = connStr
+        cls.__pool = ConnectionPool(__connStr)
 
     @classmethod
     def get_connection(cls):
+        if cls.__pool.check():
+            cls.pool.putconn(cls.pool.getconn())
         return cls.__pool.getconn()
+        
+
 
     @classmethod
     def return_connection(cls, connection):
-        Database.__pool.putconn(connection)
+        return cls.__pool.putconn(connection)
 
     @classmethod
     def close_all_connections(cls):
@@ -95,13 +100,6 @@ class DbConnection:
     def select_specific(self, query):
         pass
 
-    def insert_data(self, query):
-        # SQL = "INSERT INTO authors (name) VALUES (%s)"  # Note: no quotes
-        # data = ("O'Reilly", )
-        # cur.execute(SQL, data)  # Note: no % operator
-        # with self.conn.execute(query)
-
-        pass
 
     def command_query(self, query_type, query):
         try:
