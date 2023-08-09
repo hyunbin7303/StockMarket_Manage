@@ -9,7 +9,7 @@ from psycopg.rows import dict_row
 
 stocknews_bp = Blueprint("stockNews", __name__, description="Operations on StockNews")
 
-@stocknews_bp.route('/<string:stocknews_id>')
+@stocknews_bp.route('/stocknews/<string:stocknews_id>')
 @stocknews_bp.response(201, StockNewsSchema)
 def get_by_stocknewsId(stocknews_id: string):
     try:
@@ -18,7 +18,7 @@ def get_by_stocknewsId(stocknews_id: string):
     except KeyError:
         abort(404, message ="Ticker cannot be found in stocks.")
 
-@stocknews_bp.route('/')
+@stocknews_bp.route('/stocknews')
 @stocknews_bp.response(201, StockNewsSchema)
 def get_all():
     # @blueprint.response(200, StockNewsSchema(many=True)) 
@@ -29,6 +29,9 @@ def get_all():
     except KeyError:
         abort(404, message = "Unexpected things happened")
     return result
+
+
+@stocknews_bp.route('/stocknews')
 
 @stocknews_bp.route('/<string:stocknews_id>')
 def put_stocknews(stocknews_id):
@@ -41,3 +44,6 @@ def put_stocknews(stocknews_id):
         news |= news_data
     except KeyError:
         abort(404, message="news not found")
+
+
+# How this stock can impact existing 
