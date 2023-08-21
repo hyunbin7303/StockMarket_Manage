@@ -76,20 +76,6 @@ class DbConnection:
 
         return results
 
-    def db_create_init_tables(self, query):
-        conn = self.get_conn()
-        try:
-            cur = conn.cursor()
-            create_script = query
-            cur.execute(create_script)
-            conn.commit()
-            conn.close()
-        except Exception as err:
-            print(err)
-        finally:
-            conn.close()
-
-
     def select_rows(self, query): #  sel_multi
         with self.conn.cursor(row_factory=dict_row) as cur:
             cur.execute(query)
@@ -119,20 +105,3 @@ class DbConnection:
             result = False
         
         return result
-
-def create_conn_pool(connStr):
-    pool = ConnectionPool(connStr)
-
-
-
-
-
-
-# def sql_query():
-#     pass
-
-# def create_tables():
-#     pass
-
-# def create_sample_data():
-#     pass

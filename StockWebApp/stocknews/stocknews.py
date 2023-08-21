@@ -9,7 +9,7 @@ from psycopg.rows import dict_row
 
 stocknews_bp = Blueprint("stocknews", __name__, description="Operations on StockNews")
 
-@stocknews_bp.route('/<string:stocknews_id>')
+@stocknews_bp.route('/stocknews/<string:stocknews_id>')
 @stocknews_bp.response(201, StockNewsSchema)
 def get_by_stocknewsId(stocknews_id: string):
     try:
@@ -34,6 +34,9 @@ def get_all():
             
     return result
 
+
+@stocknews_bp.route('/stocknews')
+
 @stocknews_bp.route('/<string:stocknews_id>')
 def put_stocknews(stocknews_id):
     
@@ -45,7 +48,7 @@ def put_stocknews(stocknews_id):
         news |= news_data
     except KeyError:
         abort(404, message="news not found")
-        
+         
 @stocknews_bp.route('/stocksnews', methods=['POST'])
 def post():
     try: 
@@ -86,4 +89,3 @@ def post():
         "Subject": "Successful"
     }
     return Response({}, status=201)
-

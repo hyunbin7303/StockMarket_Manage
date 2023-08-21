@@ -53,13 +53,21 @@ def db_conn_string():
 
 def create_init_db():
     # dbsetup = db_config()
-    # dbaccess = DbConnection(dbsetup['host'],dbsetup['username'], dbsetup['password'], dbsetup['port'], dbsetup['dbname'])
     Database.initialize(db_conn_string())
-    # dbaccess.db_create_init_tables(query_create_stock_table)
-    # dbaccess.db_create_init_tables(query_create_indicator_table)
-    # dbaccess.db_create_init_tables(query_create_StockNews_table)
+    # Database.get_connection()
+    # db_create_init_tables(Database.get_connection(), query_create_stock_table)
 
 
-    # db access, create table for Daily
-    # db access, Create table for financial 
 
+def db_create_init_tables(self, conn, query):
+    conn = self.get_conn()
+    try:
+        cur = conn.cursor()
+        create_script = query
+        cur.execute(create_script)
+        conn.commit()
+        conn.close()
+    except Exception as err:
+        print(err)
+    finally:
+        conn.close()
