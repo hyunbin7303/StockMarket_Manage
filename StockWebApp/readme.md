@@ -13,3 +13,7 @@
 `flask run`
 
 
+* How to run the venv
+`source .venv/bin/activate`
+
+
