@@ -49,15 +49,27 @@ def put_stocknews(stocknews_id):
     except KeyError:
         abort(404, message="news not found")
          
-@stocknews_bp.route('/stocknews', methods=['POST'])
-def post():
+@stocknews_bp.route('/stocknews/<int:stock_id>', methods=['POST'])
+@stocknews_bp.response(201, StockNewsSchema(many=True))
+def post(stock_id: int):
+    try:
+        with database_instance.get_connection() as conn:
+            cur = conn.cursor()
+            # conn.execute("SELECT * FROM stocks where ticker = %{ticker}s;", {ticker: ticker})
+            cur.execute("""select * from stocks where stock_id = %(stock_id)s """, {"stock_id": stock_id})
+            rows = cur.fetchone()
+            print(rows)
+            if rows==None:
+                raise KeyError("stock_id cannot be found in stocks.", stock_id)
+                cur.close()
+    except KeyError:
+        abort(404, message ="unexpetced error")
+            
     try: 
-        
         title =  request.json['title']
         cause =    request.json['cause']
         impact_on_stock = request.json['impact_on_stock']
         price_before = request.json['price_before']
-        # new_stock = Stock(ticker, company_name, stock_desc, stock_type, stock_sector, stock_exchange)
     except KeyError:
         abort(404, message= "Cannot insert the new stock news")
     
@@ -68,7 +80,7 @@ def post():
             rows = cur.fetchone()
             if rows:
                 raise KeyError("Already Exist title = ", title)
-
+                cur.close()
             cur.execute("""INSERT INTO stocknews(title, price_before, cause, impact_on_stock) VALUES (%(title)s, %(price_before)s, %(cause)s, %(impact_on_stock)s)""", 
                         {"title": title, "price_before": price_before, "cause": cause, "impact_on_stock": impact_on_stock})
 
