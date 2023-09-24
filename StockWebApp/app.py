@@ -1,17 +1,30 @@
-import os
-import logging
 from configparser import ConfigParser
 from flask import Flask
 from flask_smorest import Api
 from utils import create_init_db
-# from psycopg_pool import ConnectionPool
-from stocks.stocks import stocks_bp as StockBlueprint
-from stocknews.stocknews import stocknews_bp as StockNewsBlueprint
-from indicators.indicators import indicators_bp as IndicatorsBlueprint
-def create_app(db_url = None):
+from routes.stocks import stocks_bp as StockBlueprint
+from routes.stocknews import stocknews_bp as StockNewsBlueprint
+from routes.indicators import indicators_bp as IndicatorsBlueprint
+from di.container import Container
+import routes
+# from flask_injector import FlaskInjector
+# from injector import inject, singleton
+from repositories.stocksRepository import StocksRepository
 
+def create_app(db_url = None) -> Flask:
     create_init_db()
+    container = Container()
+    container.wire(modules=[routes.stocks])
+
     app = Flask(__name__)
+    app.container = container
+
+    # test = container.stock_repo.get_all()
+    # FlaskInjector
+    # FlaskInjector(app=app, modules=[singleton(StocksRepository)])
+    # container.init_resources()
+    # stock_repo = container.stock_repo()
+    # test = stock_repo.get_all()
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Stocks REST API"
@@ -21,8 +34,7 @@ def create_app(db_url = None):
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
     api = Api(app)
-    # with app.app_context():
-    #     db.create_all()
+
     api.register_blueprint(StockNewsBlueprint)
     api.register_blueprint(StockBlueprint)
     api.register_blueprint(IndicatorsBlueprint)

@@ -1,8 +1,8 @@
-# Stock Api Development 
+# Stock Api Development
 
 [ ] - Restful Api implementation for CRUD.
 [ ] - DB access layer.
-[ ] - Object Pool Design pattern 
+[ ] - Object Pool Design pattern
 
 
 # How to setup
@@ -14,6 +14,6 @@
 
 
 * How to run the venv
-`source .venv/bin/activate`
+`source venv/bin/activate`
 
 
