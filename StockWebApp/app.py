@@ -7,21 +7,19 @@ from routes.stocknews import stocknews_bp as StockNewsBlueprint
 from routes.indicators import indicators_bp as IndicatorsBlueprint
 from di.container import Container
 import routes
-# from flask_injector import FlaskInjector
-# from injector import inject, singleton
 from repositories.stocksRepository import StocksRepository
 
 def create_app(db_url = None) -> Flask:
     create_init_db()
     container = Container()
     container.wire(modules=[routes.stocks])
+    container.wire(modules=[routes.stocknews])
+    container.wire(modules=[routes.indicators])
 
     app = Flask(__name__)
     app.container = container
 
     # test = container.stock_repo.get_all()
-    # FlaskInjector
-    # FlaskInjector(app=app, modules=[singleton(StocksRepository)])
     # container.init_resources()
     # stock_repo = container.stock_repo()
     # test = stock_repo.get_all()

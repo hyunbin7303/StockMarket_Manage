@@ -1,10 +1,9 @@
-# from db_session import database_instance
 from flask_smorest import abort
 from psycopg.rows import dict_row
 from dbaccess import Database
-from models import Stock
+from models import stock, stocknews
 
-class StocksRepository:
+class StocknewsRepository:
     _db_session:Database
 
     def __init__(self, session: Database) -> None:
@@ -14,7 +13,7 @@ class StocksRepository:
         try:
             with self._db_session.get_connection() as conn:
                 cur = conn.cursor(row_factory=dict_row)
-                result = cur.execute("SELECT * FROM stocks;").fetchall()
+                result = cur.execute("SELECT * FROM stocknews;").fetchall()
 
         except KeyError:
             abort(404, message="Ticker cannot be found.")
@@ -26,11 +25,11 @@ class StocksRepository:
 
 
 
-    def get_by_id(self, stock_id: int) -> Stock | None:
+    def get_by_id(self, stocknews_id: int):
         try:
             with self._db_session.get_connection() as conn:
                 cur = conn.cursor()
-                rows =cur.execute("""select * from stocks where stock_id = %(stock_id)s """, {"stock_id": stock_id}).fetchall()
+                row =cur.execute("""select * from stocknews where news_id = %(news_id)s """, {"news_id": stocknews_id}).fetchone()
 
         except KeyError:
             abort(404, message ="Ticker cannot be found in stocks.")
@@ -39,9 +38,9 @@ class StocksRepository:
             cur.close()
             self._db_session.return_connection(conn)
 
-        return rows
+        return row
 
-    def get_by_ticker(self, ticker: str)-> list[Stock] | None:
+    def get_by_stock_id(self, ticker: str):
         try:
             with self._db_session.get_connection() as conn:
                 cur = conn.cursor()
@@ -55,35 +54,27 @@ class StocksRepository:
         return result if result is not None else None
 
 
-    def add(self, stock: Stock) -> None:
-        try:
-
-            with self._db_session.get_connection() as conn:
-                cur = conn.cursor()
-                cur.execute("""INSERT INTO stocks(ticker, company_name, stock_desc, stock_type, stock_sector,stock_exchange) VALUES (%(ticker)s, %(company_name)s, %(stock_desc)s, %(stock_type)s, %(stock_sector)s, %(stock_exchange)s)""",
-                            {"ticker": stock.ticker, "company_name": stock.company_name, "stock_desc":stock.stock_desc, "stock_type": stock.stock_type, "stock_sector": stock.stock_sector, "stock_exchange":stock.stock_exchange})
-                conn.commit()
-                cur.close()
-
-        except ValueError as err:
-            abort(404, message="Cannot add stock. Exception :" + err)
-        finally:
-            self._db_session.return_connection(conn)
-
-    def delete(self, stock_id: int) -> None:
+    def add(self, stocknews: stocknews):
         try:
             with self._db_session.get_connection() as conn:
                 cur = conn.cursor()
-                cur.execute("""DELETE from stocks where stock_id = %(stock_id)s """, {"stock_id": stock_id})
+                cur.execute("""select * from stocknews where title = %(title)s """, {"title": stocknews.title})
+                rows = cur.fetchone()
+                if rows:
+                    raise KeyError("Already Exist title = ", stocknews.title)
+
+                cur.execute("""INSERT INTO stocknews(stock_id, title, price_before, cause, impact_on_stock) VALUES (%(stock_id)s, %(title)s, %(price_before)s, %(cause)s, %(impact_on_stock)s)""",
+                            {"stock_id": stocknews.stock_id, "title": stocknews.title, "price_before": stocknews.price_before, "cause": stocknews.cause, "impact_on_stock": stocknews.impact_on_stock})
+
                 conn.commit()
                 cur.close()
 
+        except KeyError as err:
+            abort(403, message="Key Error Exception : " + err.args)
+
         except ValueError as err:
-            abort(404, message="cannot remove stock. Exception : " + err)
+            abort(404, message="xception : " + err.args)
 
         finally:
             self._db_session.return_connection(conn)
 
-
-    def update(self, stock: Stock):
-        pass

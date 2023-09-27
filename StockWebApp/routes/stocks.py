@@ -1,7 +1,6 @@
 from flask import request, jsonify, make_response, Response
 from flask.views import MethodView
 from flask_smorest import abort, Blueprint
-from db_session import database_instance
 from models import Stock
 from schemas import StockSchema, StockUpdateSchema,StockFinancialSchema
 from psycopg.rows import dict_row
@@ -13,8 +12,9 @@ from dependency_injector.wiring import Provide, inject
 
 stocks_bp = Blueprint("stocks", __name__, description="Operations on Stocks")
 
+
 @stocks_bp.route('/stocks', methods=['GET'])
-@stocks_bp.response(200, StockSchema(many=True))
+# @stocks_bp.response(200, StockSchema(many=True))
 @inject
 def get_stocks(stock_repo: StocksRepository= Provide[Container.stock_repo]):
     result: list[Stock] = stock_repo.get_all()
@@ -43,24 +43,18 @@ def post(stock_repo: StocksRepository = Provide[Container.stock_repo]):
         if check.len() > 0:
             abort(409, message="Already exist stock.")
 
-        ticker =        request.json['ticker']
-        company_name =  request.json['company_name']
-        stock_desc =    request.json['stock_desc']
-        stock_type =    request.json['stock_type']
-        stock_sector =  request.json['stock_sector']
-        stock_exchange = request.json['stock_exchange']
-        new_stock = Stock(ticker, company_name, stock_desc, stock_type, stock_sector, stock_exchange)
+        new_stock = Stock(request.json['ticker'], request.json['company_name'], request.json['stock_desc'], request.json['stock_type'], request.json['stock_sector'], request.json['stock_exchange'])
         stock_repo.add(new_stock)
     except KeyError:
         abort(404, message= "Cannot insert the new stock")
     return Response({}, status=201)
 
 
-@stocks_bp.response(200, StockSchema)
-def delete(self, stock_id):
+@stocks_bp.route('/stocks/<int:stock_id>', methods=['DELETE'])
+@inject
+def delete(stock_id: int, stock_repo: StocksRepository = Provide[Container.stock_repo]):
     try:
-        # TODO : Find stock and delete
-        #del stocks[stock_id]
+        stock_repo.delete(stock_id)
         return {"message": "Stock has been removed"}
     except KeyError:
         abort(404, message= "Ticker cannot be found in stocks.")

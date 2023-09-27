@@ -1,38 +1,29 @@
-import uuid
 import string
+from models import stocknews
 from flask import request, jsonify, make_response, Response
-from flask.views import MethodView
 from flask_smorest import abort, Blueprint
 from schemas import StockNewsSchema
-from db_session import database_instance
-from psycopg.rows import dict_row
+from repositories.stocknews_repository import StocknewsRepository
 from repositories.stocksRepository import StocksRepository
+from di.container import Container
+from dependency_injector import containers, providers
+from dependency_injector.wiring import Provide, inject
+from datetime import date
 
 stocknews_bp = Blueprint("stocknews", __name__, description="Operations on StockNews")
 
 @stocknews_bp.route('/stocknews/<string:stocknews_id>')
 @stocknews_bp.response(201, StockNewsSchema)
-def get_by_stocknewsId(stocknews_id: string):
-    try:
-        with database_instance.get_connection() as conn:
-            conn.execute("SELECT * FROM stocknews where stocknews_id = {};", stocknews_id)
-    except KeyError:
-        abort(404, message ="Ticker cannot be found in stocks.")
+@inject
+def get_by_stocknewsId(stocknews_id: string, repo: StocknewsRepository= Provide[Container.stocknews_repo]):
+    result = repo.get_by_id(stocknews_id)
+    return result
 
 @stocknews_bp.route('/stocknews', methods=['GET'])
 @stocknews_bp.response(201, StockNewsSchema(many=True))
-def get_all():
-    # @blueprint.response(200, StockNewsSchema(many=True))
-    try:
-        with database_instance.get_connection() as conn:
-            cur = conn.cursor(row_factory=dict_row)
-            result = cur.execute("SELECT * FROM stocknews;").fetchall()
-    except KeyError:
-        abort(404, message = "Unexpected things happened")
-    finally:
-        cur.close()
-        database_instance.return_connection(conn)
-
+@inject
+def get_all(repo: StocknewsRepository= Provide[Container.stocknews_repo]):
+    result = repo.get_all()
     return result
 
 
@@ -49,37 +40,21 @@ def put_stocknews(stocknews_id):
         abort(404, message="news not found")
 
 @stocknews_bp.route('/stocknews', methods=['POST'])
-def post():
+@inject
+def post(repo: StocknewsRepository= Provide[Container.stocknews_repo], stock_repo: StocksRepository= Provide[Container.stock_repo]):
     stock_id = request.json['stock_id']
-    stock_repo = StocksRepository()
     stock = stock_repo.get_by_id(stock_id)
     if stock is None:
         abort(404, message="Stock Id is not exist in stocks.")
 
-    title =  request.json['title']
-    cause =  request.json['cause']
-    impact_on_stock = request.json['impact_on_stock']
-    price_before = request.json['price_before']
-    try:
-        with database_instance.get_connection() as conn:
-            cur = conn.cursor()
-            cur.execute("""select * from stocknews where title = %(title)s """, {"title": title})
-            rows = cur.fetchone()
-            if rows:
-                raise KeyError("Already Exist title = ", title)
-
-            cur.execute("""INSERT INTO stocknews(stock_id, title, price_before, cause, impact_on_stock) VALUES (%(stock_id)s, %(title)s, %(price_before)s, %(cause)s, %(impact_on_stock)s)""",
-                        {"stock_id": stock_id, "title": title, "price_before": price_before, "cause": cause, "impact_on_stock": impact_on_stock})
-
-            conn.commit()
-            cur.close()
-
-    except KeyError as err:
-        return Response(err.args, status=403)
-    except ValueError as err:
-        return Response(err.args, status =404)
-
-    finally:
-        database_instance.return_connection(conn)
-
+    news = stocknews(stock_id= stock_id,
+                     title= request.json['title'],
+                     news_desc= request.json['news_desc'],
+                     cause = request.json['cause'],
+                     impact_on_stock=request.json['impact_on_stock'],
+                     price_before=request.json['price_before'],
+                     price_after=request.json['price_after'],
+                     news_date = request.json['news_date'],
+                     record_date = date.today())
+    repo.add(news)
     return Response({}, status=201)
