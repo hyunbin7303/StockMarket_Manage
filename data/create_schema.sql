@@ -62,12 +62,13 @@ CREATE TABLE IF NOT EXISTS Indicators
 	
 CREATE TABLE IF NOT EXISTS IndicatorData
 (
-	"id" UUID NOT NULL,
+	"id" uuid DEFAULT uuid_generate_v4(),
 	"indicator_id" INT,
 	"value" bigint,
 	"announced_date" date, 
 	"recorded_date" date,
-	"date_source" varchar(50)
+	"date_source" varchar(50),
+    PRIMARY KEY(id)
 );
 
 INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'US');
