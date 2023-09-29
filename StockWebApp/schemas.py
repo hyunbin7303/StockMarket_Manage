@@ -51,3 +51,9 @@ class IndicatorsSchema(Schema):
     Desc = fields.Str()
     Country = fields.Str()
 
+class IndicatordataSchema(Schema):
+    indicator_id = fields.Int(dump_only=True)
+    value = fields.Int()
+    announced_date = fields.Str()
+    recorded_date = fields.Str()
+    date_source = fields.Str()

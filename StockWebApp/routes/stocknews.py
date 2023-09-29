@@ -47,7 +47,7 @@ def post(repo: StocknewsRepository= Provide[Container.stocknews_repo], stock_rep
     if stock is None:
         abort(404, message="Stock Id is not exist in stocks.")
 
-    news = stocknews(stock_id= stock_id,
+    news = stocknews.StockNews(stock_id= stock_id,
                      title= request.json['title'],
                      news_desc= request.json['news_desc'],
                      cause = request.json['cause'],

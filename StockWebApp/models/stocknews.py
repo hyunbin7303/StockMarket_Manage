@@ -3,7 +3,6 @@ from dataclasses import dataclass
 
 @dataclass
 class StockNews():
-    news_id: uuid
     stock_id: int
     title: str
     news_desc: str

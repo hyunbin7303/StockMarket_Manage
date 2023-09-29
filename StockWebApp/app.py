@@ -5,6 +5,7 @@ from utils import create_init_db
 from routes.stocks import stocks_bp as StockBlueprint
 from routes.stocknews import stocknews_bp as StockNewsBlueprint
 from routes.indicators import indicators_bp as IndicatorsBlueprint
+from routes.indicatordata import indicatordata_bp as IndicatordataBlueprint
 from di.container import Container
 import routes
 from repositories.stocksRepository import StocksRepository
@@ -15,6 +16,7 @@ def create_app(db_url = None) -> Flask:
     container.wire(modules=[routes.stocks])
     container.wire(modules=[routes.stocknews])
     container.wire(modules=[routes.indicators])
+    container.wire(modules=[routes.indicatordata])
 
     app = Flask(__name__)
     app.container = container
@@ -36,7 +38,7 @@ def create_app(db_url = None) -> Flask:
     api.register_blueprint(StockNewsBlueprint)
     api.register_blueprint(StockBlueprint)
     api.register_blueprint(IndicatorsBlueprint)
-
+    api.register_blueprint(IndicatordataBlueprint)
     return app
 
 
