@@ -16,7 +16,7 @@ class Database:
         if cls.__pool.check():
             cls.pool.putconn(cls.pool.getconn())
         return cls.__pool.getconn()
-        
+
 
 
     @classmethod
@@ -37,17 +37,17 @@ class DbConnection:
         self.port = Port
         self.dbname = Name
         self.conn = self.get_conn()
-        
-    def get_conn(self, connStr = None): 
-        try:                
-            
+
+    def get_conn(self, connStr = None):
+        try:
+
             conn = psycopg.connect(dbname=self.dbname,user=self.username,host=self.host, port=self.port, password=self.password)
         except psycopg.OperationalError as err:
             err_msg = 'DB Connection Error - Error: {}'.format(err)
             print(err_msg)
             return False
         return conn
-    
+
     def execute(self,sql_raw, params, qry_type):
         try:
             cur = self.conn.cursor()
@@ -103,5 +103,5 @@ class DbConnection:
         except psycopg.IntegrityError() as err:
             print('PostgreSQL integrity error via psycopg2.  %s', err)
             result = False
-        
+
         return result

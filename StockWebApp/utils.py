@@ -26,15 +26,15 @@ query_create_StockNews_table = '''CREATE TABLE IF NOT EXISTS StockNews
 (
  	news_id uuid DEFAULT uuid_generate_v4(),
 	stock_id INT,
-	title VARCHAR(150), 
+	title VARCHAR(150),
 	news_desc VARCHAR(255),
-	Cause VARCHAR(50),	
-	Impact_On_Stock VARCHAR(50), -- Such as BreakOut, FlagPole, Pennant, Flag, Pole etc..BullishFlag, BearishFlag,. 
+	Cause VARCHAR(50),
+	Impact_On_Stock VARCHAR(50), -- Such as BreakOut, FlagPole, Pennant, Flag, Pole etc..BullishFlag, BearishFlag,.
 	Price_Before bigint,
-	Price_After bigint, 
+	Price_After bigint,
 	News_Date date,
-	Record_Date date, 
-	PRIMARY KEY(news_id), 
+	Record_Date date,
+	PRIMARY KEY(news_id),
 	CONSTRAINT fk_stock_id FOREIGN KEY(stock_id) REFERENCES stocks(stock_id)
 )
 TABLESPACE pg_default;'''
@@ -52,11 +52,9 @@ def db_conn_string():
     return dbstr
 
 def create_init_db():
-    # dbsetup = db_config()
     Database.initialize(db_conn_string())
     # Database.get_connection()
     # db_create_init_tables(Database.get_connection(), query_create_stock_table)
-
 
 
 def db_create_init_tables(self, conn, query):

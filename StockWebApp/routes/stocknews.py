@@ -1,5 +1,5 @@
 import string
-from models import stocknews
+from models.stocknews import StockNews
 from flask import request, jsonify, make_response, Response
 from flask_smorest import abort, Blueprint
 from schemas import StockNewsSchema
@@ -10,22 +10,21 @@ from dependency_injector import containers, providers
 from dependency_injector.wiring import Provide, inject
 from datetime import date
 
-stocknews_bp = Blueprint("stocknews", __name__, description="Operations on StockNews")
+stocknews_bp = Blueprint("stocknews", __name__,url_prefix='/stocknews', description="Operations on StockNews")
 
-@stocknews_bp.route('/stocknews/<string:stocknews_id>')
-@stocknews_bp.response(201, StockNewsSchema)
-@inject
-def get_by_stocknewsId(stocknews_id: string, repo: StocknewsRepository= Provide[Container.stocknews_repo]):
-    result = repo.get_by_id(stocknews_id)
-    return result
-
-@stocknews_bp.route('/stocknews', methods=['GET'])
+@stocknews_bp.route('/', methods=['GET'])
 @stocknews_bp.response(201, StockNewsSchema(many=True))
 @inject
 def get_all(repo: StocknewsRepository= Provide[Container.stocknews_repo]):
     result = repo.get_all()
     return result
 
+@stocknews_bp.route('/<string:stocknews_id>')
+@stocknews_bp.response(201, StockNewsSchema)
+@inject
+def get_by_stocknewsId(stocknews_id: string, repo: StocknewsRepository= Provide[Container.stocknews_repo]):
+    result = repo.get_by_id(stocknews_id)
+    return result
 
 @stocknews_bp.route('/<string:stocknews_id>')
 def put_stocknews(stocknews_id):
@@ -39,7 +38,7 @@ def put_stocknews(stocknews_id):
     except KeyError:
         abort(404, message="news not found")
 
-@stocknews_bp.route('/stocknews', methods=['POST'])
+@stocknews_bp.route('/', methods=['POST'])
 @inject
 def post(repo: StocknewsRepository= Provide[Container.stocknews_repo], stock_repo: StocksRepository= Provide[Container.stock_repo]):
     stock_id = request.json['stock_id']
@@ -47,7 +46,7 @@ def post(repo: StocknewsRepository= Provide[Container.stocknews_repo], stock_rep
     if stock is None:
         abort(404, message="Stock Id is not exist in stocks.")
 
-    news = stocknews.StockNews(stock_id= stock_id,
+    news = StockNews(stock_id= stock_id,
                      title= request.json['title'],
                      news_desc= request.json['news_desc'],
                      cause = request.json['cause'],

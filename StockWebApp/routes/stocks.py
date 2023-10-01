@@ -7,10 +7,10 @@ from repositories.stocksRepository import StocksRepository
 from di.container import Container
 from dependency_injector.wiring import Provide, inject
 
-stocks_bp = Blueprint("stocks", __name__, description="Operations on Stocks")
+stocks_bp = Blueprint("stocks", __name__, url_prefix='/stocks', description="Operations on Stocks")
 
 
-@stocks_bp.route('/stocks', methods=['GET'])
+@stocks_bp.route('/', methods=['GET'])
 # @stocks_bp.response(200, StockSchema(many=True))
 @inject
 def get_stocks(stock_repo: StocksRepository= Provide[Container.stock_repo]):
@@ -18,13 +18,13 @@ def get_stocks(stock_repo: StocksRepository= Provide[Container.stock_repo]):
 
     return result
 
-@stocks_bp.route('/stocks/<int:stock_id>', methods=['GET'])
+@stocks_bp.route('/<int:stock_id>', methods=['GET'])
 @inject
 def get_stockbyId(stock_id: int, stock_repo: StocksRepository = Provide[Container.stock_repo]):
     result = stock_repo.get_by_id(stock_id)
     return result
 
-@stocks_bp.route('/stocks/ticker/<string:ticker>')
+@stocks_bp.route('/ticker/<string:ticker>', methods=['GET'])
 @inject
 def get_stock_by_ticker(ticker: str, stock_repo: StocksRepository = Provide[Container.stock_repo]):
     result = stock_repo.get_by_ticker(ticker)
@@ -32,7 +32,7 @@ def get_stock_by_ticker(ticker: str, stock_repo: StocksRepository = Provide[Cont
 
 
 
-@stocks_bp.route('/stocks', methods=['POST'])
+@stocks_bp.route('/', methods=['POST'])
 @stocks_bp.arguments(InsertStockSchema)
 @inject
 def post(new_stock, stock_repo: StocksRepository = Provide[Container.stock_repo]):
@@ -48,7 +48,7 @@ def post(new_stock, stock_repo: StocksRepository = Provide[Container.stock_repo]
     return Response({}, status=201)
 
 
-@stocks_bp.route('/stocks/<int:stock_id>', methods=['DELETE'])
+@stocks_bp.route('/<int:stock_id>', methods=['DELETE'])
 @inject
 def delete(stock_id: int, stock_repo: StocksRepository = Provide[Container.stock_repo]):
     try:
@@ -57,12 +57,6 @@ def delete(stock_id: int, stock_repo: StocksRepository = Provide[Container.stock
     except KeyError:
         abort(404, message= "Ticker cannot be found in stocks.")
 
-# @stocks_bp.route("/stocks/<string:ticker>/financials")
-#     def post(self, financial_data):
-#         # financial_data = request.get_json()
-#         # Check if ticker exists in the stock table.
-#         # but do we need to do this if we are using the foreign key?
-#         # Let's figure it out.
-#         pass
+
 def custom_error(message, status_code):
     return make_response(jsonify(message), status_code)
