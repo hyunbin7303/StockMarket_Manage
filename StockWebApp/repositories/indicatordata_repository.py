@@ -59,8 +59,8 @@ class IndicatordataRepository:
 
             with self._db_session.get_connection() as conn:
                 cur = conn.cursor()
-                cur.execute("""INSERT INTO indicatordata(value, announced_date, recorded_date, date_source) VALUES (%(value)s, %(announced_date)s, %(recorded_date)s, %(date_source)s)""",
-                            {"value": indicatordata.value, "announced_date": indicatordata.announced_date, "recorded_date":indicatordata.recorded_date, "date_source": indicatordata.date_source})
+                cur.execute("""INSERT INTO indicatordata(indicator_id, value, announced_date, recorded_date, date_source) VALUES (%(value)s, %(value)s, %(announced_date)s, %(recorded_date)s, %(date_source)s)""",
+                            {"indicator_id":indicatordata.indicator_id, "value": indicatordata.value, "announced_date": indicatordata.announced_date, "recorded_date":indicatordata.recorded_date, "date_source": indicatordata.date_source})
                 conn.commit()
                 cur.close()
 

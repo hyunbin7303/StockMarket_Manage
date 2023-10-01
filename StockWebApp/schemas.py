@@ -60,8 +60,9 @@ class IndicatorsSchema(Schema):
     Country = fields.Str()
 
 class IndicatordataSchema(Schema):
-    indicator_id = fields.UUID(dump_only=True)
+    indicator_id = fields.Int(required=True)
     value = fields.Int()
     announced_date = fields.Str()
     recorded_date = fields.Str()
     date_source = fields.Str()
+

@@ -29,6 +29,6 @@ def get_indicatordata_byId(indicator_id: int, indicatordata_repo: IndicatordataR
 @inject
 def post(new_indicatordata, repo: IndicatordataRepository= Provide[Container.indicatordata_repo]):
     data = Indicatordata(**new_indicatordata)
-    repo.add(Indicatordata(data))
+    repo.add(data)
     return Response({}, status=201)
 
