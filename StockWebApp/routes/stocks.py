@@ -1,13 +1,10 @@
 from flask import request, jsonify, make_response, Response
-from flask.views import MethodView
 from flask_smorest import abort, Blueprint
 from models import Stock
-from schemas import StockSchema, StockUpdateSchema,StockFinancialSchema
+from schemas import InsertStockSchema
 from psycopg.rows import dict_row
-from werkzeug.exceptions import HTTPException
 from repositories.stocksRepository import StocksRepository
 from di.container import Container
-from dependency_injector import containers, providers
 from dependency_injector.wiring import Provide, inject
 
 stocks_bp = Blueprint("stocks", __name__, description="Operations on Stocks")
@@ -36,15 +33,16 @@ def get_stock_by_ticker(ticker: str, stock_repo: StocksRepository = Provide[Cont
 
 
 @stocks_bp.route('/stocks', methods=['POST'])
+@stocks_bp.arguments(InsertStockSchema)
 @inject
-def post(stock_repo: StocksRepository = Provide[Container.stock_repo]):
+def post(new_stock, stock_repo: StocksRepository = Provide[Container.stock_repo]):
     try:
-        check = stock_repo.get_by_ticker(request.json['ticker'])
-        if check.len() > 0:
+        data = Stock(**new_stock)
+        check = stock_repo.get_by_ticker(data.ticker)
+        if check is not None:
             abort(409, message="Already exist stock.")
 
-        new_stock = Stock(request.json['ticker'], request.json['company_name'], request.json['stock_desc'], request.json['stock_type'], request.json['stock_sector'], request.json['stock_exchange'])
-        stock_repo.add(new_stock)
+        stock_repo.add(data)
     except KeyError:
         abort(404, message= "Cannot insert the new stock")
     return Response({}, status=201)

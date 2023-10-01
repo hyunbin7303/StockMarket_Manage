@@ -41,11 +41,11 @@ class StocksRepository:
 
         return rows
 
-    def get_by_ticker(self, ticker: str)-> list[Stock] | None:
+    def get_by_ticker(self, ticker: str)-> Stock | None:
         try:
             with self._db_session.get_connection() as conn:
                 cur = conn.cursor()
-                result =cur.execute("""select * from stocks where ticker = %(ticker)s """, {"ticker": ticker}).fetchall()
+                result =cur.execute("""select * from stocks where ticker = %(ticker)s """, {"ticker": ticker}).fetchone()
         except KeyError:
             abort(404, message="Ticker cannot be found.")
         finally:

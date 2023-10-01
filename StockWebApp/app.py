@@ -8,9 +8,9 @@ from routes.indicators import indicators_bp as IndicatorsBlueprint
 from routes.indicatordata import indicatordata_bp as IndicatordataBlueprint
 from di.container import Container
 import routes
-from repositories.stocksRepository import StocksRepository
 
 def create_app(db_url = None) -> Flask:
+
     create_init_db()
     container = Container()
     container.wire(modules=[routes.stocks])

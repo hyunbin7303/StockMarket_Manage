@@ -1,8 +1,9 @@
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 @dataclass
 class StockNews():
+    news_id: uuid =field(init=False)
     stock_id: int
     title: str
     news_desc: str

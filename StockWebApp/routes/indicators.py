@@ -2,7 +2,6 @@ from flask_smorest import Blueprint
 from schemas import IndicatorsSchema
 from repositories.indicators_repository import IndicatorsRepository
 from di.container import Container
-from dependency_injector import containers, providers
 from dependency_injector.wiring import Provide, inject
 
 indicators_bp = Blueprint("indicators", __name__, description="Operations on Indicators")
