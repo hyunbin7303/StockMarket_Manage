@@ -40,19 +40,6 @@ class IndicatordataRepository:
 
         return rows
 
-    def get_by_stock_id(self, ticker: str):
-        try:
-            with self._db_session.get_connection() as conn:
-                cur = conn.cursor()
-                result =cur.execute("""select * from stocks where ticker = %(ticker)s """, {"ticker": ticker}).fetchall()
-        except KeyError:
-            abort(404, message="Ticker cannot be found.")
-        finally:
-            cur.close()
-            self._db_session.return_connection(conn)
-
-        return result if result is not None else None
-
 
     def add(self, indicatordata: indicatordata) -> None:
         try:

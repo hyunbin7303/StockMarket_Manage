@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS Stocks
     stock_desc character varying(500) COLLATE pg_catalog."default",
     stock_type character varying(50) COLLATE pg_catalog."default",
     stock_sector character varying(50) COLLATE pg_catalog."default",
+    industry character varying(100) COLLATE pg_catalog."default",
     stock_exchange character varying(100) COLLATE pg_catalog."default",
     listing_date date
 );
@@ -23,15 +24,15 @@ CREATE TABLE IF NOT EXISTS StockNews
 (
  	news_id uuid DEFAULT uuid_generate_v4(),
 	stock_id INT,
-	title VARCHAR(150), 
+	title VARCHAR(150),
 	news_desc VARCHAR(255),
-	Cause VARCHAR(50),	
-	Impact_On_Stock VARCHAR(50), -- Such as BreakOut, FlagPole, Pennant, Flag, Pole etc..BullishFlag, BearishFlag,. 
+	Cause VARCHAR(50),
+	Impact_On_Stock VARCHAR(50), -- Such as BreakOut, FlagPole, Pennant, Flag, Pole etc..BullishFlag, BearishFlag,.
 	Price_Before bigint,
-	Price_After bigint, 
+	Price_After bigint,
 	News_Date date,
-	Record_Date date, 
-	PRIMARY KEY(news_id), 
+	Record_Date date,
+	PRIMARY KEY(news_id),
 	CONSTRAINT fk_stock_id FOREIGN KEY(stock_id) REFERENCES stocks(stock_id)
 )
 TABLESPACE pg_default;
@@ -45,43 +46,63 @@ CREATE TABLE IF NOT EXISTS StockFinancials
     liability bigint,
     "net_income" bigint,
     "EBITDA" bigint,
-	"quarter" varchar(20), 
-	
+	"quarter" varchar(20),
+
     record_time date,
     CONSTRAINT "StockFinancials_pkey" PRIMARY KEY (financial_id)
 );
-	
+
 CREATE TABLE IF NOT EXISTS Indicators
 (
     "indicator_id" serial PRIMARY KEY,
-    "Index" character varying(40) COLLATE pg_catalog."default" NOT NULL,
-    "Name" character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    "Desc" character varying(450) COLLATE pg_catalog."default",
-    "Country" character varying(50) COLLATE pg_catalog."default"
+    "index" character varying(40) COLLATE pg_catalog."default" NOT NULL,
+    "name" character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    "desc" character varying(450) COLLATE pg_catalog."default",
+    "country" character varying(50) COLLATE pg_catalog."default"
 );
-	
+
 CREATE TABLE IF NOT EXISTS IndicatorData
 (
 	"id" uuid DEFAULT uuid_generate_v4(),
 	"indicator_id" INT,
 	"value" bigint,
-	"announced_date" date, 
+	"announced_date" date,
 	"recorded_date" date,
 	"date_source" varchar(50),
     PRIMARY KEY(id)
 );
 
-INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'US');
-INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'CANADA');
-INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'SOUTH KOREA');
-INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'JAPAN');
-INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'CHINA');
-INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'UNITED KINGDOM');
-INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('PMI', 'Purchasing Managers Index', 'The Purchasing Managers Index (PMI) is an index of the prevailing direction of economic trends in the manufacturing and service sectors. ', 'US');
-INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('PMI', 'Purchasing Managers Index', 'The Purchasing Managers Index (PMI) is an index of the prevailing direction of economic trends in the manufacturing and service sectors. ', 'CHINA');
-INSERT INTO public.indicators ("Index", "Name", "Desc", "Country") VALUES ('SOX', 'Philadelphia Semiconductor Index', 'The PHLX Semiconductor Sector IndexSM (SOXSM) is a modified market capitalization-weighted index composed of companies primarily involved in the design, distribution, manufacture, and sale of semiconductors.', 'US');
+CREATE TABLE IF NOT EXISTS Speakers
+(
+    id serial PRIMARY KEY,
+    speaker_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    speaker_desc character varying(200) COLLATE pg_catalog."default",
+    speaker_type character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    speaker_interest character varying(50) COLLATE pg_catalog."default"
+);
 
-INSERT INTO Stocks(ticker, company_name, "stock_desc", "stock_type", stock_exchange) VALUES ('MSFT', 'Microsoft', 'Microsoft Organization', 'stock','NASDAQ');
-INSERT INTO Stocks(ticker, company_name, "stock_desc", "stock_type", stock_exchange) VALUES ('TESLA', 'Tesla, Inc.', 'Electronic car', 'stock','S&P 500');
-INSERT INTO Stocks(ticker ,company_name, "stock_desc", "stock_type", stock_exchange) VALUES ('NVDA', 'NVIDIA Corp', 'Graphics Cards company', 'stock', 'NASDAQ');
+
+CREATE TABLE IF NOT EXISTS SpeakerOpinions
+(
+	"id" uuid DEFAULT uuid_generate_v4(),
+	"speaker_id" INT,
+	"opinion" character varying(500) COLLATE pg_catalog."default",
+	"opinion_type" character varying(50),
+	"announced_date" date,
+	"recorded_date" date,
+	"source_link" character varying(300),
+    PRIMARY KEY(id)
+);
+
+
+INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'US');
+INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'CANADA');
+INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'SOUTH KOREA');
+INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'JAPAN');
+INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'CHINA');
+INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('CPI', 'Consumer Price Index', 'A consumer price index is a price index, the price of a weighted average market basket of consumer goods and services purchased by households. ', 'UNITED KINGDOM');
+INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('PMI', 'Purchasing Managers Index', 'The Purchasing Managers Index (PMI) is an index of the prevailing direction of economic trends in the manufacturing and service sectors. ', 'US');
+INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('PMI', 'Purchasing Managers Index', 'The Purchasing Managers Index (PMI) is an index of the prevailing direction of economic trends in the manufacturing and service sectors. ', 'CHINA');
+INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('SOX', 'Philadelphia Semiconductor Index', 'The PHLX Semiconductor Sector IndexSM (SOXSM) is a modified market capitalization-weighted index composed of companies primarily involved in the design, distribution, manufacture, and sale of semiconductors.', 'US');
+
 

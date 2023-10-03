@@ -30,7 +30,7 @@ class StocksRepository:
         try:
             with self._db_session.get_connection() as conn:
                 cur = conn.cursor()
-                rows =cur.execute("""select * from stocks where stock_id = %(stock_id)s """, {"stock_id": stock_id}).fetchall()
+                rows =cur.execute("""select * from stocks where id = %(id)s """, {"id": stock_id}).fetchall()
 
         except KeyError:
             abort(404, message ="Ticker cannot be found in stocks.")
@@ -74,7 +74,7 @@ class StocksRepository:
         try:
             with self._db_session.get_connection() as conn:
                 cur = conn.cursor()
-                cur.execute("""DELETE from stocks where stock_id = %(stock_id)s """, {"stock_id": stock_id})
+                cur.execute("""DELETE from stocks where id = %(id)s """, {"id": stock_id})
                 conn.commit()
                 cur.close()
 
