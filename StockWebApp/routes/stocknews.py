@@ -4,7 +4,7 @@ from flask import request, jsonify, make_response, Response
 from flask_smorest import abort, Blueprint
 from schemas import StockNewsSchema
 from repositories.stocknews_repository import StocknewsRepository
-from repositories.stocksRepository import StocksRepository
+from repositories.stocks_repository import StocksRepository
 from di.container import Container
 from dependency_injector import containers, providers
 from dependency_injector.wiring import Provide, inject

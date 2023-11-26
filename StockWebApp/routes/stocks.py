@@ -3,7 +3,7 @@ from flask_smorest import abort, Blueprint
 from models import Stock
 from schemas import InsertStockSchema
 from psycopg.rows import dict_row
-from repositories.stocksRepository import StocksRepository
+from repositories.stocks_repository import StocksRepository
 from di.container import Container
 from dependency_injector.wiring import Provide, inject
 

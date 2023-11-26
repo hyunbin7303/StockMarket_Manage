@@ -40,7 +40,7 @@ class StocknewsRepository:
 
         return row
 
-    def get_by_stock_id(self, ticker: str):
+    def get_by_stock_ticker(self, ticker: str):
         try:
             with self._db_session.get_connection() as conn:
                 cur = conn.cursor()

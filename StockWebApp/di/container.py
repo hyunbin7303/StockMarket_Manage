@@ -1,5 +1,5 @@
 from dependency_injector import containers, providers
-from repositories.stocksRepository import StocksRepository
+from repositories.stocks_repository import StocksRepository
 from repositories.stocknews_repository import StocknewsRepository
 from repositories.indicators_repository import IndicatorsRepository
 from repositories.indicatordata_repository import IndicatordataRepository
@@ -13,4 +13,3 @@ class Container(containers.DeclarativeContainer):
     stocknews_repo = providers.Factory(StocknewsRepository, session = _db_session)
     indicators_repo = providers.Factory(IndicatorsRepository, session = _db_session)
     indicatordata_repo = providers.Factory(IndicatordataRepository, session = _db_session)
-    

@@ -70,6 +70,7 @@ class StocksRepository:
         finally:
             self._db_session.return_connection(conn)
 
+
     def delete(self, stock_id: int) -> None:
         try:
             with self._db_session.get_connection() as conn:

@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS IndicatorData;
 
 CREATE TABLE IF NOT EXISTS Stocks
 (
-    stock_id serial PRIMARY KEY,
+    id serial PRIMARY KEY,
     ticker character varying(50) COLLATE pg_catalog."default" NOT NULL,
     company_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
     stock_desc character varying(500) COLLATE pg_catalog."default",
@@ -104,5 +104,22 @@ INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('CPI'
 INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('PMI', 'Purchasing Managers Index', 'The Purchasing Managers Index (PMI) is an index of the prevailing direction of economic trends in the manufacturing and service sectors. ', 'US');
 INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('PMI', 'Purchasing Managers Index', 'The Purchasing Managers Index (PMI) is an index of the prevailing direction of economic trends in the manufacturing and service sectors. ', 'CHINA');
 INSERT INTO public.indicators ("index", "name", "desc", "country") VALUES ('SOX', 'Philadelphia Semiconductor Index', 'The PHLX Semiconductor Sector IndexSM (SOXSM) is a modified market capitalization-weighted index composed of companies primarily involved in the design, distribution, manufacture, and sale of semiconductors.', 'US');
+
+
+INSERT INTO public.stocks(ticker, company_name, stock_desc, stock_type, stock_sector, industry, stock_exchange)
+	VALUES ('NVDA', 'Nvidia', 'Semiconductor company', 'Common', 'Technology', 'Semiconductors/Semiconductor Equipment', 'NASDAQ');
+	
+INSERT INTO public.stocks(ticker, company_name, stock_desc, stock_type, stock_sector, industry, stock_exchange)
+	VALUES ('MSFT', 'Microsoft', 'Cloud service/Software development company', 'Common', 'Technology', 'Software/Cloud', 'NASDAQ');
+	
+INSERT INTO public.stocks(ticker, company_name, stock_desc, stock_type, stock_sector, industry, stock_exchange)
+	VALUES ('CVX', 'Chevron', 'Oil Gas company', 'Common', 'Energy', 'Oil/Gas/Fuels', 'NYSE');
+	
+INSERT INTO public.stocks(ticker, company_name, stock_desc, stock_type, stock_sector, industry, stock_exchange)
+	VALUES ('GOOG', 'Alphabet', 'Google', 'Common', 'Technology', 'Interactive Media/Services/Cloud', 'NASDAQ');
+	
+INSERT INTO public.stocks(ticker, company_name, stock_desc, stock_type, stock_sector, industry, stock_exchange)
+	VALUES ('NKE', 'Nike', 'Athletic apparel and footwear', 'Common', 'Consumer Discretionary', 'Textiles/Apparel/Luxury Goods', 'NYSE');
+
 
 
